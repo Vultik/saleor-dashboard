@@ -2,17 +2,18 @@ import { OutputData } from "@editorjs/editorjs";
 import { ChannelShippingData } from "@saleor/channels/utils";
 import CardSpacer from "@saleor/components/CardSpacer";
 import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
+import { WithFormId } from "@saleor/components/Form/ExitFormDialogProvider";
 import Grid from "@saleor/components/Grid";
 import Metadata from "@saleor/components/Metadata/Metadata";
-import { MetadataFormData } from "@saleor/components/Metadata/types";
 import PageHeader from "@saleor/components/PageHeader";
 import Savebar from "@saleor/components/Savebar";
 import { ShippingChannelsErrorFragment } from "@saleor/fragments/types/ShippingChannelsErrorFragment";
 import { ShippingErrorFragment } from "@saleor/fragments/types/ShippingErrorFragment";
-import { ShippingMethodFragment_postalCodeRules } from "@saleor/fragments/types/ShippingMethodFragment";
+import { ShippingMethodTypeFragment_postalCodeRules } from "@saleor/fragments/types/ShippingMethodTypeFragment";
+import { SubmitPromise } from "@saleor/hooks/useForm";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
 import { validatePrice } from "@saleor/products/utils/validation";
 import OrderValue from "@saleor/shipping/components/OrderValue";
@@ -37,22 +38,12 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 
 import ShippingZonePostalCodes from "../ShippingZonePostalCodes";
-
-export interface FormData extends MetadataFormData {
-  channelListings: ChannelShippingData[];
-  name: string;
-  description: OutputData;
-  noLimits: boolean;
-  minValue: string;
-  maxValue: string;
-  minDays: string;
-  maxDays: string;
-  type: ShippingMethodTypeEnum;
-}
+import { ShippingZoneRateUpdateFormData } from "./types";
 
 export interface ShippingZoneRatesPageProps
   extends Pick<ListProps, Exclude<keyof ListProps, "onRowClick">>,
-    ListActions {
+    ListActions,
+    WithFormId {
   allChannelsCount?: number;
   shippingChannels: ChannelShippingData[];
   disabled: boolean;
@@ -65,12 +56,14 @@ export interface ShippingZoneRatesPageProps
   postalCodeRules: ShippingZone_shippingZone_shippingMethods_postalCodeRules[];
   onBack: () => void;
   onDelete?: () => void;
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: ShippingZoneRateUpdateFormData) => SubmitPromise;
   onPostalCodeInclusionChange: (
     inclusion: PostalCodeRuleInclusionTypeEnum
   ) => void;
   onPostalCodeAssign: () => void;
-  onPostalCodeUnassign: (code: ShippingMethodFragment_postalCodeRules) => void;
+  onPostalCodeUnassign: (
+    code: ShippingMethodTypeFragment_postalCodeRules
+  ) => void;
   onChannelsChange: (data: ChannelShippingData[]) => void;
   openChannelsModal: () => void;
   onProductAssign: () => void;
@@ -100,10 +93,12 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
   saveButtonBarState,
   postalCodeRules,
   variant,
+  formId,
   ...listProps
 }) => {
   const isPriceVariant = variant === ShippingMethodTypeEnum.PRICE;
-  const initialForm: FormData = {
+
+  const initialForm: ShippingZoneRateUpdateFormData = {
     channelListings: shippingChannels,
     maxDays: rate?.maximumDeliveryDays?.toString() || "",
     maxValue: rate?.maximumOrderWeight?.value.toString() || "",
@@ -112,7 +107,7 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
     minValue: rate?.minimumOrderWeight?.value.toString() || "",
     name: rate?.name || "",
     description: rate?.description && JSON.parse(rate.description),
-    noLimits: false,
+    orderValueRestricted: !!rate?.channelListings.length,
     privateMetadata: rate?.privateMetadata.map(mapMetadataItemToInput),
     type: rate?.type || null
   };
@@ -122,7 +117,12 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
   } = useMetadataChangeTrigger();
 
   return (
-    <Form initial={initialForm} onSubmit={onSubmit}>
+    <Form
+      confirmLeave
+      initial={initialForm}
+      onSubmit={onSubmit}
+      formId={formId}
+    >
       {({ change, data, hasChanged, submit, set, triggerChange }) => {
         const handleChannelsChange = createChannelsChangeHandler(
           shippingChannels,
@@ -161,14 +161,14 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
                   <OrderValue
                     channels={data.channelListings}
                     errors={channelErrors}
-                    noLimits={data.noLimits}
+                    orderValueRestricted={data.orderValueRestricted}
                     disabled={disabled}
                     onChange={change}
                     onChannelsChange={handleChannelsChange}
                   />
                 ) : (
                   <OrderWeight
-                    noLimits={data.noLimits}
+                    orderValueRestricted={data.orderValueRestricted}
                     disabled={disabled}
                     minValue={data.minValue}
                     maxValue={data.maxValue}

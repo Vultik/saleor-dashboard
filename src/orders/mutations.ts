@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 import {
   invoiceErrorFragment,
   orderErrorFragment,
@@ -13,7 +14,6 @@ import {
   invoiceFragment
 } from "@saleor/fragments/orders";
 import makeMutation from "@saleor/hooks/makeMutation";
-import gql from "graphql-tag";
 
 import { TypedMutation } from "../mutations";
 import {
@@ -577,7 +577,7 @@ const orderShippingMethodUpdateMutation = gql`
         ...OrderErrorFragment
       }
       order {
-        availableShippingMethods {
+        shippingMethods {
           id
           name
         }

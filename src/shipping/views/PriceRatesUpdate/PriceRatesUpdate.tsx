@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import {
   createShippingChannelsFromRate,
   createSortedShippingChannels
@@ -9,13 +8,14 @@ import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import { PAGINATE_BY } from "@saleor/config";
 import useBulkActions from "@saleor/hooks/useBulkActions";
 import useChannels from "@saleor/hooks/useChannels";
+import useLocalPaginator, {
+  useLocalPaginationState
+} from "@saleor/hooks/useLocalPaginator";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
-import usePaginator, {
-  createPaginationState
-} from "@saleor/hooks/usePaginator";
 import { sectionNames } from "@saleor/intl";
 import { commonMessages } from "@saleor/intl";
+import { Button } from "@saleor/macaw-ui";
 import {
   getById,
   getByUnmatchingId
@@ -24,9 +24,8 @@ import useProductSearch from "@saleor/searches/useProductSearch";
 import DeleteShippingRateDialog from "@saleor/shipping/components/DeleteShippingRateDialog";
 import ShippingMethodProductsAddDialog from "@saleor/shipping/components/ShippingMethodProductsAddDialog";
 import ShippingZonePostalCodeRangeDialog from "@saleor/shipping/components/ShippingZonePostalCodeRangeDialog";
-import ShippingZoneRatesPage, {
-  FormData
-} from "@saleor/shipping/components/ShippingZoneRatesPage";
+import ShippingZoneRatesPage from "@saleor/shipping/components/ShippingZoneRatesPage";
+import { ShippingZoneRateUpdateFormData } from "@saleor/shipping/components/ShippingZoneRatesPage/types";
 import UnassignDialog from "@saleor/shipping/components/UnassignDialog";
 import {
   getShippingMethodChannelVariables,
@@ -67,6 +66,8 @@ import {
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
+import { PRICE_RATES_UPDATE_FORM_ID } from "./consts";
+
 export interface PriceRatesUpdateProps {
   id: string;
   rateId: string;
@@ -81,9 +82,11 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
   const navigate = useNavigator();
   const notify = useNotifier();
   const intl = useIntl();
-  const paginate = usePaginator();
 
-  const paginationState = createPaginationState(PAGINATE_BY, params);
+  const [paginationState, setPaginationState] = useLocalPaginationState(
+    PAGINATE_BY
+  );
+  const paginate = useLocalPaginator(setPaginationState);
 
   const { data, loading, refetch } = useShippingZone({
     displayLoader: true,
@@ -111,8 +114,7 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
 
   const { loadNextPage, loadPreviousPage, pageInfo } = paginate(
     rate?.excludedProducts.pageInfo,
-    paginationState,
-    params
+    paginationState
   );
 
   const [
@@ -158,7 +160,12 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
     isChannelsModalOpen,
     setCurrentChannels,
     toggleAllChannels
-  } = useChannels(shippingChannels, params?.action, { closeModal, openModal });
+  } = useChannels(
+    shippingChannels,
+    params?.action,
+    { closeModal, openModal },
+    { formId: PRICE_RATES_UPDATE_FORM_ID }
+  );
 
   const [updateShippingRate, updateShippingRateOpts] = useShippingRateUpdate(
     {}
@@ -211,7 +218,9 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
     });
   };
 
-  const updateData = async (formData: FormData): Promise<unknown[]> => {
+  const updateData = async (
+    formData: ShippingZoneRateUpdateFormData
+  ): Promise<unknown[]> => {
     const response = await updateShippingRate({
       variables: getUpdateShippingPriceRateVariables(
         formData,
@@ -221,15 +230,18 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
         state.codesToDelete
       )
     });
+
     dispatch({ codesToDelete: [] });
+
     const errors = response.data.shippingPriceUpdate.errors;
+
     if (errors.length === 0) {
       handleSuccess();
       dispatch({ havePostalCodesChanged: false });
       updateShippingMethodChannelListing({
         variables: getShippingMethodChannelVariables(
           rateId,
-          formData.noLimits,
+          formData.orderValueRestricted,
           formData.channelListings,
           shippingChannels
         )
@@ -303,7 +315,6 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
       {!!allChannels?.length && (
         <ChannelsAvailabilityDialog
           isSelected={isChannelSelected}
-          disabled={!channelListElements.length}
           channels={allChannels}
           onChange={channelsToggle}
           onClose={handleChannelsModalClose}
@@ -351,6 +362,7 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
         onSubmit={handleProductAssign}
       />
       <ShippingZoneRatesPage
+        formId={PRICE_RATES_UPDATE_FORM_ID}
         allChannelsCount={allChannels?.length}
         shippingChannels={currentChannels}
         disabled={
@@ -385,7 +397,7 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
         onPreviousPage={loadPreviousPage}
         pageInfo={pageInfo}
         toolbar={
-          <Button color="primary" onClick={() => openModal("unassign-product")}>
+          <Button onClick={() => openModal("unassign-product")}>
             <FormattedMessage
               defaultMessage="Unassign"
               description="unassign products from shipping method, button"

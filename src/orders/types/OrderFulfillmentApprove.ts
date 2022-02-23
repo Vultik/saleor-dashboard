@@ -213,10 +213,16 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_events {
   lines: (OrderFulfillmentApprove_orderFulfillmentApprove_order_events_lines | null)[] | null;
 }
 
+export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_lines_orderLine_unitDiscount {
@@ -273,7 +279,7 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillme
   isShippingRequired: boolean;
   variant: OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -309,10 +315,16 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillme
   warehouse: OrderFulfillmentApprove_orderFulfillmentApprove_order_fulfillments_warehouse | null;
 }
 
+export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderFulfillmentApprove_orderFulfillmentApprove_order_lines_variant_preorder | null;
 }
 
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_lines_unitDiscount {
@@ -369,7 +381,7 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_lines {
   isShippingRequired: boolean;
   variant: OrderFulfillmentApprove_orderFulfillmentApprove_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -512,17 +524,19 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_user {
   email: string;
 }
 
-export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_availableShippingMethods_price {
+export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_availableShippingMethods {
+export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderFulfillmentApprove_orderFulfillmentApprove_order_availableShippingMethods_price | null;
+  price: OrderFulfillmentApprove_orderFulfillmentApprove_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_invoices {
@@ -534,6 +548,11 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_invoices 
   status: JobStatusEnum;
 }
 
+export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -541,11 +560,13 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderFulfillmentApprove_orderFulfillmentApprove_order_channel_defaultCountry;
 }
 
 export interface OrderFulfillmentApprove_orderFulfillmentApprove_order {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderFulfillmentApprove_orderFulfillmentApprove_order_metadata | null)[];
   privateMetadata: (OrderFulfillmentApprove_orderFulfillmentApprove_order_privateMetadata | null)[];
   billingAddress: OrderFulfillmentApprove_orderFulfillmentApprove_order_billingAddress | null;
@@ -576,7 +597,7 @@ export interface OrderFulfillmentApprove_orderFulfillmentApprove_order {
   undiscountedTotal: OrderFulfillmentApprove_orderFulfillmentApprove_order_undiscountedTotal;
   user: OrderFulfillmentApprove_orderFulfillmentApprove_order_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderFulfillmentApprove_orderFulfillmentApprove_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderFulfillmentApprove_orderFulfillmentApprove_order_shippingMethods | null)[] | null;
   invoices: (OrderFulfillmentApprove_orderFulfillmentApprove_order_invoices | null)[] | null;
   channel: OrderFulfillmentApprove_orderFulfillmentApprove_order_channel;
 }

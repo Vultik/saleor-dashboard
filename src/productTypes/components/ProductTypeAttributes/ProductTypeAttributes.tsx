@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  IconButton,
-  TableCell,
-  TableRow
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { Card, TableCell, TableRow } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -15,7 +8,7 @@ import {
   SortableTableRow
 } from "@saleor/components/SortableTable";
 import TableHead from "@saleor/components/TableHead";
-import { makeStyles } from "@saleor/macaw-ui";
+import { Button, DeleteIcon, IconButton, makeStyles } from "@saleor/macaw-ui";
 import { maybe, renderCollection, stopPropagation } from "@saleor/misc";
 import { ListActions, ReorderAction } from "@saleor/types";
 import { ProductAttributeType } from "@saleor/types/globalTypes";
@@ -33,7 +26,7 @@ const useStyles = makeStyles(
       "&:last-child": {
         paddingRight: 0
       },
-      width: 80
+      width: 84
     },
     colGrab: {
       width: 60
@@ -89,30 +82,17 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
   const intl = useIntl();
 
   return (
-    <Card
-      data-test={
-        type === ProductAttributeType.PRODUCT
-          ? "product-attributes"
-          : "variant-attributes"
-      }
-    >
+    <Card data-test-id="product-attributes">
       <CardTitle
-        title={
-          type === ProductAttributeType.PRODUCT
-            ? intl.formatMessage({
-                defaultMessage: "Product Attributes",
-                description: "section header"
-              })
-            : intl.formatMessage({
-                defaultMessage: "Variant Attributes",
-                description: "section header"
-              })
-        }
+        title={intl.formatMessage({
+          defaultMessage: "Product Attributes",
+          description: "section header"
+        })}
         toolbar={
           <Button
+            disabled={disabled}
             data-test-id={testId}
-            color="primary"
-            variant="text"
+            variant="tertiary"
             onClick={() => onAttributeAssign(ProductAttributeType[type])}
           >
             <FormattedMessage
@@ -170,8 +150,7 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                   }
                   key={maybe(() => attribute.id)}
                   index={attributeIndex || 0}
-                  data-test="id"
-                  data-test-id={maybe(() => attribute.id)}
+                  data-test-id={"id" + maybe(() => attribute.id)}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -181,14 +160,14 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                       onChange={() => toggle(attribute.id)}
                     />
                   </TableCell>
-                  <TableCell className={classes.colName} data-test="name">
+                  <TableCell className={classes.colName} data-test-id="name">
                     {maybe(() => attribute.name) ? (
                       attribute.name
                     ) : (
                       <Skeleton />
                     )}
                   </TableCell>
-                  <TableCell className={classes.colSlug} data-test="slug">
+                  <TableCell className={classes.colSlug} data-test-id="slug">
                     {maybe(() => attribute.slug) ? (
                       attribute.slug
                     ) : (
@@ -197,11 +176,14 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                   </TableCell>
                   <TableCell className={classes.colAction}>
                     <IconButton
+                      data-test-id="delete-icon"
+                      disabled={disabled}
+                      variant="secondary"
                       onClick={stopPropagation(() =>
                         onAttributeUnassign(attribute.id)
                       )}
                     >
-                      <DeleteIcon color="primary" />
+                      <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </SortableTableRow>

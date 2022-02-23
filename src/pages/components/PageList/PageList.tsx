@@ -8,11 +8,10 @@ import {
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
-import StatusLabel from "@saleor/components/StatusLabel";
 import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
-import { makeStyles } from "@saleor/macaw-ui";
+import { makeStyles, Pill } from "@saleor/macaw-ui";
 import { maybe, renderCollection } from "@saleor/misc";
 import { PageListUrlSortField } from "@saleor/pages/urls";
 import { ListActions, ListProps, SortPage } from "@saleor/types";
@@ -170,16 +169,16 @@ const PageList: React.FC<PageListProps> = props => {
                       onChange={() => toggle(page.id)}
                     />
                   </TableCell>
-                  <TableCellHeader className={classes.colTitle}>
+                  <TableCell className={classes.colTitle}>
                     {maybe<React.ReactNode>(() => page.title, <Skeleton />)}
-                  </TableCellHeader>
-                  <TableCellHeader className={classes.colSlug}>
+                  </TableCell>
+                  <TableCell className={classes.colSlug}>
                     {maybe<React.ReactNode>(() => page.slug, <Skeleton />)}
-                  </TableCellHeader>
-                  <TableCellHeader className={classes.colVisibility}>
+                  </TableCell>
+                  <TableCell className={classes.colVisibility}>
                     {maybe<React.ReactNode>(
                       () => (
-                        <StatusLabel
+                        <Pill
                           label={
                             page.isPublished
                               ? intl.formatMessage({
@@ -191,12 +190,12 @@ const PageList: React.FC<PageListProps> = props => {
                                   description: "page status"
                                 })
                           }
-                          status={page.isPublished ? "success" : "error"}
+                          color={page.isPublished ? "success" : "error"}
                         />
                       ),
                       <Skeleton />
                     )}
-                  </TableCellHeader>
+                  </TableCell>
                 </TableRow>
               );
             },

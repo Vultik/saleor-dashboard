@@ -2,11 +2,12 @@ import { DialogContentText } from "@material-ui/core";
 import ActionDialog from "@saleor/components/ActionDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import NotFoundPage from "@saleor/components/NotFoundPage";
+import { useShopCountries } from "@saleor/components/Shop/query";
 import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import { PAGINATE_BY } from "@saleor/config";
+import { useLocalPaginationState } from "@saleor/hooks/useLocalPaginator";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
-import { createPaginationState } from "@saleor/hooks/usePaginator";
 import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
 import { getById } from "@saleor/orders/components/OrderReturnPage/utils";
@@ -22,19 +23,30 @@ import {
 import { arrayDiff } from "@saleor/utils/arrays";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createMetadataUpdateHandler from "@saleor/utils/handlers/metadataUpdateHandler";
-import { mapEdgesToItems } from "@saleor/utils/maps";
+import {
+  mapCountriesToCountriesCodes,
+  mapEdgesToItems
+} from "@saleor/utils/maps";
 import {
   useMetadataUpdate,
   usePrivateMetadataUpdate
 } from "@saleor/utils/metadata/updateMetadata";
 import { useWarehouseCreate } from "@saleor/warehouses/mutations";
+import { diff } from "fast-array-diff";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { findValueInEnum, getStringOrPlaceholder } from "../../../misc";
-import { CountryCode } from "../../../types/globalTypes";
+import {
+  extractMutationErrors,
+  findValueInEnum,
+  getStringOrPlaceholder
+} from "../../../misc";
+import {
+  CountryCode,
+  ShippingZoneUpdateInput
+} from "../../../types/globalTypes";
 import ShippingZoneDetailsPage from "../../components/ShippingZoneDetailsPage";
-import { FormData } from "../../components/ShippingZoneDetailsPage/types";
+import { ShippingZoneUpdateFormData } from "../../components/ShippingZoneDetailsPage/types";
 import { useShippingZone } from "../../queries";
 import {
   shippingPriceRatesEditUrl,
@@ -61,7 +73,18 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
   const intl = useIntl();
   const shop = useShop();
 
-  const paginationState = createPaginationState(PAGINATE_BY, params);
+  const {
+    data: restWorldCountries,
+    refetch: refetchRestWorldCountries
+  } = useShopCountries({
+    variables: {
+      filter: {
+        attachedToShippingZones: false
+      }
+    }
+  });
+
+  const [paginationState] = useLocalPaginationState(PAGINATE_BY);
 
   const { result: searchWarehousesOpts, loadMore, search } = useWarehouseSearch(
     {
@@ -100,7 +123,7 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
-        navigate(shippingZonesListUrl(), true);
+        navigate(shippingZonesListUrl(), { replace: true });
       }
     }
   });
@@ -113,6 +136,7 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
           text: intl.formatMessage(commonMessages.savedChanges)
         });
         closeModal();
+        refetchRestWorldCountries();
       }
     }
   });
@@ -132,8 +156,10 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
   const [updateMetadata] = useMetadataUpdate({});
   const [updatePrivateMetadata] = usePrivateMetadataUpdate({});
 
-  const updateData = async (submitData: FormData) => {
-    const warehouseDiff = arrayDiff(
+  const getParsedUpdateInput = (
+    submitData: ShippingZoneUpdateFormData
+  ): ShippingZoneUpdateInput => {
+    const warehouseDiff = diff(
       data.shippingZone.warehouses.map(warehouse => warehouse.id),
       submitData.warehouses
     );
@@ -143,22 +169,25 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
       submitData.channels
     );
 
-    const result = await updateShippingZone({
-      variables: {
-        id,
-        input: {
-          addWarehouses: warehouseDiff.added,
-          addChannels: channelsDiff.added,
-          removeChannels: channelsDiff.removed,
-          description: submitData.description,
-          name: submitData.name,
-          removeWarehouses: warehouseDiff.removed
-        }
-      }
-    });
-
-    return result.data.shippingZoneUpdate.errors;
+    return {
+      addWarehouses: warehouseDiff.added,
+      addChannels: channelsDiff.added,
+      removeChannels: channelsDiff.removed,
+      description: submitData.description,
+      name: submitData.name,
+      removeWarehouses: warehouseDiff.removed
+    };
   };
+
+  const updateData = async (submitData: ShippingZoneUpdateFormData) =>
+    extractMutationErrors(
+      updateShippingZone({
+        variables: {
+          id,
+          input: getParsedUpdateInput(submitData)
+        }
+      })
+    );
 
   const handleSubmit = createMetadataUpdateHandler(
     data?.shippingZone,
@@ -257,18 +286,20 @@ const ShippingZoneDetails: React.FC<ShippingZoneDetailsProps> = ({
       <ShippingZoneCountriesAssignDialog
         confirmButtonState={updateShippingZoneOpts.status}
         countries={shop?.countries || []}
-        initial={
-          data?.shippingZone?.countries.map(country => country.code) || []
+        restWorldCountries={
+          mapCountriesToCountriesCodes(restWorldCountries?.shop?.countries) ||
+          []
         }
-        isDefault={data?.shippingZone?.default}
+        initial={
+          mapCountriesToCountriesCodes(data?.shippingZone?.countries) || []
+        }
         onClose={closeModal}
         onConfirm={formData =>
           updateShippingZone({
             variables: {
               id,
               input: {
-                countries: formData.countries,
-                default: formData.restOfTheWorld
+                countries: formData.countries
               }
             }
           })

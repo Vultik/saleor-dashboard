@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import {
   attributeValueFragment,
@@ -24,6 +24,14 @@ export const fragmentMoney = gql`
   fragment Money on Money {
     amount
     currency
+  }
+`;
+
+export const fragmentPreorder = gql`
+  fragment PreorderFragment on PreorderData {
+    globalThreshold
+    globalSoldUnits
+    endDate
   }
 `;
 
@@ -95,6 +103,10 @@ export const channelListingProductVariantFragment = gql`
     costPrice {
       ...Money
     }
+    preorderThreshold {
+      quantity
+      soldUnits
+    }
   }
 `;
 
@@ -151,6 +163,7 @@ export const productVariantAttributesFragment = gql`
         id
         name
         inputType
+        valueRequired
         unit
         choices(
           first: $firstValues
@@ -178,6 +191,7 @@ export const productVariantAttributesFragment = gql`
 `;
 
 export const productFragmentDetails = gql`
+  ${fragmentPreorder}
   ${fragmentProductMedia}
   ${productVariantAttributesFragment}
   ${stockFragment}
@@ -226,9 +240,13 @@ export const productFragmentDetails = gql`
         ...StockFragment
       }
       trackInventory
+      preorder {
+        ...PreorderFragment
+      }
       channelListings {
         ...ChannelListingProductVariantFragment
       }
+      quantityLimitPerCustomer
     }
     productType {
       id
@@ -282,6 +300,7 @@ export const selectedVariantAttributeFragment = gql`
 `;
 
 export const fragmentVariant = gql`
+  ${fragmentPreorder}
   ${fragmentProductMedia}
   ${selectedVariantAttributeFragment}
   ${priceRangeFragment}
@@ -357,9 +376,13 @@ export const fragmentVariant = gql`
       ...StockFragment
     }
     trackInventory
+    preorder {
+      ...PreorderFragment
+    }
     weight {
       ...WeightFragment
     }
+    quantityLimitPerCustomer
   }
 `;
 

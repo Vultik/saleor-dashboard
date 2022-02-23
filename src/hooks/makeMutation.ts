@@ -1,19 +1,19 @@
+import {
+  ApolloError,
+  MutationFunction,
+  MutationResult,
+  useMutation as useBaseMutation
+} from "@apollo/client";
+import { useUser } from "@saleor/auth";
 import { isJwtError } from "@saleor/auth/errors";
 import { commonMessages } from "@saleor/intl";
 import { getMutationStatus } from "@saleor/misc";
 import { MutationResultAdditionalProps } from "@saleor/types";
 import { GqlErrors, hasError } from "@saleor/utils/api";
-import { ApolloError } from "apollo-client";
 import { DocumentNode } from "graphql";
-import {
-  MutationFunction,
-  MutationResult,
-  useMutation as useBaseMutation
-} from "react-apollo";
 import { useIntl } from "react-intl";
 
 import useNotifier from "./useNotifier";
-import useUser from "./useUser";
 
 export type MutationResultWithOpts<TData> = MutationResult<TData> &
   MutationResultAdditionalProps;

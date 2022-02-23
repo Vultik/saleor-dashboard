@@ -213,10 +213,16 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_events {
   lines: (OrderLineDiscountRemove_orderLineDiscountRemove_order_events_lines | null)[] | null;
 }
 
+export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_lines_orderLine_unitDiscount {
@@ -273,7 +279,7 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillme
   isShippingRequired: boolean;
   variant: OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -309,10 +315,16 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillme
   warehouse: OrderLineDiscountRemove_orderLineDiscountRemove_order_fulfillments_warehouse | null;
 }
 
+export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderLineDiscountRemove_orderLineDiscountRemove_order_lines_variant_preorder | null;
 }
 
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_lines_unitDiscount {
@@ -369,7 +381,7 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_lines {
   isShippingRequired: boolean;
   variant: OrderLineDiscountRemove_orderLineDiscountRemove_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -512,17 +524,19 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_user {
   email: string;
 }
 
-export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_availableShippingMethods_price {
+export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_availableShippingMethods {
+export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderLineDiscountRemove_orderLineDiscountRemove_order_availableShippingMethods_price | null;
+  price: OrderLineDiscountRemove_orderLineDiscountRemove_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_invoices {
@@ -534,6 +548,11 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_invoices 
   status: JobStatusEnum;
 }
 
+export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -541,11 +560,13 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderLineDiscountRemove_orderLineDiscountRemove_order_channel_defaultCountry;
 }
 
 export interface OrderLineDiscountRemove_orderLineDiscountRemove_order {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderLineDiscountRemove_orderLineDiscountRemove_order_metadata | null)[];
   privateMetadata: (OrderLineDiscountRemove_orderLineDiscountRemove_order_privateMetadata | null)[];
   billingAddress: OrderLineDiscountRemove_orderLineDiscountRemove_order_billingAddress | null;
@@ -576,7 +597,7 @@ export interface OrderLineDiscountRemove_orderLineDiscountRemove_order {
   undiscountedTotal: OrderLineDiscountRemove_orderLineDiscountRemove_order_undiscountedTotal;
   user: OrderLineDiscountRemove_orderLineDiscountRemove_order_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderLineDiscountRemove_orderLineDiscountRemove_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderLineDiscountRemove_orderLineDiscountRemove_order_shippingMethods | null)[] | null;
   invoices: (OrderLineDiscountRemove_orderLineDiscountRemove_order_invoices | null)[] | null;
   channel: OrderLineDiscountRemove_orderLineDiscountRemove_order_channel;
 }

@@ -213,10 +213,16 @@ export interface OrderLineDelete_orderLineDelete_order_events {
   lines: (OrderLineDelete_orderLineDelete_order_events_lines | null)[] | null;
 }
 
+export interface OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderLine_unitDiscount {
@@ -273,7 +279,7 @@ export interface OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderL
   isShippingRequired: boolean;
   variant: OrderLineDelete_orderLineDelete_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -309,10 +315,16 @@ export interface OrderLineDelete_orderLineDelete_order_fulfillments {
   warehouse: OrderLineDelete_orderLineDelete_order_fulfillments_warehouse | null;
 }
 
+export interface OrderLineDelete_orderLineDelete_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderLineDelete_orderLineDelete_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderLineDelete_orderLineDelete_order_lines_variant_preorder | null;
 }
 
 export interface OrderLineDelete_orderLineDelete_order_lines_unitDiscount {
@@ -369,7 +381,7 @@ export interface OrderLineDelete_orderLineDelete_order_lines {
   isShippingRequired: boolean;
   variant: OrderLineDelete_orderLineDelete_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -512,17 +524,19 @@ export interface OrderLineDelete_orderLineDelete_order_user {
   email: string;
 }
 
-export interface OrderLineDelete_orderLineDelete_order_availableShippingMethods_price {
+export interface OrderLineDelete_orderLineDelete_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderLineDelete_orderLineDelete_order_availableShippingMethods {
+export interface OrderLineDelete_orderLineDelete_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderLineDelete_orderLineDelete_order_availableShippingMethods_price | null;
+  price: OrderLineDelete_orderLineDelete_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderLineDelete_orderLineDelete_order_invoices {
@@ -534,6 +548,11 @@ export interface OrderLineDelete_orderLineDelete_order_invoices {
   status: JobStatusEnum;
 }
 
+export interface OrderLineDelete_orderLineDelete_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderLineDelete_orderLineDelete_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -541,11 +560,13 @@ export interface OrderLineDelete_orderLineDelete_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderLineDelete_orderLineDelete_order_channel_defaultCountry;
 }
 
 export interface OrderLineDelete_orderLineDelete_order {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderLineDelete_orderLineDelete_order_metadata | null)[];
   privateMetadata: (OrderLineDelete_orderLineDelete_order_privateMetadata | null)[];
   billingAddress: OrderLineDelete_orderLineDelete_order_billingAddress | null;
@@ -576,7 +597,7 @@ export interface OrderLineDelete_orderLineDelete_order {
   undiscountedTotal: OrderLineDelete_orderLineDelete_order_undiscountedTotal;
   user: OrderLineDelete_orderLineDelete_order_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderLineDelete_orderLineDelete_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderLineDelete_orderLineDelete_order_shippingMethods | null)[] | null;
   invoices: (OrderLineDelete_orderLineDelete_order_invoices | null)[] | null;
   channel: OrderLineDelete_orderLineDelete_order_channel;
 }

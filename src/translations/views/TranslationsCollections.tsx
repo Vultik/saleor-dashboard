@@ -6,7 +6,7 @@ import { stringifyQs } from "@saleor/utils/urls";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { maybe } from "../../misc";
+import { extractMutationErrors, maybe } from "../../misc";
 import { LanguageCodeEnum } from "../../types/globalTypes";
 import TranslationsCollectionsPage from "../components/TranslationsCollectionsPage";
 import { TypedUpdateCollectionTranslations } from "../mutations";
@@ -49,7 +49,7 @@ const TranslationsCollections: React.FC<TranslationsCollectionsProps> = ({
         stringifyQs({
           activeField: field
         }),
-      true
+      { replace: true }
     );
   const onUpdate = (data: UpdateCollectionTranslations) => {
     if (data.collectionTranslate.errors.length === 0) {
@@ -58,11 +58,11 @@ const TranslationsCollections: React.FC<TranslationsCollectionsProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
   const onDiscard = () => {
-    navigate("?", true);
+    navigate("?", { replace: true });
   };
   const translation = collectionTranslations?.data?.translation;
 
@@ -72,18 +72,19 @@ const TranslationsCollections: React.FC<TranslationsCollectionsProps> = ({
         const handleSubmit = (
           { name: fieldName }: TranslationField<TranslationInputFieldName>,
           data: string
-        ) => {
-          updateTranslations({
-            variables: {
-              id,
-              input: getParsedTranslationInputData({
-                data,
-                fieldName
-              }),
-              language: languageCode
-            }
-          });
-        };
+        ) =>
+          extractMutationErrors(
+            updateTranslations({
+              variables: {
+                id,
+                input: getParsedTranslationInputData({
+                  data,
+                  fieldName
+                }),
+                language: languageCode
+              }
+            })
+          );
 
         return (
           <TranslationsCollectionsPage

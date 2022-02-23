@@ -1,9 +1,10 @@
 import { ChannelsAction } from "@saleor/channels/urls";
-import { ChannelSaleData, createSortedSaleData } from "@saleor/channels/utils";
+import { createSortedSaleData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import ChannelsAvailabilityDialog from "@saleor/components/ChannelsAvailabilityDialog";
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import SaleCreatePage from "@saleor/discounts/components/SaleCreatePage";
+import { ChannelSaleFormData } from "@saleor/discounts/components/SaleDetailsPage";
 import {
   TypedSaleCreate,
   useSaleChannelListingUpdate
@@ -28,6 +29,7 @@ import {
 import React from "react";
 import { useIntl } from "react-intl";
 
+import { SALE_CREATE_FORM_ID } from "./consts";
 import { createHandler } from "./handlers";
 
 interface SaleCreateProps {
@@ -47,7 +49,7 @@ export const SaleCreateView: React.FC<SaleCreateProps> = ({ params }) => {
   >(navigate, params => saleAddUrl(params), params);
 
   const { availableChannels } = useAppChannel(false);
-  const allChannels: ChannelSaleData[] = createSortedSaleData(
+  const allChannels: ChannelSaleFormData[] = createSortedSaleData(
     availableChannels
   );
 
@@ -62,7 +64,12 @@ export const SaleCreateView: React.FC<SaleCreateProps> = ({ params }) => {
     isChannelsModalOpen,
     setCurrentChannels,
     toggleAllChannels
-  } = useChannels(allChannels, params?.action, { closeModal, openModal });
+  } = useChannels(
+    allChannels,
+    params?.action,
+    { closeModal, openModal },
+    { formId: SALE_CREATE_FORM_ID }
+  );
 
   const [updateChannels, updateChannelsOpts] = useSaleChannelListingUpdate({});
 
@@ -74,7 +81,7 @@ export const SaleCreateView: React.FC<SaleCreateProps> = ({ params }) => {
           defaultMessage: "Successfully created sale"
         })
       });
-      navigate(saleUrl(data.saleCreate.sale.id), true);
+      navigate(saleUrl(data.saleCreate.sale.id), { replace: true });
     }
   };
 

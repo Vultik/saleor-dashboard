@@ -1,7 +1,6 @@
-import { ChannelSaleData } from "@saleor/channels/utils";
+import { ChannelSaleData, validateSalePrice } from "@saleor/channels/utils";
 import CardSpacer from "@saleor/components/CardSpacer";
 import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
@@ -10,10 +9,13 @@ import PageHeader from "@saleor/components/PageHeader";
 import Savebar from "@saleor/components/Savebar";
 import { Tab, TabContainer } from "@saleor/components/Tab";
 import { createSaleChannelsChangeHandler } from "@saleor/discounts/handlers";
+import { SALE_UPDATE_FORM_ID } from "@saleor/discounts/views/SaleDetails/types";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
+import { SubmitPromise } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
-import { validatePrice } from "@saleor/products/utils/validation";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import { mapMetadataItemToInput } from "@saleor/utils/maps";
 import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
 import React from "react";
@@ -30,13 +32,18 @@ import DiscountCategories from "../DiscountCategories";
 import DiscountCollections from "../DiscountCollections";
 import DiscountDates from "../DiscountDates";
 import DiscountProducts from "../DiscountProducts";
+import DiscountVariants from "../DiscountVariants";
 import SaleInfo from "../SaleInfo";
 import SaleSummary from "../SaleSummary";
 import SaleType from "../SaleType";
 import SaleValue from "../SaleValue";
 
+export interface ChannelSaleFormData extends ChannelSaleData {
+  percentageValue: string;
+  fixedValue: string;
+}
 export interface SaleDetailsPageFormData extends MetadataFormData {
-  channelListings: ChannelSaleData[];
+  channelListings: ChannelSaleFormData[];
   endDate: string;
   endTime: string;
   hasEndDate: boolean;
@@ -49,27 +56,24 @@ export interface SaleDetailsPageFormData extends MetadataFormData {
 export enum SaleDetailsPageTab {
   categories = "categories",
   collections = "collections",
-  products = "products"
-}
-export function saleDetailsPageTab(tab: string): SaleDetailsPageTab {
-  return tab === SaleDetailsPageTab.products
-    ? SaleDetailsPageTab.products
-    : tab === SaleDetailsPageTab.collections
-    ? SaleDetailsPageTab.collections
-    : SaleDetailsPageTab.categories;
+  products = "products",
+  variants = "variants"
 }
 
 export interface SaleDetailsPageProps
   extends Pick<ListProps, Exclude<keyof ListProps, "onRowClick">>,
     TabListActions<
-      "categoryListToolbar" | "collectionListToolbar" | "productListToolbar"
+      | "categoryListToolbar"
+      | "collectionListToolbar"
+      | "productListToolbar"
+      | "variantListToolbar"
     >,
     ChannelProps {
   activeTab: SaleDetailsPageTab;
   errors: DiscountErrorFragment[];
   sale: SaleDetails_sale;
   allChannelsCount: number;
-  channelListings: ChannelSaleData[];
+  channelListings: ChannelSaleFormData[];
   hasChannelChanged: boolean;
   saveButtonBarState: ConfirmButtonTransitionState;
   onBack: () => void;
@@ -82,16 +86,20 @@ export interface SaleDetailsPageProps
   onProductAssign: () => void;
   onProductUnassign: (id: string) => void;
   onProductClick: (id: string) => () => void;
+  onVariantAssign: () => void;
+  onVariantUnassign: (id: string) => void;
+  onVariantClick: (productId: string, variantId: string) => () => void;
   onRemove: () => void;
-  onSubmit: (data: SaleDetailsPageFormData) => void;
+  onSubmit: (data: SaleDetailsPageFormData) => SubmitPromise<any[]>;
   onTabClick: (index: SaleDetailsPageTab) => void;
-  onChannelsChange: (data: ChannelSaleData[]) => void;
+  onChannelsChange: (data: ChannelSaleFormData[]) => void;
   openChannelsModal: () => void;
 }
 
 const CategoriesTab = Tab(SaleDetailsPageTab.categories);
 const CollectionsTab = Tab(SaleDetailsPageTab.collections);
 const ProductsTab = Tab(SaleDetailsPageTab.products);
+const VariantsTab = Tab(SaleDetailsPageTab.variants);
 
 const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
   activeTab,
@@ -120,9 +128,13 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
   onProductAssign,
   onProductUnassign,
   onProductClick,
+  onVariantAssign,
+  onVariantUnassign,
+  onVariantClick,
   categoryListToolbar,
   collectionListToolbar,
   productListToolbar,
+  variantListToolbar,
   isChecked,
   selected,
   selectedChannelId,
@@ -147,15 +159,21 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
     privateMetadata: sale?.privateMetadata.map(mapMetadataItemToInput)
   };
   return (
-    <Form initial={initialForm} onSubmit={onSubmit}>
+    <Form
+      confirmLeave
+      initial={initialForm}
+      onSubmit={onSubmit}
+      formId={SALE_UPDATE_FORM_ID}
+    >
       {({ change, data, hasChanged, submit, triggerChange }) => {
         const handleChannelChange = createSaleChannelsChangeHandler(
           data.channelListings,
           onChannelsChange,
-          triggerChange
+          triggerChange,
+          data.type
         );
         const formDisabled = data.channelListings?.some(channel =>
-          validatePrice(channel.discountValue)
+          validateSalePrice(data, channel)
         );
         const changeMetadata = makeMetadataChangeHandler(change);
 
@@ -164,7 +182,7 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
             <Backlink onClick={onBack}>
               {intl.formatMessage(sectionNames.sales)}
             </Backlink>
-            <PageHeader title={maybe(() => sale.name)} />
+            <PageHeader title={sale?.name} />
             <Grid>
               <div>
                 <SaleInfo
@@ -239,6 +257,25 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
                       }
                     )}
                   </ProductsTab>
+                  <VariantsTab
+                    testId="variants-tab"
+                    isActive={activeTab === SaleDetailsPageTab.variants}
+                    changeTab={onTabClick}
+                  >
+                    {intl.formatMessage(
+                      {
+                        defaultMessage: "Variants ({quantity})",
+                        description: "number of variants",
+                        id: "saleDetailsPageVariantsQuantity"
+                      },
+                      {
+                        quantity: maybe(
+                          () => sale.variants.totalCount.toString(),
+                          "…"
+                        )
+                      }
+                    )}
+                  </VariantsTab>
                 </TabContainer>
                 <CardSpacer />
                 {activeTab === SaleDetailsPageTab.categories ? (
@@ -273,7 +310,7 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
                     toggleAll={toggleAll}
                     toolbar={collectionListToolbar}
                   />
-                ) : (
+                ) : activeTab === SaleDetailsPageTab.products ? (
                   <DiscountProducts
                     disabled={disabled}
                     onNextPage={onNextPage}
@@ -282,13 +319,28 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
                     onProductUnassign={onProductUnassign}
                     onRowClick={onProductClick}
                     pageInfo={pageInfo}
-                    discount={sale}
-                    channelsCount={allChannelsCount}
+                    products={mapEdgesToItems(sale?.products)}
                     isChecked={isChecked}
                     selected={selected}
                     toggle={toggle}
                     toggleAll={toggleAll}
                     toolbar={productListToolbar}
+                  />
+                ) : (
+                  <DiscountVariants
+                    disabled={disabled}
+                    onNextPage={onNextPage}
+                    onPreviousPage={onPreviousPage}
+                    onVariantAssign={onVariantAssign}
+                    onVariantUnassign={onVariantUnassign}
+                    onRowClick={onVariantClick}
+                    pageInfo={pageInfo}
+                    variants={mapEdgesToItems(sale?.variants)}
+                    isChecked={isChecked}
+                    selected={selected}
+                    toggle={toggle}
+                    toggleAll={toggleAll}
+                    toolbar={variantListToolbar}
                   />
                 )}
                 <CardSpacer />

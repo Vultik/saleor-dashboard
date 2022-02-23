@@ -1,5 +1,6 @@
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { extractMutationErrors } from "@saleor/misc";
 import OrderRefundPage from "@saleor/orders/components/OrderRefundPage";
 import {
   OrderRefundAmountCalculationMode,
@@ -69,7 +70,7 @@ const OrderRefund: React.FC<OrderRefundProps> = ({ orderId }) => {
   const [refundOrder, refundOrderOpts] = useOrderRefundMutation({
     onCompleted: data => {
       if (data.orderRefund.errors.length === 0) {
-        navigate(orderUrl(orderId), true);
+        navigate(orderUrl(orderId), { replace: true });
         notify({
           status: "success",
           text: intl.formatMessage({
@@ -86,7 +87,7 @@ const OrderRefund: React.FC<OrderRefundProps> = ({ orderId }) => {
   ] = useOrderFulfillmentRefundProductsMutation({
     onCompleted: data => {
       if (data.orderFulfillmentRefundProducts.errors.length === 0) {
-        navigate(orderUrl(orderId), true);
+        navigate(orderUrl(orderId), { replace: true });
         notify({
           status: "success",
           text: intl.formatMessage({
@@ -101,14 +102,14 @@ const OrderRefund: React.FC<OrderRefundProps> = ({ orderId }) => {
   const handleSubmitMiscellaneousRefund = async (
     formData: OrderRefundSubmitData
   ) => {
-    const response = await refundOrder({
-      variables: {
-        amount: formData.amount,
-        id: orderId
-      }
-    });
-
-    return response.errors || [];
+    extractMutationErrors(
+      refundOrder({
+        variables: {
+          amount: formData.amount,
+          id: orderId
+        }
+      })
+    );
   };
 
   const handleSubmitProductsRefund = async (
@@ -120,14 +121,14 @@ const OrderRefund: React.FC<OrderRefundProps> = ({ orderId }) => {
         ? getAutomaticallyCalculatedProductsRefundInput(formData)
         : getManuallySetProductsRefundInput(formData);
 
-    const response = await refundOrderFulfillmentProducts({
-      variables: {
-        input,
-        order: orderId
-      }
-    });
-
-    return response.errors || [];
+    return extractMutationErrors(
+      refundOrderFulfillmentProducts({
+        variables: {
+          input,
+          order: orderId
+        }
+      })
+    );
   };
 
   const handleSubmit = async (formData: OrderRefundSubmitData) =>

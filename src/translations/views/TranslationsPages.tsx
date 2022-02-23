@@ -3,6 +3,7 @@ import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
+import { extractMutationErrors } from "@saleor/misc";
 import { stringifyQs } from "@saleor/utils/urls";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -51,7 +52,7 @@ const TranslationsPages: React.FC<TranslationsPagesProps> = ({
         stringifyQs({
           activeField: field
         }),
-      true
+      { replace: true }
     );
 
   const onUpdate = (errors: unknown[]) => {
@@ -61,12 +62,12 @@ const TranslationsPages: React.FC<TranslationsPagesProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
 
   const onDiscard = () => {
-    navigate("?", true);
+    navigate("?", { replace: true });
   };
 
   return (
@@ -83,31 +84,33 @@ const TranslationsPages: React.FC<TranslationsPagesProps> = ({
                 name: fieldName
               }: TranslationField<PageTranslationInputFieldName>,
               data: string | any
-            ) => {
-              updateTranslations({
-                variables: {
-                  id,
-                  input: getParsedTranslationInputData({
-                    data,
-                    fieldName
-                  }),
-                  language: languageCode
-                }
-              });
-            };
+            ) =>
+              extractMutationErrors(
+                updateTranslations({
+                  variables: {
+                    id,
+                    input: getParsedTranslationInputData({
+                      data,
+                      fieldName
+                    }),
+                    language: languageCode
+                  }
+                })
+              );
 
             const handleAttributeValueSubmit = (
               { id }: TranslationField<PageTranslationInputFieldName>,
               data: OutputData
-            ) => {
-              updateAttributeValueTranslations({
-                variables: {
-                  id,
-                  input: { richText: JSON.stringify(data) },
-                  language: languageCode
-                }
-              });
-            };
+            ) =>
+              extractMutationErrors(
+                updateAttributeValueTranslations({
+                  variables: {
+                    id,
+                    input: { richText: JSON.stringify(data) },
+                    language: languageCode
+                  }
+                })
+              );
 
             const translation = pageTranslations?.data?.translation;
 

@@ -1,5 +1,4 @@
-import { DialogContentText, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DialogContentText } from "@material-ui/core";
 import ActionDialog from "@saleor/components/ActionDialog";
 import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
 import SaveFilterTabDialog, {
@@ -9,10 +8,12 @@ import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { usePaginationReset } from "@saleor/hooks/usePaginationReset";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
 import { commonMessages } from "@saleor/intl";
+import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -60,6 +61,9 @@ export const CustomerList: React.FC<CustomerListProps> = ({ params }) => {
   const { updateListSettings, settings } = useListSettings(
     ListViews.CUSTOMER_LIST
   );
+
+  usePaginationReset(customerListUrl, params, settings.rowNumber);
+
   const intl = useIntl();
 
   const paginationState = createPaginationState(settings.rowNumber, params);
@@ -165,6 +169,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({ params }) => {
             onSort={handleSort}
             toolbar={
               <IconButton
+                variant="secondary"
                 color="primary"
                 onClick={() =>
                   openModal("remove", {

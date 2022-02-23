@@ -1,18 +1,23 @@
-import { DialogContentText, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DialogContentText } from "@material-ui/core";
+import { useUser } from "@saleor/auth";
 import ActionDialog from "@saleor/components/ActionDialog";
 import { configurationMenuUrl } from "@saleor/configuration";
 import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { usePaginationReset } from "@saleor/hooks/usePaginationReset";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
 import useShop from "@saleor/hooks/useShop";
-import useUser from "@saleor/hooks/useUser";
 import { commonMessages } from "@saleor/intl";
-import { getStringOrPlaceholder, maybe } from "@saleor/misc";
+import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
+import {
+  extractMutationErrors,
+  getStringOrPlaceholder,
+  maybe
+} from "@saleor/misc";
 import { getById } from "@saleor/orders/components/OrderReturnPage/utils";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -53,9 +58,19 @@ export const ShippingZonesList: React.FC<ShippingZonesListProps> = ({
   const { updateListSettings, settings } = useListSettings(
     ListViews.SHIPPING_METHODS_LIST
   );
+
+  usePaginationReset(shippingZonesListUrl, params, settings.rowNumber);
+
   const intl = useIntl();
 
   const paginationState = createPaginationState(settings.rowNumber, params);
+
+  const queryVariables = React.useMemo(
+    () => ({
+      ...paginationState
+    }),
+    [params, settings.rowNumber]
+  );
 
   const [openModal, closeModal] = createDialogActionHandlers<
     ShippingZonesListUrlDialog,
@@ -64,7 +79,7 @@ export const ShippingZonesList: React.FC<ShippingZonesListProps> = ({
 
   const { data, loading, refetch } = useShippingZoneList({
     displayLoader: true,
-    variables: paginationState
+    variables: queryVariables
   });
 
   const [deleteShippingZone, deleteShippingZoneOpts] = useShippingZoneDelete({
@@ -116,6 +131,7 @@ export const ShippingZonesList: React.FC<ShippingZonesListProps> = ({
     paginationState,
     params
   );
+
   return (
     <>
       <ShippingZonesListPage
@@ -140,9 +156,11 @@ export const ShippingZonesList: React.FC<ShippingZonesListProps> = ({
         }
         onRowClick={id => () => navigate(shippingZoneUrl(id))}
         onSubmit={unit =>
-          updateDefaultWeightUnit({
-            variables: { unit }
-          })
+          extractMutationErrors(
+            updateDefaultWeightUnit({
+              variables: { unit }
+            })
+          )
         }
         isChecked={isSelected}
         selected={listElements.length}
@@ -150,6 +168,8 @@ export const ShippingZonesList: React.FC<ShippingZonesListProps> = ({
         toggleAll={toggleAll}
         toolbar={
           <IconButton
+            data-test-id="delete-selected-elements-icon"
+            variant="secondary"
             color="primary"
             onClick={() =>
               openModal("remove-many", {

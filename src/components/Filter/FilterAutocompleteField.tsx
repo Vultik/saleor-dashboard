@@ -69,26 +69,36 @@ const FilterAutocompleteField: React.FC<FilterAutocompleteFieldProps> = ({
   const displayNoResults =
     availableOptions.length === 0 && fieldDisplayValues.length === 0;
 
+  const getUpdatedFilterValue = (option: MultiAutocompleteChoiceType) => {
+    if (filterField.multiple) {
+      return toggle(option.value, filterField.value, (a, b) => a === b);
+    }
+
+    return [option.value];
+  };
+
   const handleChange = (option: MultiAutocompleteChoiceType) => {
     onFilterPropertyChange({
       payload: {
         name: filterField.name,
         update: {
           active: true,
-          value: toggle(option.value, filterField.value, (a, b) => a === b)
+          value: getUpdatedFilterValue(option)
         }
       },
       type: "set-property"
     });
 
-    setDisplayValues({
-      ...displayValues,
-      [filterField.name]: toggle(
-        option,
-        fieldDisplayValues,
-        (a, b) => a.value === b.value
-      )
-    });
+    if (filterField.multiple) {
+      setDisplayValues({
+        ...displayValues,
+        [filterField.name]: toggle(
+          option,
+          fieldDisplayValues,
+          (a, b) => a.value === b.value
+        )
+      });
+    }
   };
 
   const isValueChecked = (displayValue: MultiAutocompleteChoiceType) =>
@@ -106,25 +116,28 @@ const FilterAutocompleteField: React.FC<FilterAutocompleteFieldProps> = ({
 
   return (
     <div {...rest}>
-      <TextField
-        data-test="filterFieldAutocompleteInput"
-        className={classes.inputContainer}
-        fullWidth
-        name={filterField.name + "_autocomplete"}
-        InputProps={{
-          classes: {
-            input: classes.input
-          }
-        }}
-        onChange={event => filterField.onSearchChange(event.target.value)}
-      />
+      {filterField?.onSearchChange && (
+        <TextField
+          data-test-id="filter-field-autocomplete-input"
+          className={classes.inputContainer}
+          fullWidth
+          name={filterField.name + "_autocomplete"}
+          InputProps={{
+            classes: {
+              input: classes.input
+            }
+          }}
+          onChange={event => filterField.onSearchChange(event.target.value)}
+        />
+      )}
       {filteredValuesChecked.map(displayValue => (
         <div className={classes.option} key={displayValue.value}>
           <FormControlLabel
             control={
               <Checkbox
-                data-test="filterFieldAutocompleteSelected"
-                data-test-id={filterField.value}
+                data-test-id={
+                  "filter-field-autocomplete-selected-" + filterField.value
+                }
                 checked={filterField.value.includes(displayValue.value)}
               />
             }
@@ -137,7 +150,7 @@ const FilterAutocompleteField: React.FC<FilterAutocompleteFieldProps> = ({
       {displayHr && <Hr className={classes.hr} />}
       {displayNoResults && (
         <Typography
-          data-test="filterFieldAutocompleteNoResults"
+          data-test-id="filter-field-autocomplete-no-results"
           className={classes.noResults}
           color="textSecondary"
         >
@@ -148,13 +161,14 @@ const FilterAutocompleteField: React.FC<FilterAutocompleteFieldProps> = ({
         <div
           className={classes.option}
           key={option.value}
-          data-test-id="filterOption"
+          data-test-id="filter-option"
         >
           <FormControlLabel
             control={
               <Checkbox
-                data-test="filterFieldAutocompleteOption"
-                data-test-id={filterField.value}
+                data-test-id={
+                  "filter-field-autocomplete-option-" + filterField.value
+                }
                 checked={filterField.value.includes(option.value)}
               />
             }
@@ -166,7 +180,7 @@ const FilterAutocompleteField: React.FC<FilterAutocompleteFieldProps> = ({
       ))}
       {filterField.hasMore && (
         <Link
-          data-test="filterFieldAutocompleteHasMore"
+          data-test-id="filter-field-autocomplete-has-more"
           className={classes.showMore}
           underline
           onClick={filterField.onFetchMore}

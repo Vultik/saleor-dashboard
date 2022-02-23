@@ -1,6 +1,6 @@
+import { gql } from "@apollo/client";
 import { pageInfoFragment } from "@saleor/fragments/pageInfo";
 import makeTopLevelSearch from "@saleor/hooks/makeTopLevelSearch";
-import gql from "graphql-tag";
 
 import {
   SearchProducts,
@@ -17,6 +17,23 @@ export const searchProducts = gql`
           name
           thumbnail {
             url
+          }
+          variants {
+            id
+            name
+            sku
+            channelListings {
+              channel {
+                id
+                isActive
+                name
+                currencyCode
+              }
+              price {
+                amount
+                currency
+              }
+            }
           }
         }
       }

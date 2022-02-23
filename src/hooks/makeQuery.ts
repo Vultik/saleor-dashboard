@@ -1,9 +1,15 @@
+import {
+  ApolloError,
+  ApolloQueryResult,
+  QueryResult,
+  useQuery as useBaseQuery,
+  WatchQueryFetchPolicy
+} from "@apollo/client";
 import { handleQueryAuthError } from "@saleor/auth";
+import { useUser } from "@saleor/auth";
 import { RequireAtLeastOne } from "@saleor/misc";
-import { ApolloQueryResult, WatchQueryFetchPolicy } from "apollo-client";
 import { DocumentNode } from "graphql";
 import { useEffect } from "react";
-import { QueryResult, useQuery as useBaseQuery } from "react-apollo";
 import { useIntl } from "react-intl";
 
 import { User_userPermissions } from "../fragments/types/User";
@@ -11,7 +17,6 @@ import { PrefixedPermissions } from "../types/extendedTypes";
 import { PermissionEnum } from "../types/globalTypes";
 import useAppState from "./useAppState";
 import useNotifier from "./useNotifier";
-import useUser from "./useUser";
 
 const getPermissionKey = (permission: string) =>
   `PERMISSION_${permission}` as PrefixedPermissions;
@@ -47,6 +52,7 @@ export type UseQueryOpts<TVariables> = Partial<{
   skip: boolean;
   variables: TVariables;
   fetchPolicy: WatchQueryFetchPolicy;
+  handleError?: (error: ApolloError) => void | undefined;
 }>;
 type UseQueryHook<TData, TVariables> = (
   opts?: UseQueryOpts<Omit<TVariables, PrefixedPermissions>>
@@ -59,7 +65,8 @@ function makeQuery<TData, TVariables>(
     displayLoader,
     skip,
     variables,
-    fetchPolicy
+    fetchPolicy,
+    handleError
   }: UseQueryOpts<TVariables> = {}): UseQueryResult<TData, TVariables> {
     const notify = useNotifier();
     const intl = useIntl();
@@ -81,14 +88,13 @@ function makeQuery<TData, TVariables>(
       },
       errorPolicy: "all",
       fetchPolicy: fetchPolicy || "cache-and-network",
-      onError: error =>
-        handleQueryAuthError(
-          error,
-          notify,
-          user.tokenRefresh,
-          user.logout,
-          intl
-        ),
+      onError: error => {
+        if (!!handleError) {
+          handleError(error);
+        } else {
+          handleQueryAuthError(error, notify, user.logout, intl);
+        }
+      },
       skip,
       variables: variablesWithPermissions
     });

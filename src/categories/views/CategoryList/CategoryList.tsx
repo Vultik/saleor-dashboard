@@ -1,5 +1,4 @@
-import { DialogContentText, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DialogContentText } from "@material-ui/core";
 import ActionDialog from "@saleor/components/ActionDialog";
 import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
 import SaveFilterTabDialog, {
@@ -8,9 +7,11 @@ import SaveFilterTabDialog, {
 import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
+import { usePaginationReset } from "@saleor/hooks/usePaginationReset";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
+import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -49,12 +50,16 @@ interface CategoryListProps {
 export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
   const navigate = useNavigator();
   const paginate = usePaginator();
+
   const { isSelected, listElements, toggle, toggleAll, reset } = useBulkActions(
     params.ids
   );
   const { updateListSettings, settings } = useListSettings(
     ListViews.CATEGORY_LIST
   );
+
+  usePaginationReset(categoryListUrl, params, settings.rowNumber);
+
   const intl = useIntl();
 
   const paginationState = createPaginationState(settings.rowNumber, params);
@@ -120,7 +125,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
 
   const handleCategoryBulkDelete = (data: CategoryBulkDelete) => {
     if (data.categoryBulkDelete.errors.length === 0) {
-      navigate(categoryListUrl(), true);
+      navigate(categoryListUrl(), { replace: true });
       refetch();
       reset();
     }
@@ -163,7 +168,9 @@ export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
         toggleAll={toggleAll}
         toolbar={
           <IconButton
+            variant="secondary"
             color="primary"
+            data-test-id="delete-icon"
             onClick={() =>
               openModal("delete", {
                 ids: listElements

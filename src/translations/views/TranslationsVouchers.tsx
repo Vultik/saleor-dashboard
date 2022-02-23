@@ -6,7 +6,7 @@ import { stringifyQs } from "@saleor/utils/urls";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { maybe } from "../../misc";
+import { extractMutationErrors, maybe } from "../../misc";
 import { LanguageCodeEnum } from "../../types/globalTypes";
 import TranslationsVouchersPage from "../components/TranslationsVouchersPage";
 import { TypedUpdateVoucherTranslations } from "../mutations";
@@ -49,7 +49,7 @@ const TranslationsVouchers: React.FC<TranslationsVouchersProps> = ({
         stringifyQs({
           activeField: field
         }),
-      true
+      { replace: true }
     );
   const onUpdate = (data: UpdateVoucherTranslations) => {
     if (data.voucherTranslate.errors.length === 0) {
@@ -58,11 +58,11 @@ const TranslationsVouchers: React.FC<TranslationsVouchersProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
   const onDiscard = () => {
-    navigate("?", true);
+    navigate("?", { replace: true });
   };
 
   return (
@@ -71,18 +71,19 @@ const TranslationsVouchers: React.FC<TranslationsVouchersProps> = ({
         const handleSubmit = (
           { name: fieldName }: TranslationField<TranslationInputFieldName>,
           data: string
-        ) => {
-          updateTranslations({
-            variables: {
-              id,
-              input: getParsedTranslationInputData({
-                data,
-                fieldName
-              }),
-              language: languageCode
-            }
-          });
-        };
+        ) =>
+          extractMutationErrors(
+            updateTranslations({
+              variables: {
+                id,
+                input: getParsedTranslationInputData({
+                  data,
+                  fieldName
+                }),
+                language: languageCode
+              }
+            })
+          );
 
         const translation = voucherTranslations?.data?.translation;
 

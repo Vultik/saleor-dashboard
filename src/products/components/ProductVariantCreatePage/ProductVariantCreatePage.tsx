@@ -2,20 +2,19 @@ import {
   getAttributeValuesFromReferences,
   mergeAttributeValues
 } from "@saleor/attributes/utils/data";
-import { ChannelPriceData } from "@saleor/channels/utils";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, {
   AttributeInput,
   VariantAttributeScope
 } from "@saleor/components/Attributes";
 import CardSpacer from "@saleor/components/CardSpacer";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
 import Metadata from "@saleor/components/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import Savebar from "@saleor/components/Savebar";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
 import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
@@ -28,6 +27,7 @@ import { defineMessages, useIntl } from "react-intl";
 import { ProductVariantCreateData_product } from "../../types/ProductVariantCreateData";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks from "../ProductStocks";
+import ProductVariantCheckoutSettings from "../ProductVariantCheckoutSettings/ProductVariantCheckoutSettings";
 import ProductVariantNavigation from "../ProductVariantNavigation";
 import ProductVariantPrice from "../ProductVariantPrice";
 import ProductVariantCreateForm, {
@@ -60,7 +60,6 @@ const messages = defineMessages({
 });
 
 interface ProductVariantCreatePageProps {
-  channels: ChannelPriceData[];
   disabled: boolean;
   errors: ProductErrorWithAttributesFragment[];
   header: string;
@@ -89,7 +88,6 @@ interface ProductVariantCreatePageProps {
 }
 
 const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
-  channels,
   disabled,
   errors,
   header,
@@ -141,7 +139,6 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
       product={product}
       onSubmit={onSubmit}
       warehouses={warehouses}
-      currentChannels={channels}
       referencePages={referencePages}
       referenceProducts={referenceProducts}
       fetchReferencePages={fetchReferencePages}
@@ -153,9 +150,9 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
       {({
         change,
         data,
+        formErrors,
         disabled: formDisabled,
         handlers,
-        hasChanged,
         submit
       }) => (
         <Container>
@@ -219,6 +216,13 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                 onAttributeSelectBlur={onAttributeSelectBlur}
               />
               <CardSpacer />
+              <ProductVariantCheckoutSettings
+                data={data}
+                disabled={disabled}
+                errors={errors}
+                onChange={change}
+              />
+              <CardSpacer />
               <ProductShipping
                 data={data}
                 disabled={disabled}
@@ -236,10 +240,12 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                 disabled={disabled}
                 hasVariants={true}
                 onFormDataChange={change}
+                formErrors={formErrors}
                 errors={errors}
                 stocks={data.stocks}
                 warehouses={warehouses}
                 onChange={handlers.changeStock}
+                onChangePreorderEndDate={handlers.changePreorderEndDate}
                 onWarehouseStockAdd={handlers.addStock}
                 onWarehouseStockDelete={handlers.deleteStock}
                 onWarehouseConfigure={onWarehouseConfigure}
@@ -249,7 +255,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
             </div>
           </Grid>
           <Savebar
-            disabled={disabled || formDisabled || !onSubmit || !hasChanged}
+            disabled={disabled || formDisabled || !onSubmit}
             labels={{
               confirm: intl.formatMessage(messages.saveVariant),
               delete: intl.formatMessage(messages.deleteVariant)

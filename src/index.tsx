@@ -1,14 +1,16 @@
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  InMemoryCache
+} from "@apollo/client";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import DemoBanner from "@saleor/components/DemoBanner";
 import useAppState from "@saleor/hooks/useAppState";
 import { ThemeProvider } from "@saleor/macaw-ui";
-import { defaultDataIdFromObject, InMemoryCache } from "apollo-cache-inmemory";
-import { IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
-import { BatchHttpLink } from "apollo-link-batch-http";
+import { createFetch, createSaleorClient, SaleorProvider } from "@saleor/sdk";
 import { createUploadLink } from "apollo-upload-client";
 import React from "react";
-import { ApolloProvider } from "react-apollo";
 import { render } from "react-dom";
 import ErrorBoundary from "react-error-boundary";
 import TagManager from "react-gtm-module";
@@ -21,12 +23,10 @@ import { ExternalAppProvider } from "./apps/components/ExternalAppContext";
 import { appsSection } from "./apps/urls";
 import AttributeSection from "./attributes";
 import { attributeSection } from "./attributes/urls";
-import Auth from "./auth";
-import AuthProvider, { useAuth } from "./auth/AuthProvider";
+import Auth, { useUser } from "./auth";
+import AuthProvider from "./auth/AuthProvider";
 import LoginLoading from "./auth/components/LoginLoading/LoginLoading";
 import SectionRoute from "./auth/components/SectionRoute";
-import authLink from "./auth/link";
-import { hasPermission } from "./auth/misc";
 import CategorySection from "./categories";
 import ChannelsSection from "./channels";
 import { channelsSection } from "./channels/urls";
@@ -36,12 +36,14 @@ import useAppChannel, {
   AppChannelProvider
 } from "./components/AppLayout/AppChannelContext";
 import { DateProvider } from "./components/Date";
+import ExitFormDialogProvider from "./components/Form/ExitFormDialogProvider";
 import { LocaleProvider } from "./components/Locale";
 import MessageManagerProvider from "./components/messages";
 import { ShopProvider } from "./components/Shop";
 import { WindowTitle } from "./components/WindowTitle";
 import { API_URI, APP_MOUNT_URI, DEMO_MODE, GTM_ID } from "./config";
-import ConfigurationSection, { createConfigurationMenu } from "./configuration";
+import ConfigurationSection from "./configuration";
+import { getConfigMenuItemsPermissions } from "./configuration/utils";
 import AppStateProvider from "./containers/AppState";
 import BackgroundTasksProvider from "./containers/BackgroundTasks";
 import ServiceWorker from "./containers/ServiceWorker/ServiceWorker";
@@ -68,9 +70,11 @@ import StaffSection from "./staff";
 import TaxesSection from "./taxes";
 import themeOverrides from "./themeOverrides";
 import TranslationsSection from "./translations";
+import { TypedTypePolicies } from "./type-policies";
 import { PermissionEnum } from "./types/globalTypes";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
+
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
@@ -82,7 +86,8 @@ errorTracker.init();
 // so we need to explicitly set them
 const linkOptions = {
   credentials: "include",
-  uri: API_URI
+  uri: API_URI,
+  fetch: createFetch()
 };
 const uploadLink = createUploadLink(linkOptions);
 const batchLink = new BatchHttpLink({
@@ -95,78 +100,80 @@ const link = ApolloLink.split(
   batchLink,
   uploadLink
 );
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData
-});
-
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
-    fragmentMatcher,
-    dataIdFromObject: (obj: any) => {
-      // We need to set manually shop's ID, since it is singleton and
-      // API does not return its ID
-      if (obj.__typename === "Shop") {
-        return "shop";
+    possibleTypes: introspectionQueryResultData.possibleTypes,
+    typePolicies: {
+      CountryDisplay: {
+        keyFields: ["code"]
+      },
+      Money: {
+        merge: false
+      },
+      TaxedMoney: {
+        merge: false
+      },
+      Weight: {
+        merge: false
+      },
+      Shop: {
+        keyFields: []
       }
-      return defaultDataIdFromObject(obj);
-    }
+    } as TypedTypePolicies
   }),
-  link: authLink.concat(link)
+  link
+});
+
+const saleorClient = createSaleorClient({
+  apiUrl: API_URI,
+  channel: ""
 });
 
 const App: React.FC = () => (
-  <ApolloProvider client={apolloClient}>
-    <BrowserRouter basename={APP_MOUNT_URI}>
-      <ThemeProvider overrides={themeOverrides}>
-        <DateProvider>
-          <LocaleProvider>
-            <MessageManagerProvider>
-              <ServiceWorker />
-              <BackgroundTasksProvider>
-                <AppStateProvider>
-                  <AuthProvider>
-                    <ShopProvider>
-                      <AppChannelProvider>
-                        <ExternalAppProvider>
-                          <Routes />
-                        </ExternalAppProvider>
-                      </AppChannelProvider>
-                    </ShopProvider>
-                  </AuthProvider>
-                </AppStateProvider>
-              </BackgroundTasksProvider>
-            </MessageManagerProvider>
-          </LocaleProvider>
-        </DateProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </ApolloProvider>
+  <SaleorProvider client={saleorClient}>
+    <ApolloProvider client={apolloClient}>
+      <BrowserRouter basename={APP_MOUNT_URI}>
+        <ThemeProvider overrides={themeOverrides}>
+          <DateProvider>
+            <LocaleProvider>
+              <MessageManagerProvider>
+                <ServiceWorker />
+                <BackgroundTasksProvider>
+                  <AppStateProvider>
+                    <AuthProvider>
+                      <ShopProvider>
+                        <AppChannelProvider>
+                          <ExternalAppProvider>
+                            <ExitFormDialogProvider>
+                              <Routes />
+                            </ExitFormDialogProvider>
+                          </ExternalAppProvider>
+                        </AppChannelProvider>
+                      </ShopProvider>
+                    </AuthProvider>
+                  </AppStateProvider>
+                </BackgroundTasksProvider>
+              </MessageManagerProvider>
+            </LocaleProvider>
+          </DateProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </ApolloProvider>
+  </SaleorProvider>
 );
 
 const Routes: React.FC = () => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
-  const {
-    hasToken,
-    isAuthenticated,
-    tokenAuthLoading,
-    tokenVerifyLoading,
-    user
-  } = useAuth();
+  const { authenticated, authenticating } = useUser();
 
   const { channel } = useAppChannel(false);
 
   const channelLoaded = typeof channel !== "undefined";
 
-  const homePageLoaded =
-    channelLoaded &&
-    isAuthenticated &&
-    !tokenAuthLoading &&
-    !tokenVerifyLoading;
+  const homePageLoaded = channelLoaded && authenticated;
 
-  const homePageLoading =
-    (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
+  const homePageLoading = (authenticated && !channelLoaded) || authenticating;
 
   return (
     <>
@@ -220,9 +227,13 @@ const Routes: React.FC = () => {
                 component={PageSection}
               />
               <SectionRoute
-                permissions={[PermissionEnum.MANAGE_PAGES]}
+                permissions={[
+                  PermissionEnum.MANAGE_PAGES,
+                  PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES
+                ]}
                 path="/page-types"
                 component={PageTypesSection}
+                matchPermission="any"
               />
               <SectionRoute
                 permissions={[PermissionEnum.MANAGE_PLUGINS]}
@@ -283,10 +294,12 @@ const Routes: React.FC = () => {
               />
               <SectionRoute
                 permissions={[
-                  PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
+                  PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
+                  PermissionEnum.MANAGE_PAGE_TYPES_AND_ATTRIBUTES
                 ]}
                 path={attributeSection}
                 component={AttributeSection}
+                matchPermission="any"
               />
               <SectionRoute
                 permissions={[PermissionEnum.MANAGE_APPS]}
@@ -303,15 +316,13 @@ const Routes: React.FC = () => {
                 path={channelsSection}
                 component={ChannelsSection}
               />
-              {createConfigurationMenu(intl).filter(menu =>
-                menu.menuItems.map(item => hasPermission(item.permission, user))
-              ).length > 0 && (
-                <SectionRoute
-                  exact
-                  path="/configuration"
-                  component={ConfigurationSection}
-                />
-              )}
+              <SectionRoute
+                matchPermission="any"
+                permissions={getConfigMenuItemsPermissions(intl)}
+                exact
+                path="/configuration"
+                component={ConfigurationSection}
+              />
               <Route component={NotFound} />
             </Switch>
           </ErrorBoundary>

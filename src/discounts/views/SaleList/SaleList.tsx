@@ -1,5 +1,4 @@
-import { DialogContentText, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DialogContentText } from "@material-ui/core";
 import ActionDialog from "@saleor/components/ActionDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
@@ -11,10 +10,12 @@ import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { usePaginationReset } from "@saleor/hooks/usePaginationReset";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
 import { commonMessages, sectionNames } from "@saleor/intl";
+import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -62,6 +63,9 @@ export const SaleList: React.FC<SaleListProps> = ({ params }) => {
   const { updateListSettings, settings } = useListSettings(
     ListViews.SALES_LIST
   );
+
+  usePaginationReset(saleListUrl, params, settings.rowNumber);
+
   const intl = useIntl();
   const { availableChannels } = useAppChannel(false);
   const selectedChannel = availableChannels.find(
@@ -202,6 +206,7 @@ export const SaleList: React.FC<SaleListProps> = ({ params }) => {
               toggleAll={toggleAll}
               toolbar={
                 <IconButton
+                  variant="secondary"
                   color="primary"
                   onClick={() =>
                     openModal("remove", {

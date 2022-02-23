@@ -206,10 +206,16 @@ export interface OrderDetails_order_events {
   lines: (OrderDetails_order_events_lines | null)[] | null;
 }
 
+export interface OrderDetails_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderDetails_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderDetails_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderDetails_order_fulfillments_lines_orderLine_unitDiscount {
@@ -266,7 +272,7 @@ export interface OrderDetails_order_fulfillments_lines_orderLine {
   isShippingRequired: boolean;
   variant: OrderDetails_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -302,10 +308,16 @@ export interface OrderDetails_order_fulfillments {
   warehouse: OrderDetails_order_fulfillments_warehouse | null;
 }
 
+export interface OrderDetails_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderDetails_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderDetails_order_lines_variant_preorder | null;
 }
 
 export interface OrderDetails_order_lines_unitDiscount {
@@ -362,7 +374,7 @@ export interface OrderDetails_order_lines {
   isShippingRequired: boolean;
   variant: OrderDetails_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -505,17 +517,19 @@ export interface OrderDetails_order_user {
   email: string;
 }
 
-export interface OrderDetails_order_availableShippingMethods_price {
+export interface OrderDetails_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderDetails_order_availableShippingMethods {
+export interface OrderDetails_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderDetails_order_availableShippingMethods_price | null;
+  price: OrderDetails_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderDetails_order_invoices {
@@ -527,6 +541,11 @@ export interface OrderDetails_order_invoices {
   status: JobStatusEnum;
 }
 
+export interface OrderDetails_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderDetails_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -534,11 +553,13 @@ export interface OrderDetails_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderDetails_order_channel_defaultCountry;
 }
 
 export interface OrderDetails_order {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderDetails_order_metadata | null)[];
   privateMetadata: (OrderDetails_order_privateMetadata | null)[];
   billingAddress: OrderDetails_order_billingAddress | null;
@@ -569,7 +590,7 @@ export interface OrderDetails_order {
   undiscountedTotal: OrderDetails_order_undiscountedTotal;
   user: OrderDetails_order_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderDetails_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderDetails_order_shippingMethods | null)[] | null;
   invoices: (OrderDetails_order_invoices | null)[] | null;
   channel: OrderDetails_order_channel;
 }

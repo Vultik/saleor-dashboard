@@ -1,3 +1,4 @@
+import { FetchResult } from "@apollo/client";
 import {
   AttributeInput,
   AttributeInputData
@@ -21,7 +22,6 @@ import {
   AttributeValueInput
 } from "@saleor/types/globalTypes";
 import { move, toggle } from "@saleor/utils/lists";
-import { MutationFetchResult } from "react-apollo";
 
 import {
   AttributeValueDelete,
@@ -188,11 +188,13 @@ function getFileInput(
   if (updatedFileAttribute) {
     return {
       file: updatedFileAttribute.file,
-      id: updatedFileAttribute.id
+      id: updatedFileAttribute.id,
+      contentType: updatedFileAttribute.contentType
     };
   }
   return {
     file: attribute.data.selectedValues?.[0]?.file?.url,
+    contentType: attribute.data.selectedValues?.[0]?.file.contentType,
     id: attribute.id
   };
 }
@@ -274,7 +276,7 @@ export const handleUploadMultipleFiles = async (
   attributesWithNewFileValue: FormsetData<null, File>,
   uploadFile: (
     variables: FileUploadVariables
-  ) => Promise<MutationFetchResult<FileUpload>>
+  ) => Promise<FetchResult<FileUpload>>
 ) =>
   Promise.all(
     getFileValuesToUploadFromAttributes(attributesWithNewFileValue).map(
@@ -294,7 +296,7 @@ export const handleDeleteMultipleAttributeValues = async (
   >,
   deleteAttributeValue: (
     variables: AttributeValueDeleteVariables
-  ) => Promise<MutationFetchResult<AttributeValueDelete>>
+  ) => Promise<FetchResult<AttributeValueDelete>>
 ) =>
   Promise.all(
     attributes.map(existingAttribute => {
@@ -305,7 +307,8 @@ export const handleDeleteMultipleAttributeValues = async (
 
       if (fileValueUnused) {
         return deleteAttributeValue({
-          id: existingAttribute.values[0].id
+          id: existingAttribute.values[0].id,
+          firstValues: 20
         });
       }
     })

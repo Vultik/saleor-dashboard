@@ -1,5 +1,5 @@
+import { MutationFunction } from "@apollo/client";
 import { MetadataFormData } from "@saleor/components/Metadata/types";
-import { MutationFunction } from "react-apollo";
 
 import {
   UpdateMetadata,
@@ -9,9 +9,15 @@ import {
   UpdatePrivateMetadata,
   UpdatePrivateMetadataVariables
 } from "../metadata/types/UpdatePrivateMetadata";
+import { filterMetadataArray } from "./filterMetadataArray";
 
-function createMetadataCreateHandler<T extends MetadataFormData>(
-  create: (data: T) => Promise<string>,
+export interface CreateMetadataHandlerFunctionResult<TError> {
+  id?: string;
+  errors?: TError[];
+}
+
+function createMetadataCreateHandler<T extends MetadataFormData, TError>(
+  create: (data: T) => Promise<CreateMetadataHandlerFunctionResult<TError>>,
   setMetadata: MutationFunction<UpdateMetadata, UpdateMetadataVariables>,
   setPrivateMetadata: MutationFunction<
     UpdatePrivateMetadata,
@@ -19,17 +25,17 @@ function createMetadataCreateHandler<T extends MetadataFormData>(
   >
 ) {
   return async (data: T) => {
-    const id = await create(data);
+    const { id, errors } = await create(data);
 
-    if (id === null) {
-      return null;
+    if (id === null || !!errors?.length) {
+      return errors;
     }
 
     if (data.metadata.length > 0) {
       const updateMetaResult = await setMetadata({
         variables: {
           id,
-          input: data.metadata,
+          input: filterMetadataArray(data.metadata),
           keysToDelete: []
         }
       });
@@ -47,7 +53,7 @@ function createMetadataCreateHandler<T extends MetadataFormData>(
       const updatePrivateMetaResult = await setPrivateMetadata({
         variables: {
           id,
-          input: data.privateMetadata,
+          input: filterMetadataArray(data.privateMetadata),
           keysToDelete: []
         }
       });

@@ -8,12 +8,14 @@ export const giftCardsSectionUrlName = "/gift-cards";
 
 export const giftCardsListPath = `${giftCardsSectionUrlName}/`;
 
-export const giftCardsListUrl = (params?: GiftCardListUrlQueryParams) =>
+export const giftCardListUrl = (params?: GiftCardListUrlQueryParams) =>
   giftCardsListPath + "?" + stringifyQs(params);
+
+export const giftCardPath = (id: string) => urlJoin(giftCardsListPath, id);
 
 export const giftCardUrl = (
   id: string,
   params?: GiftCardUpdatePageUrlQueryParams
-) => urlJoin(giftCardsListPath, id) + "?" + stringifyQs(params);
+) => giftCardPath(encodeURIComponent(id)) + "?" + stringifyQs(params);
 
 export const giftCardSettingsUrl = urlJoin(giftCardsListPath, "settings");

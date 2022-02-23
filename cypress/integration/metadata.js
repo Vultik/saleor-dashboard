@@ -1,16 +1,22 @@
+/// <reference types="cypress"/>
+/// <reference types="../support"/>
 import faker from "faker";
 
-import { updateMetadata, updatePrivateMetadata } from "../apiRequests/Metadata";
-import { createDraftOrder, getOrder } from "../apiRequests/Order";
-import { getProductMetadata } from "../apiRequests/storeFront/ProductDetails";
-import filterTests from "../support/filterTests";
-import { getDefaultChannel } from "../utils/channelsUtils";
+import {
+  updateMetadata,
+  updatePrivateMetadata
+} from "../support/api/requests/Metadata";
+import { createDraftOrder, getOrder } from "../support/api/requests/Order";
+import { getProductMetadata } from "../support/api/requests/storeFront/ProductDetails";
+import { getDefaultChannel } from "../support/api/utils/channelsUtils";
 import {
   createProductInChannel,
-  createTypeAttributeAndCategoryForProduct
-} from "../utils/products/productsUtils";
+  createTypeAttributeAndCategoryForProduct,
+  deleteProductsStartsWith
+} from "../support/api/utils/products/productsUtils";
+import filterTests from "../support/filterTests";
 
-filterTests(["all"], () => {
+filterTests({ definedTags: ["all"] }, () => {
   describe("Test for metadata", () => {
     const startsWith = "Metadata";
     const name = `${startsWith}${faker.datatype.number()}`;
@@ -20,10 +26,11 @@ filterTests(["all"], () => {
 
     before(() => {
       cy.clearSessionData().loginUserViaRequest();
+      deleteProductsStartsWith(startsWith);
       getDefaultChannel()
         .then(channelResp => {
           channel = channelResp;
-          createTypeAttributeAndCategoryForProduct(name);
+          createTypeAttributeAndCategoryForProduct({ name });
         })
         .then(({ attribute, category, productType }) => {
           createProductInChannel({
@@ -83,8 +90,8 @@ filterTests(["all"], () => {
       createDraftOrder({ channelId: channel.id })
         .then(orderResp => {
           order = orderResp;
-          updateMetadata(order.id, metadata.key, metadata.value);
-          updatePrivateMetadata(order.id, metadata.key, metadata.value);
+          updateMetadata(order.token, metadata.key, metadata.value);
+          updatePrivateMetadata(order.token, metadata.key, metadata.value);
         })
         .then(() => {
           getOrder(order.id);

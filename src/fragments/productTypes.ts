@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import { attributeFragment } from "./attributes";
 import { metadataFragment } from "./metadata";
@@ -29,6 +29,12 @@ export const productTypeDetailsFragment = gql`
     }
     variantAttributes {
       ...AttributeFragment
+    }
+    assignedVariantAttributes {
+      attribute {
+        ...AttributeFragment
+      }
+      variantSelection
     }
     weight {
       unit

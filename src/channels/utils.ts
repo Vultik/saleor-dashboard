@@ -1,5 +1,9 @@
 import { Channels_channels } from "@saleor/channels/types/Channels";
 import { CollectionDetails_collection } from "@saleor/collections/types/CollectionDetails";
+import {
+  ChannelSaleFormData,
+  SaleDetailsPageFormData
+} from "@saleor/discounts/components/SaleDetailsPage";
 import { SaleDetails_sale } from "@saleor/discounts/types/SaleDetails";
 import { VoucherDetails_voucher } from "@saleor/discounts/types/VoucherDetails";
 import { RequireOnlyOne } from "@saleor/misc";
@@ -8,10 +12,12 @@ import {
   ProductDetails_product_variants
 } from "@saleor/products/types/ProductDetails";
 import { ProductVariantDetails_productVariant } from "@saleor/products/types/ProductVariantDetails";
+import { validatePrice } from "@saleor/products/utils/validation";
 import {
   ShippingZone_shippingZone_channels,
   ShippingZone_shippingZone_shippingMethods_channelListings
 } from "@saleor/shipping/types/ShippingZone";
+import { SaleType } from "@saleor/types/globalTypes";
 import { mapNodeToChoice } from "@saleor/utils/maps";
 import uniqBy from "lodash/uniqBy";
 
@@ -34,6 +40,8 @@ export interface ChannelData {
   availableForPurchase?: string;
   isAvailableForPurchase?: boolean;
   visibleInListings?: boolean;
+  preorderThreshold?: number;
+  unitsSold?: number;
 }
 
 export interface ChannelPriceData {
@@ -52,6 +60,34 @@ export type ChannelPriceArgs = RequireOnlyOne<
   IChannelPriceArgs,
   "price" | "costPrice"
 >;
+
+export interface ChannelPreorderArgs {
+  preorderThreshold: number;
+  unitsSold: number;
+  hasPreorderEndDate: boolean;
+  preorderEndDateTime?: string;
+}
+
+export interface ChannelPriceAndPreorderData {
+  id: string;
+  name: string;
+  currency: string;
+  price: string;
+  costPrice?: string;
+  preorderThreshold?: number | null;
+  unitsSold?: number;
+}
+
+export interface IChannelPriceAndPreorderArgs {
+  price: string;
+  costPrice: string;
+  preorderThreshold?: number | null;
+  unitsSold?: number;
+}
+export type ChannelPriceAndPreorderArgs = IChannelPriceArgs & {
+  preorderThreshold: number | null;
+  unitsSold?: number;
+};
 
 export interface ChannelVoucherData {
   id: string;
@@ -97,7 +133,9 @@ export const createSaleChannels = (data?: BaseChannels_channels[]) =>
     currency: channel.currencyCode,
     discountValue: "",
     id: channel.id,
-    name: channel.name
+    name: channel.name,
+    percentageValue: "",
+    fixedValue: ""
   }));
 
 export const createVariantChannels = (
@@ -233,12 +271,20 @@ export const createChannelsDataFromVoucher = (
     name: option.channel.name
   })) || [];
 
-export const createChannelsDataFromSale = (saleData?: SaleDetails_sale) =>
+export const createChannelsDataFromSale = (
+  saleData?: SaleDetails_sale
+): ChannelSaleFormData[] =>
   saleData?.channelListings?.map(option => ({
     currency: option.channel.currencyCode || "",
     discountValue: option.discountValue.toString() || "",
     id: option.channel.id,
-    name: option.channel.name
+    name: option.channel.name,
+    percentageValue:
+      saleData.type === SaleType.PERCENTAGE
+        ? option.discountValue.toString()
+        : "",
+    fixedValue:
+      saleData.type === SaleType.FIXED ? option.discountValue.toString() : ""
   })) || [];
 
 export const createChannelsDataFromProduct = (
@@ -262,6 +308,8 @@ export const createChannelsDataFromProduct = (
         productData.variants,
         channel.id
       );
+      const soldUnits = variantChannel?.preorderThreshold?.soldUnits;
+      const preorderThreshold = variantChannel?.preorderThreshold?.quantity;
 
       return {
         availableForPurchase,
@@ -274,7 +322,9 @@ export const createChannelsDataFromProduct = (
         isAvailableForPurchase: !!isAvailableForPurchase,
         name: channel.name,
         price: price ? price.amount.toString() : "",
-        visibleInListings: !!visibleInListings
+        visibleInListings: !!visibleInListings,
+        soldUnits,
+        preorderThreshold
       };
     }
   ) || [];
@@ -332,7 +382,9 @@ export const createSortedChannelsDataFromVoucher = (
     channel.name.localeCompare(nextChannel.name)
   );
 
-export const createSortedChannelsDataFromSale = (data?: SaleDetails_sale) =>
+export const createSortedChannelsDataFromSale = (
+  data?: SaleDetails_sale
+): ChannelSaleFormData[] =>
   createChannelsDataFromSale(data)?.sort((channel, nextChannel) =>
     channel.name.localeCompare(nextChannel.name)
   );
@@ -351,3 +403,13 @@ export const getChannelsCurrencyChoices = (
         )
       )
     : [];
+
+export const validateSalePrice = (
+  data: SaleDetailsPageFormData,
+  channel: ChannelSaleFormData
+) =>
+  validatePrice(
+    data.type === SaleType.PERCENTAGE
+      ? channel.percentageValue
+      : channel.fixedValue
+  );

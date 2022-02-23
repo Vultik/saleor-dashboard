@@ -13,31 +13,22 @@ import React from "react";
 
 const useStyles = makeStyles(
   theme => ({
-    clickableRow: {
-      cursor: "pointer"
-    },
-    colName: {
-      width: "auto"
-    },
+    colName: {},
     colNameLabel: {
       marginLeft: AVATAR_MARGIN
     },
     colPrice: {
-      textAlign: "right",
-      width: 120
+      textAlign: "right"
     },
     colQuantity: {
-      textAlign: "center",
-      width: 120
+      textAlign: "center"
     },
     colSku: {
       textAlign: "right",
-      textOverflow: "ellipsis",
-      width: 120
+      textOverflow: "ellipsis"
     },
     colTotal: {
-      textAlign: "right",
-      width: 120
+      textAlign: "right"
     },
     infoLabel: {
       display: "inline-block"
@@ -54,9 +45,6 @@ const useStyles = makeStyles(
     },
     statusBar: {
       paddingTop: 0
-    },
-    table: {
-      tableLayout: "fixed"
     }
   }),
   { name: "TableLine" }
@@ -88,7 +76,7 @@ const TableLine: React.FC<TableLineProps> = ({
   const quantityToDisplay = isOrderLine ? quantityToFulfill : quantity;
 
   return (
-    <TableRow className={classes.clickableRow} hover key={line.id}>
+    <TableRow key={line.id}>
       <TableCellAvatar
         className={classes.colName}
         thumbnail={maybe(() => line.orderLine.thumbnail.url)}
@@ -96,19 +84,19 @@ const TableLine: React.FC<TableLineProps> = ({
         {maybe(() => line.orderLine.productName) || <Skeleton />}
       </TableCellAvatar>
       <TableCell className={classes.colSku}>
-        {line?.orderLine.productSku || <Skeleton />}
+        {line?.orderLine ? line.orderLine.productSku : <Skeleton />}
       </TableCell>
       <TableCell className={classes.colQuantity}>
         {quantityToDisplay || <Skeleton />}
       </TableCell>
-      <TableCell className={classes.colPrice}>
+      <TableCell className={classes.colPrice} align="right">
         {maybe(() => line.orderLine.unitPrice.gross) ? (
           <Money money={line.orderLine.unitPrice.gross} />
         ) : (
           <Skeleton />
         )}
       </TableCell>
-      <TableCell className={classes.colTotal}>
+      <TableCell className={classes.colTotal} align="right">
         <Money
           money={{
             amount: line.quantity * line.orderLine.unitPrice.gross.amount,

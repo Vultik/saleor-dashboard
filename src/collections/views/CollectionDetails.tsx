@@ -1,4 +1,4 @@
-import { Button, DialogContentText } from "@material-ui/core";
+import { DialogContentText } from "@material-ui/core";
 import {
   createCollectionChannels,
   createCollectionChannelsData
@@ -12,13 +12,14 @@ import { WindowTitle } from "@saleor/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA, PAGINATE_BY } from "@saleor/config";
 import useBulkActions from "@saleor/hooks/useBulkActions";
 import useChannels from "@saleor/hooks/useChannels";
+import useLocalPaginator, {
+  useLocalPaginationState
+} from "@saleor/hooks/useLocalPaginator";
 import useLocalStorage from "@saleor/hooks/useLocalStorage";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
-import usePaginator, {
-  createPaginationState
-} from "@saleor/hooks/usePaginator";
 import { commonMessages, errorMessages } from "@saleor/intl";
+import { Button } from "@saleor/macaw-ui";
 import useProductSearch from "@saleor/searches/useProductSearch";
 import { arrayDiff } from "@saleor/utils/arrays";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -32,7 +33,7 @@ import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { getMutationState, maybe } from "../../misc";
+import { getMutationErrors, getMutationState, maybe } from "../../misc";
 import { productUrl } from "../../products/urls";
 import { CollectionInput } from "../../types/globalTypes";
 import CollectionDetailsPage from "../components/CollectionDetailsPage/CollectionDetailsPage";
@@ -52,6 +53,7 @@ import {
   CollectionUrlDialog,
   CollectionUrlQueryParams
 } from "../urls";
+import { COLLECTION_DETAILS_FORM_ID } from "./consts";
 
 interface CollectionDetailsProps {
   id: string;
@@ -67,7 +69,6 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
   const { isSelected, listElements, reset, toggle, toggleAll } = useBulkActions(
     params.ids
   );
-  const paginate = usePaginator();
   const intl = useIntl();
   const { search, loadMore, result } = useProductSearch({
     variables: DEFAULT_INITIAL_SEARCH_DATA
@@ -120,7 +121,7 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
               defaultMessage: "Added product to collection"
             })
           });
-          navigate(collectionUrl(id), true);
+          navigate(collectionUrl(id), { replace: true });
         }
       }
     }
@@ -158,7 +159,11 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
     }
   });
 
-  const paginationState = createPaginationState(PAGINATE_BY, params);
+  const [paginationState, setPaginationState] = useLocalPaginationState(
+    PAGINATE_BY
+  );
+  const paginate = useLocalPaginator(setPaginationState);
+
   const handleBack = () => navigate(collectionListUrl());
 
   const [selectedChannel] = useLocalStorage("collectionListChannel", "");
@@ -192,10 +197,15 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
           isChannelsModalOpen,
           setCurrentChannels,
           toggleAllChannels
-        } = useChannels(collectionChannelsChoices, params?.action, {
-          closeModal,
-          openModal
-        });
+        } = useChannels(
+          collectionChannelsChoices,
+          params?.action,
+          {
+            closeModal,
+            openModal
+          },
+          { formId: COLLECTION_DETAILS_FORM_ID }
+        );
 
         const handleUpdate = async (formData: CollectionUpdateData) => {
           const input: CollectionInput = {
@@ -238,8 +248,9 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
             }
           });
 
-          return result.data.collectionUpdate.errors;
+          return getMutationErrors(result);
         };
+
         const handleSubmit = createMetadataUpdateHandler(
           data?.collection,
           handleUpdate,
@@ -255,8 +266,7 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
 
         const { loadNextPage, loadPreviousPage, pageInfo } = paginate(
           data?.collection?.products?.pageInfo,
-          paginationState,
-          params
+          paginationState
         );
 
         return (
@@ -319,7 +329,6 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
               saveButtonBarState={formTransitionState}
               toolbar={
                 <Button
-                  color="primary"
                   onClick={() =>
                     openModal("unassign", {
                       ids: listElements
@@ -358,7 +367,7 @@ export const CollectionDetails: React.FC<CollectionDetailsProps> = ({
                   variables: {
                     ...paginationState,
                     collectionId: id,
-                    productIds: products.map(product => product.id)
+                    productIds: products
                   }
                 })
               }

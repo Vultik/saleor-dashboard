@@ -1,10 +1,10 @@
 import { ChannelShippingData } from "@saleor/channels/utils";
-import { ShippingMethodFragment_postalCodeRules } from "@saleor/fragments/types/ShippingMethodFragment";
+import { CountryFragment } from "@saleor/fragments/types/CountryFragment";
+import { ShippingMethodTypeFragment_postalCodeRules } from "@saleor/fragments/types/ShippingMethodTypeFragment";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
-import { getMutationErrors, getMutationState } from "@saleor/misc";
-import { FormData as ShippingZoneRatesPageFormData } from "@saleor/shipping/components/ShippingZoneRatesPage";
+import { extractMutationErrors, getMutationState } from "@saleor/misc";
 import { CreateShippingRateVariables } from "@saleor/shipping/types/CreateShippingRate";
 import { ShippingMethodChannelListingUpdateVariables } from "@saleor/shipping/types/ShippingMethodChannelListingUpdate";
 import { UpdateShippingRateVariables } from "@saleor/shipping/types/UpdateShippingRate";
@@ -17,6 +17,7 @@ import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
 import differenceBy from "lodash/differenceBy";
 import { useIntl } from "react-intl";
 
+import { ShippingZoneRateCommonFormData } from "./components/ShippingZoneRatesPage/types";
 import {
   useShippingMethodChannelListingUpdate,
   useShippingRateCreate,
@@ -48,7 +49,7 @@ export const createChannelsChangeHandler = (
 };
 
 const getPostalCodeRulesToAdd = (
-  rules: ShippingMethodFragment_postalCodeRules[]
+  rules: ShippingMethodTypeFragment_postalCodeRules[]
 ) =>
   rules
     .filter(code => !code.id || code.id === "0")
@@ -61,9 +62,9 @@ const getPostalCodeRulesToAdd = (
     );
 
 export function getCreateShippingPriceRateVariables(
-  data: ShippingZoneRatesPageFormData,
+  data: ShippingZoneRateCommonFormData,
   id: string,
-  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  addPostalCodeRules: ShippingMethodTypeFragment_postalCodeRules[],
   inclusionType: PostalCodeRuleInclusionTypeEnum
 ): CreateShippingRateVariables {
   const parsedMinDays = parseInt(data.minDays, 10);
@@ -84,16 +85,16 @@ export function getCreateShippingPriceRateVariables(
 }
 
 export function getCreateShippingWeightRateVariables(
-  data: ShippingZoneRatesPageFormData,
+  data: ShippingZoneRateCommonFormData,
   id: string,
-  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  addPostalCodeRules: ShippingMethodTypeFragment_postalCodeRules[],
   inclusionType: PostalCodeRuleInclusionTypeEnum
 ): CreateShippingRateVariables {
   const parsedMinValue = parseFloat(data.minValue);
   const parsedMaxValue = parseFloat(data.maxValue);
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
-  const isWeightSet = !data.noLimits;
+  const isWeightSet = data.orderValueRestricted;
   const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     input: {
@@ -112,10 +113,10 @@ export function getCreateShippingWeightRateVariables(
 }
 
 export function getUpdateShippingPriceRateVariables(
-  data: ShippingZoneRatesPageFormData,
+  data: ShippingZoneRateCommonFormData,
   id: string,
   rateId: string,
-  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  addPostalCodeRules: ShippingMethodTypeFragment_postalCodeRules[],
   deletePostalCodeRules: string[]
 ): UpdateShippingRateVariables {
   const parsedMinDays = parseInt(data.minDays, 10);
@@ -140,17 +141,17 @@ export function getUpdateShippingPriceRateVariables(
 }
 
 export function getUpdateShippingWeightRateVariables(
-  data: ShippingZoneRatesPageFormData,
+  data: ShippingZoneRateCommonFormData,
   id: string,
   rateId: string,
-  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  addPostalCodeRules: ShippingMethodTypeFragment_postalCodeRules[],
   deletePostalCodeRules: string[]
 ): UpdateShippingRateVariables {
   const parsedMinValue = parseFloat(data.minValue);
   const parsedMaxValue = parseFloat(data.maxValue);
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
-  const isWeightSet = !data.noLimits;
+  const isWeightSet = data.orderValueRestricted;
   const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     id: rateId,
@@ -173,7 +174,7 @@ export function getUpdateShippingWeightRateVariables(
 }
 export function getShippingMethodChannelVariables(
   id: string,
-  noLimits: boolean,
+  orderValueRestricted: boolean,
   formChannels: ChannelShippingData[],
   prevChannels?: ChannelShippingData[]
 ): ShippingMethodChannelListingUpdateVariables {
@@ -188,9 +189,9 @@ export function getShippingMethodChannelVariables(
         formChannels?.map(channel => ({
           channelId: channel.id,
           maximumOrderPrice:
-            channel.maxValue && !noLimits ? channel.maxValue : null,
+            channel.maxValue && orderValueRestricted ? channel.maxValue : null,
           minimumOrderPrice:
-            channel.minValue && !noLimits ? channel.minValue : null,
+            channel.minValue && orderValueRestricted ? channel.minValue : null,
           price: channel.price || null
         })) || [],
       removeChannels
@@ -201,7 +202,7 @@ export function getShippingMethodChannelVariables(
 export function useShippingRateCreator(
   shippingZoneId: string,
   type: ShippingMethodTypeEnum,
-  postalCodes: ShippingMethodFragment_postalCodeRules[],
+  postalCodes: ShippingMethodTypeFragment_postalCodeRules[],
   inclusionType: PostalCodeRuleInclusionTypeEnum
 ) {
   const intl = useIntl();
@@ -226,42 +227,49 @@ export function useShippingRateCreator(
       ? shippingPriceRatesEditUrl
       : shippingWeightRatesEditUrl;
 
-  const createShippingRate = async (data: ShippingZoneRatesPageFormData) => {
+  const createShippingRate = async (data: ShippingZoneRateCommonFormData) => {
     const response = await createBaseShippingRate({
       variables: getVariables(data, shippingZoneId, postalCodes, inclusionType)
     });
 
     const createErrors = response.data.shippingPriceCreate.errors;
-    if (createErrors.length === 0) {
-      const rateId = response.data.shippingPriceCreate.shippingMethod.id;
 
-      const mutationResults = await Promise.all([
-        updateShippingMethodChannelListing({
-          variables: getShippingMethodChannelVariables(
-            rateId,
-            data.noLimits,
-            data.channelListings
-          )
-        })
-      ]);
+    if (createErrors.length > 0) {
+      return createErrors;
+    }
 
-      if (
-        mutationResults.find(
-          result => getMutationErrors(result.data as any).length > 0
+    const rateId = response.data.shippingPriceCreate.shippingMethod.id;
+
+    const errors = await extractMutationErrors(
+      updateShippingMethodChannelListing({
+        variables: getShippingMethodChannelVariables(
+          rateId,
+          data.orderValueRestricted,
+          data.channelListings
         )
-      ) {
-        deleteShippingRate({
-          variables: {
-            id: rateId
-          }
-        });
-      } else {
-        notify({
-          status: "success",
-          text: intl.formatMessage(commonMessages.savedChanges)
-        });
-        navigate(getUrl(shippingZoneId, rateId));
-      }
+      })
+    );
+
+    if (errors.length > 0) {
+      deleteShippingRate({
+        variables: {
+          id: rateId
+        }
+      });
+
+      notify({
+        status: "error",
+        text: intl.formatMessage(commonMessages.somethingWentWrong)
+      });
+
+      return errors;
+    } else {
+      notify({
+        status: "success",
+        text: intl.formatMessage(commonMessages.savedChanges)
+      });
+      navigate(getUrl(shippingZoneId, rateId));
+      return [];
     }
   };
 
@@ -284,4 +292,29 @@ export function useShippingRateCreator(
     errors,
     status: getMutationState(called, loading, [...errors, ...channelErrors])
   };
+}
+
+export function getCountrySelectionMap(
+  countries?: CountryFragment[],
+  countriesSelected?: string[]
+) {
+  return (
+    countriesSelected &&
+    countries?.reduce((acc, country) => {
+      acc[country.code] = !!countriesSelected.find(
+        selectedCountries => selectedCountries === country.code
+      );
+      return acc;
+    }, {} as Map<string, boolean>)
+  );
+}
+
+export function isRestWorldCountriesSelected(
+  restWorldCountries?: string[],
+  countrySelectionMap?: Map<string, boolean>
+) {
+  return (
+    countrySelectionMap &&
+    restWorldCountries?.every(countryCode => countrySelectionMap[countryCode])
+  );
 }

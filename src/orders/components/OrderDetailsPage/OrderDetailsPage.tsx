@@ -1,7 +1,6 @@
 import { Typography } from "@material-ui/core";
 import CardMenu from "@saleor/components/CardMenu";
 import { CardSpacer } from "@saleor/components/CardSpacer";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import { Container } from "@saleor/components/Container";
 import { DateTime } from "@saleor/components/Date";
 import Form from "@saleor/components/Form";
@@ -12,6 +11,7 @@ import Savebar from "@saleor/components/Savebar";
 import Skeleton from "@saleor/components/Skeleton";
 import { SubmitPromise } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
 import { makeStyles } from "@saleor/macaw-ui";
 import OrderChannelSectionCard from "@saleor/orders/components/OrderChannelSectionCard";
@@ -21,7 +21,7 @@ import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTr
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
 
-import { maybe } from "../../../misc";
+import { getMutationErrors, maybe } from "../../../misc";
 import { OrderStatus } from "../../../types/globalTypes";
 import {
   OrderDetails_order,
@@ -172,7 +172,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
       privateMetadata
     });
     resetMetadataChanged();
-    return result;
+    return getMutationErrors(result);
   };
 
   const initial: MetadataFormData = {
@@ -181,7 +181,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
   };
 
   const saveLabel = isOrderUnconfirmed
-    ? intl.formatMessage(messages.confirmOrder)
+    ? { confirm: intl.formatMessage(messages.confirmOrder) }
     : undefined;
 
   const allowSave = (hasChanged: boolean) => {
@@ -211,7 +211,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
   ]);
 
   return (
-    <Form initial={initial} onSubmit={handleSubmit}>
+    <Form confirmLeave initial={initial} onSubmit={handleSubmit}>
       {({ change, data, hasChanged, submit }) => {
         const changeMetadata = makeMetadataChangeHandler(change);
 
@@ -224,9 +224,8 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
               className={classes.header}
               inline
               title={<Title order={order} />}
-            >
-              <CardMenu menuItems={selectCardMenuItems} />
-            </PageHeader>
+              cardMenu={<CardMenu outlined menuItems={selectCardMenuItems} />}
+            />
             <div className={classes.date}>
               {order && order.created ? (
                 <Typography variant="body2">
@@ -237,7 +236,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
               )}
             </div>
             <Grid>
-              <div data-test-id="orderFulfillment">
+              <div data-test-id="order-fulfillment">
                 {!isOrderUnconfirmed ? (
                   <OrderUnfulfilledProductsCard
                     showFulfillmentAction={canFulfill}
@@ -325,7 +324,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
               </div>
             </Grid>
             <Savebar
-              labels={{ confirm: saveLabel }}
+              labels={saveLabel}
               onCancel={onBack}
               onSubmit={submit}
               state={saveButtonBarState}

@@ -1,5 +1,9 @@
 import { OutputData } from "@editorjs/editorjs";
-import { mapToMenuItems, useExtensions } from "@saleor/apps/useExtensions";
+import {
+  extensionMountPoints,
+  mapToMenuItems,
+  useExtensions
+} from "@saleor/apps/useExtensions";
 import {
   getAttributeValuesFromReferences,
   mergeAttributeValues
@@ -10,7 +14,6 @@ import Attributes, { AttributeInput } from "@saleor/components/Attributes";
 import CardMenu from "@saleor/components/CardMenu";
 import CardSpacer from "@saleor/components/CardSpacer";
 import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
 import Metadata from "@saleor/components/Metadata/Metadata";
@@ -26,6 +29,7 @@ import { SubmitPromise } from "@saleor/hooks/useForm";
 import { FormsetData } from "@saleor/hooks/useFormset";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import ProductExternalMediaDialog from "@saleor/products/components/ProductExternalMediaDialog";
@@ -42,11 +46,7 @@ import {
   ListActions,
   ReorderAction
 } from "@saleor/types";
-import {
-  AppExtensionTypeEnum,
-  AppExtensionViewEnum,
-  PermissionEnum
-} from "@saleor/types/globalTypes";
+import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -113,6 +113,7 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onVariantsAdd: () => void;
   onVariantShow: (id: string) => () => void;
   onVariantReorder: ReorderAction;
+  onVariantEndPreorderDialogOpen: () => void;
   onImageDelete: (id: string) => () => void;
   onSubmit: (data: ProductUpdatePageSubmitData) => SubmitPromise;
   openChannelsModal: () => void;
@@ -183,6 +184,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   onSetDefaultVariant,
   onVariantShow,
   onVariantReorder,
+  onVariantEndPreorderDialogOpen,
   onWarehouseConfigure,
   isChecked,
   isMediaUrlModalVisible,
@@ -249,12 +251,11 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
     onCloseDialog();
   };
 
-  const { moreActions } = useExtensions(
-    AppExtensionViewEnum.PRODUCT,
-    AppExtensionTypeEnum.DETAILS
+  const { PRODUCT_DETAILS_MORE_ACTIONS } = useExtensions(
+    extensionMountPoints.PRODUCT_DETAILS
   );
 
-  const extensionMenuItems = mapToMenuItems(moreActions);
+  const extensionMenuItems = mapToMenuItems(PRODUCT_DETAILS_MORE_ACTIONS);
 
   return (
     <ProductUpdateForm
@@ -286,6 +287,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
       {({
         change,
         data,
+        formErrors,
         disabled: formDisabled,
         handlers,
         hasChanged,
@@ -298,7 +300,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
             </Backlink>
             <PageHeader title={header}>
               {extensionMenuItems.length > 0 && (
-                <CardMenu menuItems={extensionMenuItems} data-test="menu" />
+                <CardMenu menuItems={extensionMenuItems} data-test-id="menu" />
               )}
             </PageHeader>
             <Grid>
@@ -380,14 +382,25 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     />
                     <CardSpacer />
                     <ProductStocks
+                      onVariantChannelListingChange={
+                        handlers.changeChannelPreorder
+                      }
+                      productVariantChannelListings={data.channelListings}
+                      onEndPreorderTrigger={
+                        !!variants?.[0]?.preorder
+                          ? () => onVariantEndPreorderDialogOpen()
+                          : null
+                      }
                       data={data}
                       disabled={disabled}
                       hasVariants={false}
                       errors={errors}
+                      formErrors={formErrors}
                       stocks={data.stocks}
                       warehouses={warehouses}
                       onChange={handlers.changeStock}
                       onFormDataChange={change}
+                      onChangePreorderEndDate={handlers.changePreorderEndDate}
                       onWarehouseStockAdd={handlers.addStock}
                       onWarehouseStockDelete={handlers.deleteStock}
                       onWarehouseConfigure={onWarehouseConfigure}

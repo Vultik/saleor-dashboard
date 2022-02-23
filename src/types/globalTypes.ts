@@ -8,6 +8,7 @@
 //==============================================================
 
 export enum AccountErrorCode {
+  ACCOUNT_NOT_CONFIRMED = "ACCOUNT_NOT_CONFIRMED",
   ACTIVATE_OWN_ACCOUNT = "ACTIVATE_OWN_ACCOUNT",
   ACTIVATE_SUPERUSER_ACCOUNT = "ACTIVATE_SUPERUSER_ACCOUNT",
   CHANNEL_INACTIVE = "CHANNEL_INACTIVE",
@@ -63,18 +64,21 @@ export enum AppErrorCode {
   UNIQUE = "UNIQUE",
 }
 
+export enum AppExtensionMountEnum {
+  NAVIGATION_CATALOG = "NAVIGATION_CATALOG",
+  NAVIGATION_CUSTOMERS = "NAVIGATION_CUSTOMERS",
+  NAVIGATION_DISCOUNTS = "NAVIGATION_DISCOUNTS",
+  NAVIGATION_ORDERS = "NAVIGATION_ORDERS",
+  NAVIGATION_PAGES = "NAVIGATION_PAGES",
+  NAVIGATION_TRANSLATIONS = "NAVIGATION_TRANSLATIONS",
+  PRODUCT_DETAILS_MORE_ACTIONS = "PRODUCT_DETAILS_MORE_ACTIONS",
+  PRODUCT_OVERVIEW_CREATE = "PRODUCT_OVERVIEW_CREATE",
+  PRODUCT_OVERVIEW_MORE_ACTIONS = "PRODUCT_OVERVIEW_MORE_ACTIONS",
+}
+
 export enum AppExtensionTargetEnum {
-  CREATE = "CREATE",
-  MORE_ACTIONS = "MORE_ACTIONS",
-}
-
-export enum AppExtensionTypeEnum {
-  DETAILS = "DETAILS",
-  OVERVIEW = "OVERVIEW",
-}
-
-export enum AppExtensionViewEnum {
-  PRODUCT = "PRODUCT",
+  APP_PAGE = "APP_PAGE",
+  POPUP = "POPUP",
 }
 
 export enum AppSortField {
@@ -486,6 +490,8 @@ export enum FulfillmentStatus {
 
 export enum GiftCardErrorCode {
   ALREADY_EXISTS = "ALREADY_EXISTS",
+  DUPLICATED_INPUT_ITEM = "DUPLICATED_INPUT_ITEM",
+  EXPIRED_GIFT_CARD = "EXPIRED_GIFT_CARD",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
   INVALID = "INVALID",
   NOT_FOUND = "NOT_FOUND",
@@ -503,6 +509,7 @@ export enum GiftCardEventsEnum {
   NOTE_ADDED = "NOTE_ADDED",
   RESENT = "RESENT",
   SENT_TO_CUSTOMER = "SENT_TO_CUSTOMER",
+  TAGS_UPDATED = "TAGS_UPDATED",
   UPDATED = "UPDATED",
   USED_IN_ORDER = "USED_IN_ORDER",
 }
@@ -518,11 +525,18 @@ export enum GiftCardSettingsExpiryTypeEnum {
   NEVER_EXPIRE = "NEVER_EXPIRE",
 }
 
+export enum GiftCardSortField {
+  CURRENT_BALANCE = "CURRENT_BALANCE",
+  PRODUCT = "PRODUCT",
+  USED_BY = "USED_BY",
+}
+
 export enum InvoiceErrorCode {
   EMAIL_NOT_SET = "EMAIL_NOT_SET",
   INVALID_STATUS = "INVALID_STATUS",
   NOT_FOUND = "NOT_FOUND",
   NOT_READY = "NOT_READY",
+  NO_INVOICE_PLUGIN = "NO_INVOICE_PLUGIN",
   NUMBER_NOT_SET = "NUMBER_NOT_SET",
   REQUIRED = "REQUIRED",
   URL_NOT_SET = "URL_NOT_SET",
@@ -1403,6 +1417,7 @@ export enum OrderErrorCode {
   CHANNEL_INACTIVE = "CHANNEL_INACTIVE",
   DUPLICATED_INPUT_ITEM = "DUPLICATED_INPUT_ITEM",
   FULFILL_ORDER_LINE = "FULFILL_ORDER_LINE",
+  GIFT_CARD_LINE = "GIFT_CARD_LINE",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
   INSUFFICIENT_STOCK = "INSUFFICIENT_STOCK",
   INVALID = "INVALID",
@@ -1626,6 +1641,7 @@ export enum ProductErrorCode {
   NOT_FOUND = "NOT_FOUND",
   NOT_PRODUCTS_IMAGE = "NOT_PRODUCTS_IMAGE",
   NOT_PRODUCTS_VARIANT = "NOT_PRODUCTS_VARIANT",
+  PREORDER_VARIANT_CANNOT_BE_DEACTIVATED = "PREORDER_VARIANT_CANNOT_BE_DEACTIVATED",
   PRODUCT_NOT_ASSIGNED_TO_CHANNEL = "PRODUCT_NOT_ASSIGNED_TO_CHANNEL",
   PRODUCT_WITHOUT_CATEGORY = "PRODUCT_WITHOUT_CATEGORY",
   REQUIRED = "REQUIRED",
@@ -1643,6 +1659,7 @@ export enum ProductFieldEnum {
   PRODUCT_MEDIA = "PRODUCT_MEDIA",
   PRODUCT_TYPE = "PRODUCT_TYPE",
   PRODUCT_WEIGHT = "PRODUCT_WEIGHT",
+  VARIANT_ID = "VARIANT_ID",
   VARIANT_MEDIA = "VARIANT_MEDIA",
   VARIANT_SKU = "VARIANT_SKU",
   VARIANT_WEIGHT = "VARIANT_WEIGHT",
@@ -1812,12 +1829,60 @@ export enum WebhookErrorCode {
   UNIQUE = "UNIQUE",
 }
 
+export enum WebhookEventTypeAsyncEnum {
+  ANY_EVENTS = "ANY_EVENTS",
+  CHECKOUT_CREATED = "CHECKOUT_CREATED",
+  CHECKOUT_UPDATED = "CHECKOUT_UPDATED",
+  COLLECTION_CREATED = "COLLECTION_CREATED",
+  COLLECTION_DELETED = "COLLECTION_DELETED",
+  COLLECTION_UPDATED = "COLLECTION_UPDATED",
+  CUSTOMER_CREATED = "CUSTOMER_CREATED",
+  CUSTOMER_UPDATED = "CUSTOMER_UPDATED",
+  DRAFT_ORDER_CREATED = "DRAFT_ORDER_CREATED",
+  DRAFT_ORDER_DELETED = "DRAFT_ORDER_DELETED",
+  DRAFT_ORDER_UPDATED = "DRAFT_ORDER_UPDATED",
+  FULFILLMENT_CANCELED = "FULFILLMENT_CANCELED",
+  FULFILLMENT_CREATED = "FULFILLMENT_CREATED",
+  INVOICE_DELETED = "INVOICE_DELETED",
+  INVOICE_REQUESTED = "INVOICE_REQUESTED",
+  INVOICE_SENT = "INVOICE_SENT",
+  NOTIFY_USER = "NOTIFY_USER",
+  ORDER_CANCELLED = "ORDER_CANCELLED",
+  ORDER_CONFIRMED = "ORDER_CONFIRMED",
+  ORDER_CREATED = "ORDER_CREATED",
+  ORDER_FULFILLED = "ORDER_FULFILLED",
+  ORDER_FULLY_PAID = "ORDER_FULLY_PAID",
+  ORDER_UPDATED = "ORDER_UPDATED",
+  PAGE_CREATED = "PAGE_CREATED",
+  PAGE_DELETED = "PAGE_DELETED",
+  PAGE_UPDATED = "PAGE_UPDATED",
+  PRODUCT_CREATED = "PRODUCT_CREATED",
+  PRODUCT_DELETED = "PRODUCT_DELETED",
+  PRODUCT_UPDATED = "PRODUCT_UPDATED",
+  PRODUCT_VARIANT_BACK_IN_STOCK = "PRODUCT_VARIANT_BACK_IN_STOCK",
+  PRODUCT_VARIANT_CREATED = "PRODUCT_VARIANT_CREATED",
+  PRODUCT_VARIANT_DELETED = "PRODUCT_VARIANT_DELETED",
+  PRODUCT_VARIANT_OUT_OF_STOCK = "PRODUCT_VARIANT_OUT_OF_STOCK",
+  PRODUCT_VARIANT_UPDATED = "PRODUCT_VARIANT_UPDATED",
+  SALE_CREATED = "SALE_CREATED",
+  SALE_DELETED = "SALE_DELETED",
+  SALE_UPDATED = "SALE_UPDATED",
+  TRANSLATION_CREATED = "TRANSLATION_CREATED",
+  TRANSLATION_UPDATED = "TRANSLATION_UPDATED",
+}
+
 export enum WebhookEventTypeEnum {
   ANY_EVENTS = "ANY_EVENTS",
   CHECKOUT_CREATED = "CHECKOUT_CREATED",
   CHECKOUT_UPDATED = "CHECKOUT_UPDATED",
+  COLLECTION_CREATED = "COLLECTION_CREATED",
+  COLLECTION_DELETED = "COLLECTION_DELETED",
+  COLLECTION_UPDATED = "COLLECTION_UPDATED",
   CUSTOMER_CREATED = "CUSTOMER_CREATED",
   CUSTOMER_UPDATED = "CUSTOMER_UPDATED",
+  DRAFT_ORDER_CREATED = "DRAFT_ORDER_CREATED",
+  DRAFT_ORDER_DELETED = "DRAFT_ORDER_DELETED",
+  DRAFT_ORDER_UPDATED = "DRAFT_ORDER_UPDATED",
   FULFILLMENT_CANCELED = "FULFILLMENT_CANCELED",
   FULFILLMENT_CREATED = "FULFILLMENT_CREATED",
   INVOICE_DELETED = "INVOICE_DELETED",
@@ -1848,8 +1913,23 @@ export enum WebhookEventTypeEnum {
   PRODUCT_VARIANT_DELETED = "PRODUCT_VARIANT_DELETED",
   PRODUCT_VARIANT_OUT_OF_STOCK = "PRODUCT_VARIANT_OUT_OF_STOCK",
   PRODUCT_VARIANT_UPDATED = "PRODUCT_VARIANT_UPDATED",
+  SALE_CREATED = "SALE_CREATED",
+  SALE_DELETED = "SALE_DELETED",
+  SALE_UPDATED = "SALE_UPDATED",
+  SHIPPING_LIST_METHODS_FOR_CHECKOUT = "SHIPPING_LIST_METHODS_FOR_CHECKOUT",
   TRANSLATION_CREATED = "TRANSLATION_CREATED",
   TRANSLATION_UPDATED = "TRANSLATION_UPDATED",
+}
+
+export enum WebhookEventTypeSyncEnum {
+  PAYMENT_AUTHORIZE = "PAYMENT_AUTHORIZE",
+  PAYMENT_CAPTURE = "PAYMENT_CAPTURE",
+  PAYMENT_CONFIRM = "PAYMENT_CONFIRM",
+  PAYMENT_LIST_GATEWAYS = "PAYMENT_LIST_GATEWAYS",
+  PAYMENT_PROCESS = "PAYMENT_PROCESS",
+  PAYMENT_REFUND = "PAYMENT_REFUND",
+  PAYMENT_VOID = "PAYMENT_VOID",
+  SHIPPING_LIST_METHODS_FOR_CHECKOUT = "SHIPPING_LIST_METHODS_FOR_CHECKOUT",
 }
 
 export enum WeightUnitsEnum {
@@ -1875,8 +1955,7 @@ export interface AddressInput {
 }
 
 export interface AppExtensionFilterInput {
-  view?: AppExtensionViewEnum | null;
-  type?: AppExtensionTypeEnum | null;
+  mount?: (AppExtensionMountEnum | null)[] | null;
   target?: AppExtensionTargetEnum | null;
 }
 
@@ -2013,6 +2092,7 @@ export interface CatalogueInput {
   products?: (string | null)[] | null;
   categories?: (string | null)[] | null;
   collections?: (string | null)[] | null;
+  variants?: (string | null)[] | null;
 }
 
 export interface CategoryFilterInput {
@@ -2105,6 +2185,10 @@ export interface ConfigurationItemInput {
   value?: string | null;
 }
 
+export interface CountryFilterInput {
+  attachedToShippingZones?: boolean | null;
+}
+
 export interface CustomerFilterInput {
   dateJoined?: DateRangeInput | null;
   numberOfOrders?: IntRangeInput | null;
@@ -2161,6 +2245,13 @@ export interface DraftOrderInput {
   redirectUrl?: string | null;
 }
 
+export interface ExportGiftCardsInput {
+  scope: ExportScope;
+  filter?: GiftCardFilterInput | null;
+  ids?: string[] | null;
+  fileType: FileTypesEnum;
+}
+
 export interface ExportInfoInput {
   attributes?: string[] | null;
   warehouses?: string[] | null;
@@ -2185,8 +2276,20 @@ export interface FulfillmentUpdateTrackingInput {
   notifyCustomer?: boolean | null;
 }
 
+export interface GiftCardAddNoteInput {
+  message: string;
+}
+
+export interface GiftCardBulkCreateInput {
+  count: number;
+  balance: PriceInput;
+  tags?: string[] | null;
+  expiryDate?: any | null;
+  isActive: boolean;
+}
+
 export interface GiftCardCreateInput {
-  tag?: string | null;
+  addTags?: string[] | null;
   expiryDate?: any | null;
   startDate?: any | null;
   endDate?: any | null;
@@ -2196,6 +2299,19 @@ export interface GiftCardCreateInput {
   isActive: boolean;
   code?: string | null;
   note?: string | null;
+}
+
+export interface GiftCardFilterInput {
+  isActive?: boolean | null;
+  metadata?: (MetadataFilter | null)[] | null;
+  tags?: (string | null)[] | null;
+  products?: (string | null)[] | null;
+  usedBy?: (string | null)[] | null;
+  used?: boolean | null;
+  currency?: string | null;
+  currentBalance?: PriceRangeInput | null;
+  initialBalance?: PriceRangeInput | null;
+  code?: string | null;
 }
 
 export interface GiftCardResendInput {
@@ -2209,11 +2325,17 @@ export interface GiftCardSettingsUpdateInput {
   expiryPeriod?: TimePeriodInputType | null;
 }
 
+export interface GiftCardSortingInput {
+  direction: OrderDirection;
+  field: GiftCardSortField;
+}
+
 export interface GiftCardUpdateInput {
-  tag?: string | null;
+  addTags?: string[] | null;
   expiryDate?: any | null;
   startDate?: any | null;
   endDate?: any | null;
+  removeTags?: string[] | null;
   balanceAmount?: any | null;
 }
 
@@ -2297,11 +2419,17 @@ export interface OrderFilterInput {
   search?: string | null;
   metadata?: (MetadataFilter | null)[] | null;
   channels?: (string | null)[] | null;
+  isClickAndCollect?: boolean | null;
+  isPreorder?: boolean | null;
+  ids?: (string | null)[] | null;
+  giftCardUsed?: boolean | null;
+  giftCardBought?: boolean | null;
 }
 
 export interface OrderFulfillInput {
   lines: OrderFulfillLineInput[];
   notifyCustomer?: boolean | null;
+  allowStockToBeExceeded?: boolean | null;
 }
 
 export interface OrderFulfillLineInput {
@@ -2486,6 +2614,11 @@ export interface PluginUpdateInput {
   configuration?: (ConfigurationItemInput | null)[] | null;
 }
 
+export interface PreorderSettingsInput {
+  globalThreshold?: number | null;
+  endDate?: any | null;
+}
+
 export interface PriceInput {
   currency: string;
   amount: any;
@@ -2499,6 +2632,12 @@ export interface PriceRangeInput {
 export interface ProductAttributeAssignInput {
   id: string;
   type: ProductAttributeType;
+  variantSelection?: boolean | null;
+}
+
+export interface ProductAttributeAssignmentUpdateInput {
+  id: string;
+  variantSelection: boolean;
 }
 
 export interface ProductChannelListingAddInput {
@@ -2547,6 +2686,7 @@ export interface ProductFilterInput {
   productTypes?: (string | null)[] | null;
   giftCard?: boolean | null;
   ids?: (string | null)[] | null;
+  hasPreorderedVariants?: boolean | null;
   channel?: string | null;
 }
 
@@ -2605,9 +2745,11 @@ export interface ProductTypeSortingInput {
 
 export interface ProductVariantBulkCreateInput {
   attributes: BulkAttributeValueInput[];
-  sku: string;
+  sku?: string | null;
   trackInventory?: boolean | null;
   weight?: any | null;
+  preorder?: PreorderSettingsInput | null;
+  quantityLimitPerCustomer?: number | null;
   stocks?: StockInput[] | null;
   channelListings?: ProductVariantChannelListingAddInput[] | null;
 }
@@ -2616,6 +2758,7 @@ export interface ProductVariantChannelListingAddInput {
   channelId: string;
   price: any;
   costPrice?: any | null;
+  preorderThreshold?: number | null;
 }
 
 export interface ProductVariantCreateInput {
@@ -2623,6 +2766,8 @@ export interface ProductVariantCreateInput {
   sku?: string | null;
   trackInventory?: boolean | null;
   weight?: any | null;
+  preorder?: PreorderSettingsInput | null;
+  quantityLimitPerCustomer?: number | null;
   product: string;
   stocks?: StockInput[] | null;
 }
@@ -2632,6 +2777,8 @@ export interface ProductVariantInput {
   sku?: string | null;
   trackInventory?: boolean | null;
   weight?: any | null;
+  preorder?: PreorderSettingsInput | null;
+  quantityLimitPerCustomer?: number | null;
 }
 
 export interface PublishableChannelListingInput {
@@ -2668,6 +2815,7 @@ export interface SaleInput {
   type?: DiscountValueTypeEnum | null;
   value?: any | null;
   products?: (string | null)[] | null;
+  variants?: (string | null)[] | null;
   categories?: (string | null)[] | null;
   collections?: (string | null)[] | null;
   startDate?: any | null;
@@ -2766,6 +2914,9 @@ export interface ShopSettingsInput {
   defaultMailSenderName?: string | null;
   defaultMailSenderAddress?: string | null;
   customerSetPasswordUrl?: string | null;
+  reserveStockDurationAnonymousUser?: number | null;
+  reserveStockDurationAuthenticatedUser?: number | null;
+  limitQuantityPerCheckout?: number | null;
 }
 
 export interface SiteDomainInput {
@@ -2861,6 +3012,7 @@ export interface VoucherInput {
   endDate?: any | null;
   discountValueType?: DiscountValueTypeEnum | null;
   products?: (string | null)[] | null;
+  variants?: (string | null)[] | null;
   collections?: (string | null)[] | null;
   categories?: (string | null)[] | null;
   minCheckoutItemsQuantity?: number | null;
@@ -2910,6 +3062,8 @@ export interface WebhookCreateInput {
   name?: string | null;
   targetUrl?: string | null;
   events?: (WebhookEventTypeEnum | null)[] | null;
+  asyncEvents?: WebhookEventTypeAsyncEnum[] | null;
+  syncEvents?: WebhookEventTypeSyncEnum[] | null;
   app?: string | null;
   isActive?: boolean | null;
   secretKey?: string | null;
@@ -2919,6 +3073,8 @@ export interface WebhookUpdateInput {
   name?: string | null;
   targetUrl?: string | null;
   events?: (WebhookEventTypeEnum | null)[] | null;
+  asyncEvents?: WebhookEventTypeAsyncEnum[] | null;
+  syncEvents?: WebhookEventTypeSyncEnum[] | null;
   app?: string | null;
   isActive?: boolean | null;
   secretKey?: string | null;

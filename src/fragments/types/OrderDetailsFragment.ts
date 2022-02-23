@@ -206,10 +206,16 @@ export interface OrderDetailsFragment_events {
   lines: (OrderDetailsFragment_events_lines | null)[] | null;
 }
 
+export interface OrderDetailsFragment_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderDetailsFragment_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderDetailsFragment_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderDetailsFragment_fulfillments_lines_orderLine_unitDiscount {
@@ -266,7 +272,7 @@ export interface OrderDetailsFragment_fulfillments_lines_orderLine {
   isShippingRequired: boolean;
   variant: OrderDetailsFragment_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -302,10 +308,16 @@ export interface OrderDetailsFragment_fulfillments {
   warehouse: OrderDetailsFragment_fulfillments_warehouse | null;
 }
 
+export interface OrderDetailsFragment_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderDetailsFragment_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderDetailsFragment_lines_variant_preorder | null;
 }
 
 export interface OrderDetailsFragment_lines_unitDiscount {
@@ -362,7 +374,7 @@ export interface OrderDetailsFragment_lines {
   isShippingRequired: boolean;
   variant: OrderDetailsFragment_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -505,17 +517,19 @@ export interface OrderDetailsFragment_user {
   email: string;
 }
 
-export interface OrderDetailsFragment_availableShippingMethods_price {
+export interface OrderDetailsFragment_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderDetailsFragment_availableShippingMethods {
+export interface OrderDetailsFragment_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderDetailsFragment_availableShippingMethods_price | null;
+  price: OrderDetailsFragment_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderDetailsFragment_invoices {
@@ -527,6 +541,11 @@ export interface OrderDetailsFragment_invoices {
   status: JobStatusEnum;
 }
 
+export interface OrderDetailsFragment_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderDetailsFragment_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -534,11 +553,13 @@ export interface OrderDetailsFragment_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderDetailsFragment_channel_defaultCountry;
 }
 
 export interface OrderDetailsFragment {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderDetailsFragment_metadata | null)[];
   privateMetadata: (OrderDetailsFragment_privateMetadata | null)[];
   billingAddress: OrderDetailsFragment_billingAddress | null;
@@ -569,7 +590,7 @@ export interface OrderDetailsFragment {
   undiscountedTotal: OrderDetailsFragment_undiscountedTotal;
   user: OrderDetailsFragment_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderDetailsFragment_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderDetailsFragment_shippingMethods | null)[] | null;
   invoices: (OrderDetailsFragment_invoices | null)[] | null;
   channel: OrderDetailsFragment_channel;
 }

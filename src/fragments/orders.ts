@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 import { fragmentAddress } from "./address";
 import { metadataFragment } from "./metadata";
@@ -81,6 +81,9 @@ export const fragmentOrderLine = gql`
     variant {
       id
       quantityAvailable
+      preorder {
+        endDate
+      }
     }
     productName
     productSku
@@ -178,6 +181,7 @@ export const fragmentOrderDetails = gql`
   ${fragmentMoney}
   fragment OrderDetailsFragment on Order {
     id
+    token
     ...MetadataFragment
     billingAddress {
       ...AddressFragment
@@ -293,12 +297,14 @@ export const fragmentOrderDetails = gql`
       email
     }
     userEmail
-    availableShippingMethods {
+    shippingMethods {
       id
       name
       price {
         ...Money
       }
+      active
+      message
     }
     invoices {
       ...InvoiceFragment
@@ -309,6 +315,9 @@ export const fragmentOrderDetails = gql`
       name
       currencyCode
       slug
+      defaultCountry {
+        code
+      }
     }
     isPaid
   }

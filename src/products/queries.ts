@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 import {
   attributeValueFragment,
   attributeValueListFragment
@@ -17,7 +18,6 @@ import {
   ProductMediaById,
   ProductMediaByIdVariables
 } from "@saleor/products/types/ProductMediaById";
-import gql from "graphql-tag";
 
 import {
   AvailableInGridAttributes,
@@ -158,6 +158,7 @@ const productListQuery = gql`
       edges {
         node {
           ...ProductFragment
+          updatedAt
           attributes {
             attribute {
               id

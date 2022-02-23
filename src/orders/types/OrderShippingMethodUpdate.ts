@@ -16,17 +16,19 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_errors {
   addressType: AddressTypeEnum | null;
 }
 
-export interface OrderShippingMethodUpdate_orderUpdateShipping_order_availableShippingMethods_price {
+export interface OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderShippingMethodUpdate_orderUpdateShipping_order_availableShippingMethods {
+export interface OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderShippingMethodUpdate_orderUpdateShipping_order_availableShippingMethods_price | null;
+  price: OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_total_tax {
@@ -64,7 +66,7 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMet
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethod_price | null;
+  price: OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethod_price;
 }
 
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_shippingPrice_gross {
@@ -275,10 +277,16 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_events {
   lines: (OrderShippingMethodUpdate_orderUpdateShipping_order_events_lines | null)[] | null;
 }
 
+export interface OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_lines_orderLine_unitDiscount {
@@ -335,7 +343,7 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillment
   isShippingRequired: boolean;
   variant: OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -371,10 +379,16 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillment
   warehouse: OrderShippingMethodUpdate_orderUpdateShipping_order_fulfillments_warehouse | null;
 }
 
+export interface OrderShippingMethodUpdate_orderUpdateShipping_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderShippingMethodUpdate_orderUpdateShipping_order_lines_variant_preorder | null;
 }
 
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_lines_unitDiscount {
@@ -431,7 +445,7 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_lines {
   isShippingRequired: boolean;
   variant: OrderShippingMethodUpdate_orderUpdateShipping_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -542,6 +556,11 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_invoices {
   status: JobStatusEnum;
 }
 
+export interface OrderShippingMethodUpdate_orderUpdateShipping_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -549,16 +568,18 @@ export interface OrderShippingMethodUpdate_orderUpdateShipping_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderShippingMethodUpdate_orderUpdateShipping_order_channel_defaultCountry;
 }
 
 export interface OrderShippingMethodUpdate_orderUpdateShipping_order {
   __typename: "Order";
-  availableShippingMethods: (OrderShippingMethodUpdate_orderUpdateShipping_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethods | null)[] | null;
   total: OrderShippingMethodUpdate_orderUpdateShipping_order_total;
   id: string;
   shippingMethod: OrderShippingMethodUpdate_orderUpdateShipping_order_shippingMethod | null;
   shippingMethodName: string | null;
   shippingPrice: OrderShippingMethodUpdate_orderUpdateShipping_order_shippingPrice;
+  token: string;
   metadata: (OrderShippingMethodUpdate_orderUpdateShipping_order_metadata | null)[];
   privateMetadata: (OrderShippingMethodUpdate_orderUpdateShipping_order_privateMetadata | null)[];
   billingAddress: OrderShippingMethodUpdate_orderUpdateShipping_order_billingAddress | null;

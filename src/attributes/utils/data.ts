@@ -1,3 +1,4 @@
+import { FetchResult } from "@apollo/client";
 import {
   AttributeInput,
   AttributeInputData
@@ -7,6 +8,7 @@ import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFr
 import { AttributeValueFragment } from "@saleor/fragments/types/AttributeValueFragment";
 import { SelectedVariantAttributeFragment } from "@saleor/fragments/types/SelectedVariantAttributeFragment";
 import { UploadErrorFragment } from "@saleor/fragments/types/UploadErrorFragment";
+import { VariantAttributeFragment } from "@saleor/fragments/types/VariantAttributeFragment";
 import { FormsetData } from "@saleor/hooks/useFormset";
 import { PageDetails_page_attributes } from "@saleor/pages/types/PageDetails";
 import { ProductDetails_product_attributes } from "@saleor/products/types/ProductDetails";
@@ -22,9 +24,9 @@ import {
   mapNodeToChoice,
   mapPagesToChoices
 } from "@saleor/utils/maps";
-import { MutationFetchResult } from "react-apollo";
 
 import { AttributePageFormData } from "../components/AttributePage";
+import { AtributesOfFiles } from "../types/AttributeOfUploadedFile";
 import { AttributeValueDelete } from "../types/AttributeValueDelete";
 
 export const ATTRIBUTE_TYPES_WITH_DEDICATED_VALUES = [
@@ -131,6 +133,16 @@ export function getAttributeData(
   }
 }
 
+export function getDefaultAttributeValues(attribute: VariantAttributeFragment) {
+  switch (attribute.inputType) {
+    case AttributeInputTypeEnum.BOOLEAN:
+      return ["false"];
+
+    default:
+      return [];
+  }
+}
+
 export function getSelectedAttributeValues(
   attribute:
     | PageDetails_page_attributes
@@ -183,7 +195,7 @@ export const isFileValueUnused = (
 };
 
 export const mergeFileUploadErrors = (
-  uploadFilesResult: Array<MutationFetchResult<FileUpload>>
+  uploadFilesResult: Array<FetchResult<FileUpload>>
 ): UploadErrorFragment[] =>
   uploadFilesResult.reduce((errors, uploadFileResult) => {
     const uploadErrors = uploadFileResult?.data?.fileUpload?.errors;
@@ -194,7 +206,7 @@ export const mergeFileUploadErrors = (
   }, []);
 
 export const mergeAttributeValueDeleteErrors = (
-  deleteAttributeValuesResult: Array<MutationFetchResult<AttributeValueDelete>>
+  deleteAttributeValuesResult: Array<FetchResult<AttributeValueDelete>>
 ): AttributeErrorFragment[] =>
   deleteAttributeValuesResult.reduce((errors, deleteValueResult) => {
     const deleteErrors = deleteValueResult?.data?.attributeValueDelete?.errors;
@@ -240,22 +252,24 @@ export const getFileValuesRemovedFromAttributes = (
 
 export const getAttributesOfRemovedFiles = (
   fileAttributesRemoved: FormsetData<null, File>
-) =>
+): AtributesOfFiles[] =>
   fileAttributesRemoved.map(attribute => ({
     file: undefined,
     id: attribute.id,
+    contentType: attribute.value?.type,
     values: []
   }));
 
 export const getAttributesOfUploadedFiles = (
   fileValuesToUpload: FormsetData<null, File>,
-  uploadFilesResult: Array<MutationFetchResult<FileUpload>>
-) =>
+  uploadFilesResult: Array<FetchResult<FileUpload>>
+): AtributesOfFiles[] =>
   uploadFilesResult.map((uploadFileResult, index) => {
     const attribute = fileValuesToUpload[index];
 
     return {
       file: uploadFileResult.data.fileUpload.uploadedFile.url,
+      contentType: uploadFileResult.data.fileUpload.uploadedFile.contentType,
       id: attribute.id,
       values: []
     };
@@ -263,7 +277,7 @@ export const getAttributesOfUploadedFiles = (
 
 export const getAttributesAfterFileAttributesUpdate = (
   attributesWithNewFileValue: FormsetData<null, File>,
-  uploadFilesResult: Array<MutationFetchResult<FileUpload>>
+  uploadFilesResult: Array<FetchResult<FileUpload>>
 ): AttributeValueInput[] => {
   const removedFileValues = getFileValuesRemovedFromAttributes(
     attributesWithNewFileValue

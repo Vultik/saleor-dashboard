@@ -1,11 +1,16 @@
 import { Card } from "@material-ui/core";
-import { mapToMenuItems, useExtensions } from "@saleor/apps/useExtensions";
+import {
+  extensionMountPoints,
+  mapToMenuItems,
+  useExtensions
+} from "@saleor/apps/useExtensions";
 import { ButtonWithSelect } from "@saleor/components/ButtonWithSelect";
 import CardMenu from "@saleor/components/CardMenu";
 import ColumnPicker, {
   ColumnPickerChoice
 } from "@saleor/components/ColumnPicker";
 import Container from "@saleor/components/Container";
+import { getByName } from "@saleor/components/Filter/utils";
 import FilterBar from "@saleor/components/FilterBar";
 import LimitReachedAlert from "@saleor/components/LimitReachedAlert";
 import PageHeader from "@saleor/components/PageHeader";
@@ -24,16 +29,13 @@ import {
   PageListProps,
   SortPage
 } from "@saleor/types";
-import {
-  AppExtensionTypeEnum,
-  AppExtensionViewEnum
-} from "@saleor/types/globalTypes";
 import { hasLimits, isLimitReached } from "@saleor/utils/limits";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { ProductListUrlSortField } from "../../urls";
 import ProductList from "../ProductList";
+import { columnsMessages } from "../ProductList/messages";
 import {
   createFilterStructure,
   ProductFilterKeys,
@@ -69,7 +71,9 @@ const useStyles = makeStyles(
       }
     },
     settings: {
-      marginRight: theme.spacing(2)
+      [theme.breakpoints.up("sm")]: {
+        marginRight: theme.spacing(2)
+      }
     }
   }),
   { name: "ProductListPage" }
@@ -113,20 +117,20 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
 
   const filterStructure = createFilterStructure(intl, filterOpts);
 
+  const filterDependency = filterStructure.find(getByName("channel"));
+
   const columns: ColumnPickerChoice[] = [
     {
-      label: intl.formatMessage({
-        defaultMessage: "Price",
-        description: "product price"
-      }),
+      label: intl.formatMessage(columnsMessages.price),
       value: "price" as ProductListColumns
     },
     {
-      label: intl.formatMessage({
-        defaultMessage: "Type",
-        description: "product type"
-      }),
+      label: intl.formatMessage(columnsMessages.type),
       value: "productType" as ProductListColumns
+    },
+    {
+      label: intl.formatMessage(columnsMessages.updatedAt),
+      value: "date" as ProductListColumns
     },
     ...availableInGridAttributes.map(attribute => ({
       label: attribute.name,
@@ -135,17 +139,34 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
   ];
 
   const limitReached = isLimitReached(limits, "productVariants");
-  const { create, moreActions } = useExtensions(
-    AppExtensionViewEnum.PRODUCT,
-    AppExtensionTypeEnum.OVERVIEW
-  );
+  const {
+    PRODUCT_OVERVIEW_CREATE,
+    PRODUCT_OVERVIEW_MORE_ACTIONS
+  } = useExtensions(extensionMountPoints.PRODUCT_LIST);
 
-  const extensionMenuItems = mapToMenuItems(moreActions);
-  const extensionCreateButtonItems = mapToMenuItems(create);
+  const extensionMenuItems = mapToMenuItems(PRODUCT_OVERVIEW_MORE_ACTIONS);
+  const extensionCreateButtonItems = mapToMenuItems(PRODUCT_OVERVIEW_CREATE);
 
   return (
     <Container>
       <PageHeader
+        cardMenu={
+          <CardMenu
+            className={classes.settings}
+            menuItems={[
+              {
+                label: intl.formatMessage({
+                  defaultMessage: "Export Products",
+                  description: "export products to csv file, button"
+                }),
+                onSelect: onExport,
+                testId: "export"
+              },
+              ...extensionMenuItems
+            ]}
+            data-test-id="menu"
+          />
+        }
         title={intl.formatMessage(sectionNames.products)}
         limitText={
           hasLimits(limits, "productVariants") &&
@@ -161,21 +182,6 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
           )
         }
       >
-        <CardMenu
-          className={classes.settings}
-          menuItems={[
-            {
-              label: intl.formatMessage({
-                defaultMessage: "Export Products",
-                description: "export products to csv file, button"
-              }),
-              onSelect: onExport,
-              testId: "export"
-            },
-            ...extensionMenuItems
-          ]}
-          data-test="menu"
-        />
         <ColumnPicker
           className={classes.columnPicker}
           columns={columns}
@@ -192,7 +198,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
         />
         <ButtonWithSelect
           options={extensionCreateButtonItems}
-          data-test="add-product"
+          data-test-id="add-product"
           disabled={limitReached}
           onClick={onAdd}
         >
@@ -239,9 +245,9 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
           loading={loading}
           gridAttributes={gridAttributes}
           settings={settings}
-          channelsCount={channelsCount}
           selectedChannelId={selectedChannelId}
           onUpdateListSettings={onUpdateListSettings}
+          filterDependency={filterDependency}
         />
       </Card>
     </Container>

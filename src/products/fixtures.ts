@@ -472,6 +472,7 @@ export const product: (
         id: "isdugfhud",
         name: "Attachment",
         inputType: AttributeInputTypeEnum.DROPDOWN,
+        valueRequired: false,
         unit: null,
         choices: {
           __typename: "AttributeValueCountableConnection",
@@ -512,6 +513,7 @@ export const product: (
         id: "pta18161",
         name: "Color",
         inputType: AttributeInputTypeEnum.DROPDOWN,
+        valueRequired: false,
         unit: null,
         choices: {
           __typename: "AttributeValueCountableConnection",
@@ -595,6 +597,7 @@ export const product: (
       __typename: "ProductVariant",
       channelListings: [],
       id: "pv75934",
+      quantityLimitPerCustomer: 30,
       margin: 2,
       media: [
         {
@@ -631,14 +634,16 @@ export const product: (
         }
       ],
       trackInventory: true,
-      weight: {
-        __typename: "Weight",
-        unit: WeightUnitsEnum.KG,
-        value: 3
+      preorder: {
+        __typename: "PreorderData",
+        endDate: null,
+        globalSoldUnits: null,
+        globalThreshold: 0
       }
     },
     {
       __typename: "ProductVariant",
+      quantityLimitPerCustomer: null,
       channelListings: [
         {
           __typename: "ProductVariantChannelListing",
@@ -657,6 +662,11 @@ export const product: (
             __typename: "Money",
             amount: 1,
             currency: "USD"
+          },
+          preorderThreshold: {
+            __typename: "PreorderThreshold",
+            quantity: 0,
+            soldUnits: 0
           }
         },
         {
@@ -676,6 +686,11 @@ export const product: (
             __typename: "Money",
             amount: 1,
             currency: "USD"
+          },
+          preorderThreshold: {
+            __typename: "PreorderThreshold",
+            quantity: 0,
+            soldUnits: 0
           }
         }
       ],
@@ -709,10 +724,11 @@ export const product: (
         }
       ],
       trackInventory: false,
-      weight: {
-        __typename: "Weight",
-        unit: WeightUnitsEnum.KG,
-        value: 4
+      preorder: {
+        __typename: "PreorderData",
+        endDate: null,
+        globalSoldUnits: null,
+        globalThreshold: 0
       }
     }
   ],
@@ -728,6 +744,7 @@ export const products = (
 ): ProductList_products_edges_node[] => [
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [],
     channelListings: [
       {
@@ -818,6 +835,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [],
     channelListings: [
       {
@@ -908,6 +926,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [],
     channelListings: [
       {
@@ -998,6 +1017,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1111,6 +1131,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1224,6 +1245,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1338,6 +1360,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1451,6 +1474,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1564,6 +1588,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1677,6 +1702,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1790,6 +1816,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -1903,6 +1930,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2016,6 +2044,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2129,6 +2158,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2242,6 +2272,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2355,6 +2386,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2468,6 +2500,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2581,6 +2614,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2694,6 +2728,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2807,6 +2842,7 @@ export const products = (
   },
   {
     __typename: "Product",
+    updatedAt: "2020-06-22T13:52:05.094636+00:00",
     attributes: [
       {
         __typename: "SelectedAttribute",
@@ -2940,6 +2976,11 @@ export const variant = (placeholderImage: string): ProductVariant => ({
         __typename: "Money",
         amount: 10,
         currency: "USD"
+      },
+      preorderThreshold: {
+        __typename: "PreorderThreshold",
+        quantity: 0,
+        soldUnits: 0
       }
     },
     {
@@ -2959,10 +3000,16 @@ export const variant = (placeholderImage: string): ProductVariant => ({
         __typename: "Money",
         amount: 20,
         currency: "USD"
+      },
+      preorderThreshold: {
+        __typename: "PreorderThreshold",
+        quantity: 0,
+        soldUnits: 0
       }
     }
   ],
   id: "var1",
+  quantityLimitPerCustomer: 300,
   media: [
     {
       __typename: "ProductMedia",
@@ -3502,6 +3549,12 @@ export const variant = (placeholderImage: string): ProductVariant => ({
     }
   ],
   trackInventory: true,
+  preorder: {
+    __typename: "PreorderData",
+    endDate: null,
+    globalSoldUnits: null,
+    globalThreshold: 0
+  },
   weight: {
     __typename: "Weight",
     unit: WeightUnitsEnum.KG,

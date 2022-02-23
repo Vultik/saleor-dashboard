@@ -1,17 +1,28 @@
 import useForm, { SubmitPromise, UseFormResult } from "@saleor/hooks/useForm";
 import React from "react";
 
-export interface FormProps<T> {
-  children: (props: UseFormResult<T>) => React.ReactNode;
+import { FormId } from "./ExitFormDialogProvider";
+
+export interface FormProps<TData, TErrors>
+  extends Omit<React.HTMLProps<HTMLFormElement>, "onSubmit"> {
+  children: (props: UseFormResult<TData>) => React.ReactNode;
   confirmLeave?: boolean;
-  initial?: T;
+  initial?: TData;
   resetOnSubmit?: boolean;
-  onSubmit?: (data: T) => SubmitPromise | void;
+  onSubmit?: (data: TData) => SubmitPromise<TErrors[]> | void;
+  formId?: FormId;
 }
 
-function Form<T>(props: FormProps<T>) {
-  const { children, initial, resetOnSubmit, onSubmit } = props;
-  const renderProps = useForm(initial, onSubmit);
+function Form<TData, Terrors>({
+  children,
+  initial,
+  resetOnSubmit,
+  onSubmit,
+  confirmLeave = false,
+  formId,
+  ...rest
+}: FormProps<TData, Terrors>) {
+  const renderProps = useForm(initial, onSubmit, { confirmLeave, formId });
 
   function handleSubmit(event?: React.FormEvent<any>, cb?: () => void) {
     const { reset, submit } = renderProps;
@@ -32,7 +43,11 @@ function Form<T>(props: FormProps<T>) {
     submit();
   }
 
-  return <form onSubmit={handleSubmit}>{children(renderProps)}</form>;
+  return (
+    <form {...rest} onSubmit={handleSubmit}>
+      {children(renderProps)}
+    </form>
+  );
 }
 Form.displayName = "Form";
 

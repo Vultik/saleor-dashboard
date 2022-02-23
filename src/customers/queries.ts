@@ -1,10 +1,10 @@
+import { gql } from "@apollo/client";
 import {
   customerAddressesFragment,
   customerDetailsFragment,
   customerFragment
 } from "@saleor/fragments/customers";
 import makeQuery from "@saleor/hooks/makeQuery";
-import gql from "graphql-tag";
 
 import { TypedQuery } from "../queries";
 import {
@@ -90,7 +90,8 @@ const customerDetails = gql`
     }
   }
 `;
-export const TypedCustomerDetailsQuery = TypedQuery<
+
+export const useCustomerDetails = makeQuery<
   CustomerDetails,
   CustomerDetailsVariables
 >(customerDetails);

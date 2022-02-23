@@ -12,7 +12,7 @@ import { stringifyQs } from "@saleor/utils/urls";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { getMutationState, maybe } from "../../misc";
+import { extractMutationErrors, getMutationState, maybe } from "../../misc";
 import { LanguageCodeEnum } from "../../types/globalTypes";
 import TranslationsAttributesPage, {
   fieldNames
@@ -86,7 +86,7 @@ const TranslationsAttributes: React.FC<TranslationsAttributesProps> = ({
         stringifyQs({
           activeField: field
         }),
-      true
+      { replace: true }
     );
   const onAttributeUpdate = (data: UpdateAttributeTranslations) => {
     if (data.attributeTranslate.errors.length === 0) {
@@ -95,7 +95,7 @@ const TranslationsAttributes: React.FC<TranslationsAttributesProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
   const onAttributeValueUpdate = (data: UpdateAttributeValueTranslations) => {
@@ -105,11 +105,11 @@ const TranslationsAttributes: React.FC<TranslationsAttributesProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
   const onDiscard = () => {
-    navigate("?", true);
+    navigate("?", { replace: true });
   };
 
   return (
@@ -140,15 +140,18 @@ const TranslationsAttributes: React.FC<TranslationsAttributesProps> = ({
                 [fieldNames.value, fieldNames.richTextValue].includes(fieldName)
               ) {
                 const isRichText = fieldName === fieldNames.richTextValue;
-                updateAttributeValueTranslations({
-                  variables: {
-                    id: fieldId,
-                    input: isRichText
-                      ? { richText: JSON.stringify(data) }
-                      : { name: data as string },
-                    language: languageCode
-                  }
-                });
+
+                return extractMutationErrors(
+                  updateAttributeValueTranslations({
+                    variables: {
+                      id: fieldId,
+                      input: isRichText
+                        ? { richText: JSON.stringify(data) }
+                        : { name: data as string },
+                      language: languageCode
+                    }
+                  })
+                );
               }
             };
 

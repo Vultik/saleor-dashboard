@@ -1,7 +1,6 @@
-import { CircularProgress, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { CircularProgress } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import { makeStyles } from "@saleor/macaw-ui";
+import { DeleteIcon, IconButton, makeStyles } from "@saleor/macaw-ui";
 import classNames from "classnames";
 import React from "react";
 
@@ -74,7 +73,7 @@ const MediaTile: React.FC<MediaTileProps> = props => {
   const mediaUrl = parsedMediaOembedData?.thumbnail_url || media.url;
 
   return (
-    <div className={classes.mediaContainer} data-test="product-image">
+    <div className={classes.mediaContainer} data-test-id="product-image">
       <div
         className={classNames(classes.mediaOverlay, {
           [classes.mediaOverlayShadow]: loading
@@ -85,7 +84,7 @@ const MediaTile: React.FC<MediaTileProps> = props => {
         ) : (
           <div className={classes.mediaOverlayToolbar}>
             {onEdit && (
-              <IconButton color="primary" onClick={onEdit}>
+              <IconButton variant="secondary" color="primary" onClick={onEdit}>
                 <EditIcon />
               </IconButton>
             )}

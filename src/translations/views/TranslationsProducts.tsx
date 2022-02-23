@@ -7,7 +7,7 @@ import { stringifyQs } from "@saleor/utils/urls";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { maybe } from "../../misc";
+import { extractMutationErrors, maybe } from "../../misc";
 import { LanguageCodeEnum } from "../../types/globalTypes";
 import TranslationsProductsPage from "../components/TranslationsProductsPage";
 import {
@@ -52,7 +52,7 @@ const TranslationsProducts: React.FC<TranslationsProductsProps> = ({
         stringifyQs({
           activeField: field
         }),
-      true
+      { replace: true }
     );
 
   const onUpdate = (errors: unknown[]) => {
@@ -62,12 +62,12 @@ const TranslationsProducts: React.FC<TranslationsProductsProps> = ({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
-      navigate("?", true);
+      navigate("?", { replace: true });
     }
   };
 
   const onDiscard = () => {
-    navigate("?", true);
+    navigate("?", { replace: true });
   };
 
   return (
@@ -82,31 +82,33 @@ const TranslationsProducts: React.FC<TranslationsProductsProps> = ({
             const handleSubmit = (
               { name: fieldName }: TranslationField<TranslationInputFieldName>,
               data: string
-            ) => {
-              updateTranslations({
-                variables: {
-                  id,
-                  input: getParsedTranslationInputData({
-                    data,
-                    fieldName
-                  }),
-                  language: languageCode
-                }
-              });
-            };
+            ) =>
+              extractMutationErrors(
+                updateTranslations({
+                  variables: {
+                    id,
+                    input: getParsedTranslationInputData({
+                      data,
+                      fieldName
+                    }),
+                    language: languageCode
+                  }
+                })
+              );
 
             const handleAttributeValueSubmit = (
               { id }: TranslationField<TranslationInputFieldName>,
               data: OutputData
-            ) => {
-              updateAttributeValueTranslations({
-                variables: {
-                  id,
-                  input: { richText: JSON.stringify(data) },
-                  language: languageCode
-                }
-              });
-            };
+            ) =>
+              extractMutationErrors(
+                updateAttributeValueTranslations({
+                  variables: {
+                    id,
+                    input: { richText: JSON.stringify(data) },
+                    language: languageCode
+                  }
+                })
+              );
 
             const translation = productTranslations?.data?.translation;
 

@@ -213,10 +213,16 @@ export interface OrderCancel_orderCancel_order_events {
   lines: (OrderCancel_orderCancel_order_events_lines | null)[] | null;
 }
 
+export interface OrderCancel_orderCancel_order_fulfillments_lines_orderLine_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderCancel_orderCancel_order_fulfillments_lines_orderLine_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderCancel_orderCancel_order_fulfillments_lines_orderLine_variant_preorder | null;
 }
 
 export interface OrderCancel_orderCancel_order_fulfillments_lines_orderLine_unitDiscount {
@@ -273,7 +279,7 @@ export interface OrderCancel_orderCancel_order_fulfillments_lines_orderLine {
   isShippingRequired: boolean;
   variant: OrderCancel_orderCancel_order_fulfillments_lines_orderLine_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -309,10 +315,16 @@ export interface OrderCancel_orderCancel_order_fulfillments {
   warehouse: OrderCancel_orderCancel_order_fulfillments_warehouse | null;
 }
 
+export interface OrderCancel_orderCancel_order_lines_variant_preorder {
+  __typename: "PreorderData";
+  endDate: any | null;
+}
+
 export interface OrderCancel_orderCancel_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
-  quantityAvailable: number;
+  quantityAvailable: number | null;
+  preorder: OrderCancel_orderCancel_order_lines_variant_preorder | null;
 }
 
 export interface OrderCancel_orderCancel_order_lines_unitDiscount {
@@ -369,7 +381,7 @@ export interface OrderCancel_orderCancel_order_lines {
   isShippingRequired: boolean;
   variant: OrderCancel_orderCancel_order_lines_variant | null;
   productName: string;
-  productSku: string;
+  productSku: string | null;
   quantity: number;
   quantityFulfilled: number;
   quantityToFulfill: number;
@@ -512,17 +524,19 @@ export interface OrderCancel_orderCancel_order_user {
   email: string;
 }
 
-export interface OrderCancel_orderCancel_order_availableShippingMethods_price {
+export interface OrderCancel_orderCancel_order_shippingMethods_price {
   __typename: "Money";
   amount: number;
   currency: string;
 }
 
-export interface OrderCancel_orderCancel_order_availableShippingMethods {
+export interface OrderCancel_orderCancel_order_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
   name: string;
-  price: OrderCancel_orderCancel_order_availableShippingMethods_price | null;
+  price: OrderCancel_orderCancel_order_shippingMethods_price;
+  active: boolean;
+  message: string | null;
 }
 
 export interface OrderCancel_orderCancel_order_invoices {
@@ -534,6 +548,11 @@ export interface OrderCancel_orderCancel_order_invoices {
   status: JobStatusEnum;
 }
 
+export interface OrderCancel_orderCancel_order_channel_defaultCountry {
+  __typename: "CountryDisplay";
+  code: string;
+}
+
 export interface OrderCancel_orderCancel_order_channel {
   __typename: "Channel";
   isActive: boolean;
@@ -541,11 +560,13 @@ export interface OrderCancel_orderCancel_order_channel {
   name: string;
   currencyCode: string;
   slug: string;
+  defaultCountry: OrderCancel_orderCancel_order_channel_defaultCountry;
 }
 
 export interface OrderCancel_orderCancel_order {
   __typename: "Order";
   id: string;
+  token: string;
   metadata: (OrderCancel_orderCancel_order_metadata | null)[];
   privateMetadata: (OrderCancel_orderCancel_order_privateMetadata | null)[];
   billingAddress: OrderCancel_orderCancel_order_billingAddress | null;
@@ -576,7 +597,7 @@ export interface OrderCancel_orderCancel_order {
   undiscountedTotal: OrderCancel_orderCancel_order_undiscountedTotal;
   user: OrderCancel_orderCancel_order_user | null;
   userEmail: string | null;
-  availableShippingMethods: (OrderCancel_orderCancel_order_availableShippingMethods | null)[] | null;
+  shippingMethods: (OrderCancel_orderCancel_order_shippingMethods | null)[] | null;
   invoices: (OrderCancel_orderCancel_order_invoices | null)[] | null;
   channel: OrderCancel_orderCancel_order_channel;
 }

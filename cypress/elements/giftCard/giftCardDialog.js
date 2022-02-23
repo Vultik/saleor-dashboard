@@ -1,8 +1,9 @@
 export const GIFT_CARD_DIALOG = {
   amountInput: '[name="balanceAmount"]',
   currencySelectButton: '[id="mui-component-select-balanceCurrency"]',
-  currenciesOptions: '[data-test="selectFieldOption"]',
+  currenciesOptions: '[data-test-id="select-field-option"]',
   expirationOptions: {
+    setExpiryDateCheckbox: '[name="expirySelected"]',
     neverExpireRadioButton: '[value="NEVER_EXPIRE"]',
     expiryPeriodRadioButton: '[value="EXPIRY_PERIOD"]',
     expiryDateRadioButton: '[value="EXPIRY_DATE"]',

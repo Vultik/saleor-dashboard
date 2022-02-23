@@ -1,5 +1,4 @@
 import CardSpacer from "@saleor/components/CardSpacer";
-import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import Form from "@saleor/components/Form";
@@ -11,6 +10,7 @@ import Savebar from "@saleor/components/Savebar";
 import { ChangeEvent, FormChange, SubmitPromise } from "@saleor/hooks/useForm";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
+import { ConfirmButtonTransitionState } from "@saleor/macaw-ui";
 import { Backlink } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import { ListActions, ReorderEvent, UserError } from "@saleor/types";
@@ -32,6 +32,7 @@ import ProductTypeAttributes from "../ProductTypeAttributes/ProductTypeAttribute
 import ProductTypeDetails from "../ProductTypeDetails/ProductTypeDetails";
 import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
 import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
+import ProductTypeVariantAttributes from "../ProductTypeVariantAttributes/ProductTypeVariantAttributes";
 
 interface ChoiceType {
   label: string;
@@ -67,6 +68,8 @@ export interface ProductTypeDetailsPageProps {
   onDelete: () => void;
   onHasVariantsToggle: (hasVariants: boolean) => void;
   onSubmit: (data: ProductTypeForm) => SubmitPromise;
+  setSelectedVariantAttributes: (data: string[]) => void;
+  selectedVariantAttributes: string[];
 }
 
 function handleTaxTypeChange(
@@ -98,7 +101,9 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
   onBack,
   onDelete,
   onHasVariantsToggle,
-  onSubmit
+  onSubmit,
+  setSelectedVariantAttributes,
+  selectedVariantAttributes
 }) => {
   const intl = useIntl();
   const {
@@ -156,7 +161,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
 
   return (
     <Form initial={formInitialData} onSubmit={handleSubmit} confirmLeave>
-      {({ change, data, hasChanged, submit }) => {
+      {({ change, data, hasChanged, submit, setChanged }) => {
         const changeMetadata = makeMetadataChangeHandler(change);
 
         return (
@@ -191,7 +196,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                 />
                 <CardSpacer />
                 <ProductTypeAttributes
-                  testId="assignProductsAttributes"
+                  testId="assign-products-attributes"
                   attributes={maybe(() => productType.productAttributes)}
                   disabled={disabled}
                   type={ProductAttributeType.PRODUCT}
@@ -217,9 +222,11 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                 {data.hasVariants && (
                   <>
                     <CardSpacer />
-                    <ProductTypeAttributes
-                      testId="assignVariantsAttributes"
-                      attributes={maybe(() => productType.variantAttributes)}
+                    <ProductTypeVariantAttributes
+                      testId="assign-variants-attributes"
+                      assignedVariantAttributes={
+                        productType?.assignedVariantAttributes
+                      }
                       disabled={disabled}
                       type={ProductAttributeType.VARIANT}
                       onAttributeAssign={onAttributeAdd}
@@ -228,6 +235,11 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                         onAttributeReorder(event, ProductAttributeType.VARIANT)
                       }
                       onAttributeUnassign={onAttributeUnassign}
+                      onAttributeVariantSelection={setChanged}
+                      setSelectedVariantAttributes={
+                        setSelectedVariantAttributes
+                      }
+                      selectedVariantAttributes={selectedVariantAttributes}
                       {...variantAttributeList}
                     />
                   </>

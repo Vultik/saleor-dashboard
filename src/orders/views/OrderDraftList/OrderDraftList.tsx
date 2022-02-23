@@ -1,5 +1,4 @@
-import { DialogContentText, IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { DialogContentText } from "@material-ui/core";
 import ChannelPickerDialog from "@saleor/channels/components/ChannelPickerDialog";
 import ActionDialog from "@saleor/components/ActionDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
@@ -12,9 +11,11 @@ import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { usePaginationReset } from "@saleor/hooks/usePaginationReset";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
+import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
 import { maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -65,6 +66,9 @@ export const OrderDraftList: React.FC<OrderDraftListProps> = ({ params }) => {
   const { updateListSettings, settings } = useListSettings(
     ListViews.DRAFT_LIST
   );
+
+  usePaginationReset(orderDraftListUrl, params, settings.rowNumber);
+
   const intl = useIntl();
 
   const handleCreateOrderCreateSuccess = (data: OrderDraftCreate) => {
@@ -210,6 +214,7 @@ export const OrderDraftList: React.FC<OrderDraftListProps> = ({ params }) => {
                 toggleAll={toggleAll}
                 toolbar={
                   <IconButton
+                    variant="secondary"
                     color="primary"
                     onClick={() =>
                       openModal("remove", {
