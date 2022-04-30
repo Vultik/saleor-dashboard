@@ -1,7 +1,8 @@
 import { Typography } from "@material-ui/core";
+import HorizontalSpacer from "@saleor/apps/components/HorizontalSpacer";
 import DefaultCardTitle from "@saleor/components/CardTitle";
 import { FulfillmentStatus } from "@saleor/graphql";
-import { makeStyles, Pill } from "@saleor/macaw-ui";
+import { CircleIndicator, makeStyles } from "@saleor/macaw-ui";
 import { StatusType } from "@saleor/types";
 import camelCase from "lodash/camelCase";
 import React from "react";
@@ -12,7 +13,7 @@ const useStyles = makeStyles(
     title: {
       width: "100%",
       display: "flex",
-      justifyContent: "space-between"
+      justifyContent: "flex-start"
     },
     orderNumber: {
       display: "inline",
@@ -23,15 +24,26 @@ const useStyles = makeStyles(
       alignSelf: "center",
       color: theme.palette.text.secondary,
       margin: `auto ${theme.spacing(1)} auto auto`
+    },
+    cardHeader: {
+      fontSize: "24px",
+      fontWeight: 500,
+      lineHeight: "29px",
+      letterSpacing: "0.02em",
+      textAlign: "left"
+    },
+    indicator: {
+      display: "flex",
+      alignItems: "center"
     }
   }),
-  { name: "CardTitle" }
+  { name: "OrderCardTitle" }
 );
 
 const messages = defineMessages({
-  cancelled: {
-    defaultMessage: "Cancelled ({quantity})",
-    description: "cancelled fulfillment, section header"
+  canceled: {
+    defaultMessage: "Canceled ({quantity})",
+    description: "canceled fulfillment, section header"
   },
   fulfilled: {
     defaultMessage: "Fulfilled ({quantity})",
@@ -58,7 +70,7 @@ const messages = defineMessages({
     description: "unapproved fulfillment, section header"
   },
   unfulfilled: {
-    defaultMessage: "Unfulfilled",
+    defaultMessage: "Unfulfilled ({quantity})",
     description: "section header"
   },
   fulfilledFrom: {
@@ -71,9 +83,10 @@ type CardTitleStatus = FulfillmentStatus | "unfulfilled";
 
 type CardTitleLines = Array<{
   quantity: number;
+  quantityToFulfill?: number;
 }>;
 
-interface CardTitleProps {
+interface OrderCardTitleProps {
   lines?: CardTitleLines;
   fulfillmentOrder?: number;
   status: CardTitleStatus;
@@ -81,6 +94,7 @@ interface CardTitleProps {
   orderNumber?: string;
   warehouseName?: string;
   withStatus?: boolean;
+  className?: string;
 }
 
 const selectStatus = (status: CardTitleStatus) => {
@@ -100,18 +114,19 @@ const selectStatus = (status: CardTitleStatus) => {
     case FulfillmentStatus.CANCELED:
       return StatusType.ERROR;
     default:
-      return StatusType.WARNING;
+      return StatusType.ERROR;
   }
 };
 
-const CardTitle: React.FC<CardTitleProps> = ({
+const OrderCardTitle: React.FC<OrderCardTitleProps> = ({
   lines = [],
   fulfillmentOrder,
   status,
   orderNumber = "",
   warehouseName,
   withStatus = false,
-  toolbar
+  toolbar,
+  className
 }) => {
   const intl = useIntl();
   const classes = useStyles({});
@@ -123,35 +138,36 @@ const CardTitle: React.FC<CardTitleProps> = ({
 
   const messageForStatus = messages[camelCase(status)] || messages.unfulfilled;
 
-  const totalQuantity = lines.reduce(
-    (resultQuantity, { quantity }) => resultQuantity + quantity,
-    0
-  );
-
-  const title = (
-    <>
-      {intl.formatMessage(messageForStatus, {
-        fulfillmentName,
-        quantity: totalQuantity
-      })}
-      {fulfillmentName && (
-        <Typography className={classes.orderNumber} variant="body1">
-          {fulfillmentName}
-        </Typography>
-      )}
-    </>
-  );
+  const totalQuantity =
+    status === "unfulfilled"
+      ? lines.reduce(
+          (resultQuantity, line) =>
+            resultQuantity + (line.quantityToFulfill ?? line.quantity),
+          0
+        )
+      : lines.reduce(
+          (resultQuantity, { quantity }) => resultQuantity + quantity,
+          0
+        );
 
   return (
     <DefaultCardTitle
       toolbar={toolbar}
+      className={className}
       title={
         <div className={classes.title}>
-          {withStatus ? (
-            <Pill label={title} color={selectStatus(status)} />
-          ) : (
-            title
+          {withStatus && (
+            <div className={classes.indicator}>
+              <CircleIndicator color={selectStatus(status)} />
+            </div>
           )}
+          <HorizontalSpacer spacing={2} />
+          <Typography className={classes.cardHeader}>
+            {intl.formatMessage(messageForStatus, {
+              fulfillmentName,
+              quantity: totalQuantity
+            })}
+          </Typography>
           {!!warehouseName && (
             <Typography className={classes.warehouseName} variant="caption">
               <FormattedMessage
@@ -168,4 +184,5 @@ const CardTitle: React.FC<CardTitleProps> = ({
   );
 };
 
-export default CardTitle;
+OrderCardTitle.displayName = "OrderCardTitle";
+export default OrderCardTitle;
