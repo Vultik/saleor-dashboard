@@ -166,6 +166,10 @@
     "context": "header, allocated product quantity",
     "string": "Allocated"
   },
+  "/DzBc6": {
+    "context": "section description",
+    "string": "Strategy defines the preference of warehouses for stock allocations and reservations."
+  },
   "/JENWS": {
     "string": "Reduced Tax Rates"
   },
@@ -735,6 +739,10 @@
     "context": "notification",
     "string": "Removed pages"
   },
+  "423QsF": {
+    "context": "option title",
+    "string": "Prioritize warehouses with highest stock"
+  },
   "43AOvZ": {
     "context": "alert group message",
     "string": "You will not be able to finalize this draft because:"
@@ -949,10 +957,6 @@
   "5fCMUI": {
     "context": "translations section name",
     "string": "Translations"
-  },
-  "5ftg/B": {
-    "context": "button",
-    "string": "create permission group"
   },
   "5kvaFR": {
     "context": "product field",
@@ -2104,6 +2108,10 @@
     "context": "selected customer gift card is sent to subtitle",
     "string": "Selected customer will be sent the generated gift card code. Someone else can redeem the gift card code. Gift card will be assigned to account which redeemed the code."
   },
+  "FSOOH7": {
+    "context": "option title",
+    "string": "Prioritize warehouses by sorting order"
+  },
   "FSinkL": {
     "context": "variant stock status",
     "string": "Available inventory at:"
@@ -2111,6 +2119,10 @@
   "FWWliu": {
     "context": "ExitFormPrompt title",
     "string": "You have unsaved changes"
+  },
+  "FYfoiF": {
+    "context": "section name",
+    "string": "Allocation strategy"
   },
   "Fbr4Vp": {
     "context": "dialog header",
@@ -2206,6 +2218,10 @@
   "G4g5Ii": {
     "context": "tab name",
     "string": "All Collections"
+  },
+  "G5NKx6": {
+    "context": "tooltip",
+    "string": "Checkout reservation time threshold is enabled in settings."
   },
   "G7mu0y": {
     "string": "The GraphQL API is beta quality. It is not fully optimized and some mutations or queries may be missing."
@@ -2387,6 +2403,10 @@
   },
   "HMD+ib": {
     "string": "Last order"
+  },
+  "HN1Gvw": {
+    "context": "option description",
+    "string": "Allocate order-line to a warehouse with the most stock. If not enough stock is available in a single warehouse, the remaining quantity is allocated in the next warehouse with the most stock and repeated if necessary."
   },
   "HP6m+q": {
     "string": "Attributes and Product Types"
@@ -2575,10 +2595,6 @@
   "Ila7WO": {
     "context": "change warehouse dialog description",
     "string": "Choose warehouse from which you want to fulfill {productName}"
-  },
-  "ImTelT": {
-    "context": "card subtitle",
-    "string": "Select warehouses that will be used in this channel. You can assign warehouses to multiple channels."
   },
   "IoCMjg": {
     "context": "no collections",
@@ -4679,6 +4695,10 @@
     "context": "imperial unit system",
     "string": "Imperial"
   },
+  "YiC3cn": {
+    "context": "option description",
+    "string": "Allocate stock in the first warehouse in the list assigned to this channel. If stock is insufficient, the remaining quantity is allocated in the next warehouse on the list and repeated if necessary."
+  },
   "YicEbK": {
     "string": "Search Atrtibuttes"
   },
@@ -4992,6 +5012,10 @@
   "bPFp8B": {
     "context": "product type",
     "string": "Product Type"
+  },
+  "bRJD/v": {
+    "context": "button",
+    "string": "Create permission group"
   },
   "bS7A8u": {
     "context": "add tracking button",
@@ -5749,6 +5773,10 @@
   "ibnmEd": {
     "context": "voucher country range",
     "string": "Countries"
+  },
+  "icb1fc": {
+    "context": "tooltip",
+    "string": "Stock allocations occur when:"
   },
   "icz/jb": {
     "context": "customer",
@@ -6616,6 +6644,10 @@
     "context": "key-value field input",
     "string": "Key"
   },
+  "q5Lfp4": {
+    "context": "tooltip",
+    "string": "Order contains products that have \"Track inventory\" enabled."
+  },
   "q8ep2I": {
     "context": "dialog header",
     "string": "Delete Customers"
@@ -7252,6 +7284,10 @@
   },
   "v1pNHW": {
     "string": "Attribute Class"
+  },
+  "v2+u4c": {
+    "context": "card subtitle",
+    "string": "Assign and sort warehouses that will be used in this channel (warehouses can be assigned in multiple channels)."
   },
   "v3WWK+": {
     "string": "Status is invalid"
