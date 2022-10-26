@@ -60,7 +60,7 @@ describe("As an admin I should be able to create variant", () => {
 
   it(
     "should be able to create variant visible for the customers in all channels. TC: SALEOR_2901",
-    { tags: ["@variants", "@allEnv", "@critical", "@stable"] },
+    { tags: ["@variants", "@allEnv", "@critical", "@stable", "@oldRelease"] },
     () => {
       const name = `${startsWith}${faker.datatype.number()}`;
       const price = 10;
@@ -98,13 +98,13 @@ describe("As an admin I should be able to create variant", () => {
           getProductVariants(createdProduct.id, defaultChannel.slug);
         })
         .then(([variant]) => {
-          expect(variant).to.have.property("name", name);
+          expect(variant).to.have.property("name", attributeValues[0]);
           expect(variant).to.have.property("price", price);
           expect(variant).to.have.property("currency", "USD");
           getProductVariants(createdProduct.id, newChannel.slug);
         })
         .then(([variant]) => {
-          expect(variant).to.have.property("name", name);
+          expect(variant).to.have.property("name", attributeValues[0]);
           expect(variant).to.have.property("price", price);
           expect(variant).to.have.property("currency", "PLN");
         });
@@ -113,7 +113,7 @@ describe("As an admin I should be able to create variant", () => {
 
   it(
     "should be able to create several variants visible for the customers. TC: SALEOR_2902",
-    { tags: ["@variants", "@allEnv", "@critical", "@stable"] },
+    { tags: ["@variants", "@allEnv", "@critical", "@stable", "@oldRelease"] },
     () => {
       const name = `${startsWith}${faker.datatype.number()}`;
       const secondVariantSku = `${startsWith}${faker.datatype.number()}`;
