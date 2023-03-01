@@ -1,6 +1,6 @@
 import { getDashboardUrFromAppCompleteUrl } from "@dashboard/apps/urls";
-import { Extension } from "@dashboard/apps/useExtensions";
 import { AppExtensionMountEnum } from "@dashboard/graphql";
+import { Extension } from "@dashboard/new-apps/hooks/useExtensions";
 import { orderDraftListUrl, orderListUrl } from "@dashboard/orders/urls";
 import { matchPath } from "react-router";
 
@@ -31,7 +31,7 @@ export function isMenuActive(location: string, menuItem: SidebarMenuItem) {
     return false;
   }
 
-  const activeUrl = location.split("?")[0];
+  const activeUrl = getPureUrl(location.split("?")[0]);
   const menuItemUrl = menuItem.url.split("?")[0];
 
   if (isMenuItemExtension(menuItem)) {
@@ -50,6 +50,14 @@ export function isMenuActive(location: string, menuItem: SidebarMenuItem) {
     path: menuItemUrl,
   });
 }
+
+const getPureUrl = (url: string) => {
+  if (url.includes("/dashboard")) {
+    return url.split("/dashboard")[1];
+  }
+
+  return url;
+};
 
 const isMenuItemExtension = (menuItem: SidebarMenuItem) =>
   menuItem.id.startsWith("extension-");

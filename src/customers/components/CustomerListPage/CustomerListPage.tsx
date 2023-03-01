@@ -1,9 +1,3 @@
-import {
-  extensionMountPoints,
-  mapToMenuItems,
-  mapToMenuItemsForCustomerOverviewActions,
-  useExtensions,
-} from "@dashboard/apps/useExtensions";
 import { useUserPermissions } from "@dashboard/auth/hooks/useUserPermissions";
 import { TopNav } from "@dashboard/components/AppLayout/TopNav";
 import ButtonWithSelect from "@dashboard/components/ButtonWithSelect";
@@ -16,6 +10,12 @@ import {
 import { ListCustomersQuery } from "@dashboard/graphql";
 import useNavigator from "@dashboard/hooks/useNavigator";
 import { sectionNames } from "@dashboard/intl";
+import {
+  extensionMountPoints,
+  mapToMenuItems,
+  mapToMenuItemsForCustomerOverviewActions,
+  useExtensions,
+} from "@dashboard/new-apps/hooks/useExtensions";
 import {
   FilterPageProps,
   ListActions,
@@ -76,10 +76,8 @@ const CustomerListPage: React.FC<CustomerListPageProps> = ({
   const userPermissions = useUserPermissions();
   const structure = createFilterStructure(intl, filterOpts, userPermissions);
 
-  const {
-    CUSTOMER_OVERVIEW_CREATE,
-    CUSTOMER_OVERVIEW_MORE_ACTIONS,
-  } = useExtensions(extensionMountPoints.CUSTOMER_LIST);
+  const { CUSTOMER_OVERVIEW_CREATE, CUSTOMER_OVERVIEW_MORE_ACTIONS } =
+    useExtensions(extensionMountPoints.CUSTOMER_LIST);
   const extensionMenuItems = mapToMenuItemsForCustomerOverviewActions(
     CUSTOMER_OVERVIEW_MORE_ACTIONS,
     selectedCustomerIds,

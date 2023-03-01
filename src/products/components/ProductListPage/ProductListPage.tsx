@@ -1,9 +1,3 @@
-import {
-  extensionMountPoints,
-  mapToMenuItems,
-  mapToMenuItemsForProductOverviewActions,
-  useExtensions,
-} from "@dashboard/apps/useExtensions";
 import { LimitsInfo } from "@dashboard/components/AppLayout/LimitsInfo";
 import { TopNav } from "@dashboard/components/AppLayout/TopNav";
 import { ButtonWithSelect } from "@dashboard/components/ButtonWithSelect";
@@ -11,6 +5,7 @@ import CardMenu from "@dashboard/components/CardMenu";
 import ColumnPicker from "@dashboard/components/ColumnPicker";
 import { getByName } from "@dashboard/components/Filter/utils";
 import FilterBar from "@dashboard/components/FilterBar";
+import { ListPageLayout } from "@dashboard/components/Layouts";
 import LimitReachedAlert from "@dashboard/components/LimitReachedAlert";
 import { MultiAutocompleteChoiceType } from "@dashboard/components/MultiAutocompleteSelectField";
 import { ProductListColumns } from "@dashboard/config";
@@ -21,6 +16,12 @@ import {
   SearchAvailableInGridAttributesQuery,
 } from "@dashboard/graphql";
 import { sectionNames } from "@dashboard/intl";
+import {
+  extensionMountPoints,
+  mapToMenuItems,
+  mapToMenuItemsForProductOverviewActions,
+  useExtensions,
+} from "@dashboard/new-apps/hooks/useExtensions";
 import {
   ChannelProps,
   FetchMoreProps,
@@ -171,10 +172,8 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
   ];
 
   const limitReached = isLimitReached(limits, "productVariants");
-  const {
-    PRODUCT_OVERVIEW_CREATE,
-    PRODUCT_OVERVIEW_MORE_ACTIONS,
-  } = useExtensions(extensionMountPoints.PRODUCT_LIST);
+  const { PRODUCT_OVERVIEW_CREATE, PRODUCT_OVERVIEW_MORE_ACTIONS } =
+    useExtensions(extensionMountPoints.PRODUCT_LIST);
 
   const extensionMenuItems = mapToMenuItemsForProductOverviewActions(
     PRODUCT_OVERVIEW_MORE_ACTIONS,
@@ -183,7 +182,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
   const extensionCreateButtonItems = mapToMenuItems(PRODUCT_OVERVIEW_CREATE);
 
   return (
-    <>
+    <ListPageLayout>
       <TopNav title={intl.formatMessage(sectionNames.products)}>
         <CardMenu
           className={classes.settings}
@@ -289,7 +288,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
           filterDependency={filterDependency}
         />
       </Card>
-    </>
+    </ListPageLayout>
   );
 };
 ProductListPage.displayName = "ProductListPage";
