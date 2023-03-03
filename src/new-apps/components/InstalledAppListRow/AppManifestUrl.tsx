@@ -1,5 +1,5 @@
-import { CopyIcon, Tooltip } from "@saleor/macaw-ui";
-import { Box, sprinkles, Text } from "@saleor/macaw-ui/next";
+import { Tooltip } from "@saleor/macaw-ui";
+import { Box, CopyIcon, Text } from "@saleor/macaw-ui/next";
 import clsx from "clsx";
 import React, { useState } from "react";
 
@@ -28,15 +28,15 @@ export const AppManifestUrl: React.FC<AppManifestUrlProps> = ({
       }}
     >
       <Tooltip title={manifestUrl} header="App Manifest URL">
-        <Text variant="caption" color="textNeutralSubdued">
-          {new URL(manifestUrl).host}
-        </Text>
+        <Box __maxWidth="300px" className="ellipsis">
+          <Text variant="caption" color="textNeutralSubdued">
+            {new URL(manifestUrl).host}
+          </Text>
+        </Box>
       </Tooltip>
       <CopyIcon
-        className={clsx(
-          sprinkles({ color: "iconNeutralSubdued" }),
-          copied && "animate-copy",
-        )}
+        color="iconNeutralSubdued"
+        className={clsx(copied && "animate-copy")}
       />
     </Box>
   );

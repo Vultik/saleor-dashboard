@@ -34,6 +34,7 @@ export const InstalledAppListRow: React.FC<InstalledApp> = props => {
       state={{ from: location.pathname }}
       className={sprinkles({ display: "contents" })}
       inline={false}
+      disabled={!app.isActive}
     >
       <List.Item
         padding={7}
@@ -43,12 +44,14 @@ export const InstalledAppListRow: React.FC<InstalledApp> = props => {
         justifyContent="space-between"
         flexDirection="row"
         flexWrap="wrap"
+        backgroundColor={!app.isActive ? "surfaceNeutralSubdued" : undefined}
+        cursor={app.isActive ? "pointer" : "not-allowed"}
       >
         <Box
-          display="flex"
-          justifyContent={{ mobile: "space-between", desktop: "flex-start" }}
           gap={5}
           alignItems="center"
+          display="grid"
+          __gridTemplateColumns="1fr auto"
         >
           <AppAvatar logo={logo} />
           <Box
@@ -91,7 +94,9 @@ export const InstalledAppListRow: React.FC<InstalledApp> = props => {
           justifyContent={{ mobile: "flex-end", desktop: "flex-start" }}
           gap={6}
         >
-          <AppPermissions permissions={app.permissions} />
+          <Box marginLeft="auto">
+            <AppPermissions permissions={app.permissions} />
+          </Box>
           <TableButtonWrapper>
             <Button
               variant="secondary"
