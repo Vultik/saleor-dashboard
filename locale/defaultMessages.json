@@ -1269,6 +1269,10 @@
     "context": "select title",
     "string": "Select channels you want for {contentType} to be available on"
   },
+  "7u9Ep7": {
+    "context": "Label when app is disabled",
+    "string": "Disabled"
+  },
   "7v2oBd": {
     "context": "header",
     "string": "Error"
@@ -1454,6 +1458,10 @@
   "9eC0MZ": {
     "context": "collection",
     "string": "Hidden"
+  },
+  "9g6Y7a": {
+    "context": "placeholder",
+    "string": "Nothing installed yet."
   },
   "9gb9b4": {
     "context": "address type",
@@ -2624,6 +2632,10 @@
     "context": "switch button",
     "string": "Is this product shippable?"
   },
+  "IEpmGQ": {
+    "context": "description",
+    "string": "Use Saleor Cloud to access Saleor Apps"
+  },
   "IFWHn0": {
     "context": "error message",
     "string": "Billing address is not set"
@@ -3674,6 +3686,10 @@
   "Q9wTrz": {
     "context": "caption",
     "string": "If enabled, you’ll be able to use this attribute to filter products in product list."
+  },
+  "QAisk4": {
+    "context": "Webhook events header",
+    "string": "Webhook events"
   },
   "QBxN6z": {
     "context": "is filter range or value",
