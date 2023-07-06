@@ -3,9 +3,9 @@
 import { stringify } from "qs";
 import useRouter from "use-react-router";
 
-import { useInitialAPIState } from "../API/getInitalAPIState";
+import { useInitialAPIState } from "../API/initialState/useInitalAPIState";
+import { FilterContainer } from "../FilterElement";
 import { FilterValueProvider } from "../FilterValueProvider";
-import { FilterContainer } from "../useFilterContainer";
 import { useTokenArray } from "./TokenArray";
 
 const prepareStructure = filterValue =>
@@ -34,7 +34,6 @@ export const useUrlValueProvider = (): FilterValueProvider => {
   const fetchingParams = tokenizedUrl.getFetchingParams();
   const { data, loading } = useInitialAPIState(fetchingParams);
   const value = loading ? [] : tokenizedUrl.asFilterValuesFromResponse(data);
-
 
   const persist = (filterValue: FilterContainer) => {
     router.history.replace({
