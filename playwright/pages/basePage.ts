@@ -1,5 +1,4 @@
 import { LOCATORS } from "@data/commonLocators";
-import { URL_LIST } from "@data/url";
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
@@ -9,27 +8,20 @@ export class BasePage {
   constructor(
     page: Page,
     readonly pageHeader = page.getByTestId("page-header"),
+    readonly searchInputListView = page.getByTestId("search-input"),
     readonly gridCanvas = page.locator('[data-testid="data-grid-canvas"]'),
     readonly gridInput = page
       .locator('[class="clip-region"]')
       .locator("textarea"),
     readonly successBanner = page.locator(LOCATORS.successBanner),
     readonly errorBanner = page.locator(LOCATORS.errorBanner),
+    readonly infoBanner = page.locator(LOCATORS.infoBanner),
   ) {
     this.page = page;
   }
-  async gotoCreateProductPage(productTypeId: string) {
-    await this.page.goto(
-      `${URL_LIST.products}${URL_LIST.productsAdd}${productTypeId}`,
-    );
-    await expect(this.pageHeader).toBeVisible({ timeout: 10000 });
-  }
-  async gotoExistingProductPage(productId: string) {
-    await console.log(
-      `Navigating to existing product: ${URL_LIST.products}${productId}`,
-    );
-    await this.page.goto(`${URL_LIST.products}${productId}`);
-    await expect(this.pageHeader).toBeVisible({ timeout: 10000 });
+
+  async typeInSearchOnListView(searchItem: string) {
+    await this.searchInputListView.fill(searchItem);
   }
   async expectGridToBeAttached() {
     await expect(this.gridCanvas).toBeAttached({
@@ -46,6 +38,10 @@ export class BasePage {
     await this.successBanner
       .first()
       .waitFor({ state: "visible", timeout: 15000 });
+    await expect(this.errorBanner).not.toBeVisible();
+  }
+  async expectInfoBanner() {
+    await this.infoBanner.first().waitFor({ state: "visible", timeout: 15000 });
     await expect(this.errorBanner).not.toBeVisible();
   }
 
