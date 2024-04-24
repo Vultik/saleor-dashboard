@@ -15,6 +15,7 @@ import {
   OrderEventsEnum,
   OrderFulfillLineFragment,
   OrderGrantedRefundFragment,
+  OrderGrantedRefundStatusEnum,
   OrderListQuery,
   OrderPaymentFragment,
   OrderSettingsFragment,
@@ -1025,6 +1026,7 @@ export const order = (
         __typename: "App",
         name: "Testapp",
         appUrl: "https://www.google.com/",
+        brand: null,
       },
       user: {
         __typename: "User",
@@ -1032,6 +1034,7 @@ export const order = (
         firstName: "John",
         id: "QWRkcmVzczoxNQ==",
         lastName: "Doe",
+        avatar: null,
       },
     },
     {
@@ -1080,6 +1083,7 @@ export const order = (
         __typename: "App",
         name: "Testapp",
         appUrl: "https://www.google.com/",
+        brand: null,
       },
       user: {
         __typename: "User",
@@ -1087,6 +1091,7 @@ export const order = (
         firstName: "Jane",
         id: "QWRkcmVzczoxNQ==",
         lastName: "Doe",
+        avatar: null,
       },
     },
     {
@@ -3354,6 +3359,8 @@ export const grantedRefunds: OrderGrantedRefundFragment[] = [
     user: null,
     createdAt: "2022-08-22T10:40:22.226875+00:00",
     __typename: "OrderGrantedRefund",
+    status: OrderGrantedRefundStatusEnum.SUCCESS,
+    transactionEvents: null,
   },
   {
     id: "12344",
@@ -3371,5 +3378,7 @@ export const grantedRefunds: OrderGrantedRefundFragment[] = [
     },
     createdAt: "2022-08-22T10:40:22.226875+00:00",
     __typename: "OrderGrantedRefund",
+    status: OrderGrantedRefundStatusEnum.SUCCESS,
+    transactionEvents: null,
   },
 ];
