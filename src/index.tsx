@@ -8,6 +8,7 @@ import { useFlag } from "@dashboard/featureFlags";
 import { PermissionEnum } from "@dashboard/graphql";
 import useAppState from "@dashboard/hooks/useAppState";
 import { ThemeProvider } from "@dashboard/theme";
+import { OnboardingProvider } from "@dashboard/welcomePage/WelcomePageOnboarding/onboardingContext";
 import { ThemeProvider as LegacyThemeProvider } from "@saleor/macaw-ui";
 import { SaleorProvider } from "@saleor/sdk";
 import React from "react";
@@ -62,9 +63,6 @@ import { useLocationState } from "./hooks/useLocationState";
 import { commonMessages } from "./intl";
 import NavigationSection from "./navigation";
 import { navigationSection } from "./navigation/urls";
-import { HomePage } from "./newHome";
-import { OnboardingProvider } from "./newHome/homeOnboarding/onboardingContext/OnboardingContext";
-import { OnboardingStorage } from "./newHome/homeOnboarding/onboardingContext/OnboardingStorage";
 import { NotFound } from "./NotFound";
 import OrdersSection from "./orders";
 import PageSection from "./pages";
@@ -82,14 +80,13 @@ import { paletteOverrides, themeOverrides } from "./themeOverrides";
 import TranslationsSection from "./translations";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
+import { WelcomePage } from "./welcomePage";
 
 if (GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
 
 errorTracker.init(history);
-
-const onboardingStorage = new OnboardingStorage();
 
 /*
   Handle legacy theming toggle. Since we use new and old macaw,
@@ -129,7 +126,7 @@ const App: React.FC = () => (
                                   <ProductAnalytics>
                                     <SavebarRefProvider>
                                       <FeatureFlagsProviderWithUser>
-                                        <OnboardingProvider storageService={onboardingStorage}>
+                                        <OnboardingProvider>
                                           <Routes />
                                         </OnboardingProvider>
                                       </FeatureFlagsProviderWithUser>
@@ -162,7 +159,7 @@ const Routes: React.FC = () => {
   const homePageLoading = (authenticated && !channelLoaded) || authenticating;
   const { isAppPath } = useLocationState();
   const { enabled: isNewHomePageEnabled } = useFlag("new_home_page");
-  const HomePageComponent = isNewHomePageEnabled ? HomePage : OldHomePage;
+  const HomePageComponent = isNewHomePageEnabled ? WelcomePage : OldHomePage;
 
   return (
     <>
