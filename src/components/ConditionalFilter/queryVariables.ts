@@ -1,5 +1,7 @@
 import {
   AttributeInput,
+  CollectionFilterInput,
+  CustomerFilterInput,
   DateRangeInput,
   DateTimeFilterInput,
   DateTimeRangeInput,
@@ -317,4 +319,49 @@ export const createGiftCardQueryVariables = (value: FilterContainer) => {
 
     return p;
   }, {} as GiftCardFilterInput);
+};
+
+export const createCustomerQueryVariables = (value: FilterContainer): CustomerFilterInput => {
+  return value.reduce((p, c) => {
+    if (typeof c === "string" || Array.isArray(c)) return p;
+
+    if (c.value.type === "numberOfOrders" && c.condition.selected.conditionValue?.label === "is") {
+      p["numberOfOrders"] = {
+        gte: Number(c.condition.selected.value),
+        lte: Number(c.condition.selected.value),
+      };
+
+      return p;
+    }
+
+    p[c.value.value as keyof CustomerFilterInput] = mapStaticQueryPartToLegacyVariables(
+      createStaticQueryPart(c.condition.selected),
+    );
+
+    return p;
+  }, {} as CustomerFilterInput);
+};
+
+type CollectionQueryVars = CollectionFilterInput & { channel?: { eq: string } };
+
+export const createCollectionsQueryVariables = (value: FilterContainer): CollectionQueryVars => {
+  return value.reduce((p, c) => {
+    if (typeof c === "string" || Array.isArray(c)) return p;
+
+    if (c.value.type === "metadata") {
+      p.metadata = p.metadata || [];
+
+      const [key, value] = c.condition.selected.value as [string, string];
+
+      p.metadata.push({ key, value });
+
+      return p;
+    }
+
+    p[c.value.value as keyof CollectionFilterInput] = mapStaticQueryPartToLegacyVariables(
+      createStaticQueryPart(c.condition.selected),
+    );
+
+    return p;
+  }, {} as CollectionQueryVars);
 };
