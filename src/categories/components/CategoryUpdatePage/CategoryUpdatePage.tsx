@@ -14,7 +14,10 @@ import { CategoryDetailsQuery, ProductErrorFragment } from "@dashboard/graphql";
 import { useBackLinkWithState } from "@dashboard/hooks/useBackLinkWithState";
 import { SubmitPromise } from "@dashboard/hooks/useForm";
 import useNavigator from "@dashboard/hooks/useNavigator";
-import { sprinkles } from "@saleor/macaw-ui-next";
+import { TranslationsIcon } from "@dashboard/icons/Translations";
+import { languageEntityUrl, TranslatableEntities } from "@dashboard/translations/urls";
+import { useCachedLocales } from "@dashboard/translations/useCachedLocales";
+import { Box, Button, sprinkles } from "@saleor/macaw-ui-next";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -77,6 +80,7 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
   onUpdateListSettings,
 }: CategoryUpdatePageProps) => {
   const intl = useIntl();
+  const { lastUsedLocaleOrFallback } = useCachedLocales();
   const navigate = useNavigator();
 
   const categoryBackListUrl = useBackLinkWithState({
@@ -96,8 +100,23 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
       {({ data, change, handlers, submit, isSaveDisabled }) => (
         <DetailPageLayout gridTemplateColumns={1}>
           <TopNav href={backHref} title={category?.name}>
+            <Button
+              variant="secondary"
+              icon={<TranslationsIcon />}
+              onClick={() =>
+                navigate(
+                  languageEntityUrl(
+                    lastUsedLocaleOrFallback,
+                    TranslatableEntities.categories,
+                    categoryId,
+                  ),
+                )
+              }
+            />
             {extensionMenuItems.length > 0 && (
-              <TopNav.Menu items={[...extensionMenuItems]} dataTestId="menu" />
+              <Box marginLeft={3}>
+                <TopNav.Menu items={[...extensionMenuItems]} dataTestId="menu" />
+              </Box>
             )}
           </TopNav>
           <DetailPageLayout.Content>

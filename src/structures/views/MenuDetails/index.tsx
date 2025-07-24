@@ -10,6 +10,8 @@ import {
 import useNavigator from "@dashboard/hooks/useNavigator";
 import useNotifier from "@dashboard/hooks/useNotifier";
 import { pageUrl } from "@dashboard/modeling/urls";
+import { languageEntityUrl, TranslatableEntities } from "@dashboard/translations/urls";
+import { useCachedLocales } from "@dashboard/translations/useCachedLocales";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -46,6 +48,7 @@ interface MenuDetailsProps {
 const MenuDetails: React.FC<MenuDetailsProps> = ({ id, params }) => {
   const navigate = useNavigator();
   const notify = useNotifier();
+  const { lastUsedLocaleOrFallback } = useCachedLocales();
   const intl = useIntl();
   const { data, loading, refetch } = useMenuDetailsQuery({
     variables: { id },
@@ -170,6 +173,11 @@ const MenuDetails: React.FC<MenuDetailsProps> = ({ id, params }) => {
             }),
           )
         }
+        onTranslate={itemId => {
+          navigate(
+            languageEntityUrl(lastUsedLocaleOrFallback, TranslatableEntities.menuItems, itemId),
+          );
+        }}
         onSubmit={handleSubmit}
         saveButtonState={menuUpdateOpts.status}
       />
