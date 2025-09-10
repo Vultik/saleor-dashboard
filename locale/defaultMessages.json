@@ -120,6 +120,9 @@
   "+bhokL": {
     "string": "Search discounts..."
   },
+  "+cGU63": {
+    "string": "Are you sure you want to cancel fulfillment?"
+  },
   "+djx5u": {
     "string": "You can't give this extension permissions you don't have."
   },
@@ -1380,6 +1383,10 @@
     "context": "unassign product from collection, button",
     "string": "Unassign"
   },
+  "68Wuv1": {
+    "context": "search results",
+    "string": "No collections found"
+  },
   "6AMFki": {
     "context": "product name",
     "string": "Name"
@@ -2172,6 +2179,10 @@
   },
   "BNTZLv": {
     "string": "Order #{orderId} was placed from draft"
+  },
+  "BOYzu+": {
+    "context": "search results",
+    "string": "No models found"
   },
   "BR8au7": {
     "context": "delete channel",
@@ -4477,6 +4488,10 @@
     "context": "link",
     "string": "Activate"
   },
+  "P6+RQ1": {
+    "context": "no products placeholder",
+    "string": "No products found"
+  },
   "P79U4b": {
     "context": "attribute's slug short code label",
     "string": "Attribute Code"
@@ -4787,6 +4802,9 @@
   },
   "QUyUJy": {
     "string": "Main Product"
+  },
+  "QV5QKO": {
+    "string": "Canceling a fulfillment will restock products at a selected warehouse."
   },
   "QVNg8A": {
     "context": "product field",
@@ -5400,6 +5418,10 @@
   "UGm9nx": {
     "context": "payment method type card",
     "string": "Card"
+  },
+  "UHhqmr": {
+    "context": "search results",
+    "string": "No categories found"
   },
   "UIM5bq": {
     "context": "charge status full",
@@ -10065,6 +10087,10 @@
     "context": "Save filters button text",
     "string": "Save"
   },
+  "wWELJW": {
+    "context": "search results",
+    "string": "No products found"
+  },
   "wWTUrM": {
     "string": "No activities found"
   },
@@ -10224,9 +10250,6 @@
   "xZhxBJ": {
     "context": "dialog header",
     "string": "Assign Products"
-  },
-  "xco5tZ": {
-    "string": "Are you sure you want to cancel fulfillment? Canceling a fulfillment will restock products at a selected warehouse."
   },
   "xfGZsi": {
     "context": "configuration section name",
