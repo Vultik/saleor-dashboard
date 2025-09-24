@@ -600,6 +600,10 @@
   "19o9WS": {
     "string": "Learn more about {userPermissions}"
   },
+  "1ACBFw": {
+    "context": "Ripple tooltip confirmation button",
+    "string": "Show me"
+  },
   "1BNKCZ": {
     "context": "sale channel",
     "string": "Channel"
@@ -1527,6 +1531,9 @@
   "7Chrsf": {
     "string": "Passwords do not match"
   },
+  "7DMWSy": {
+    "string": "Read a blog post"
+  },
   "7EDqed": {
     "context": "tab name",
     "string": "All gift cards"
@@ -2015,6 +2022,10 @@
   "AQSmqG": {
     "context": "order discount was updated automatically event title",
     "string": "Order discount was updated automatically updated"
+  },
+  "AR/VVX": {
+    "context": "Indicates last login method user used",
+    "string": "Last used"
   },
   "ARfw53": {
     "context": "description",
@@ -8014,6 +8025,9 @@
   "kAAlGL": {
     "string": "Rules"
   },
+  "kAEQyV": {
+    "string": "OK"
+  },
   "kAPaN6": {
     "context": "empty metadata text",
     "string": "Empty"
@@ -8881,6 +8895,9 @@
   "pGwvpX": {
     "context": "status",
     "string": "Deactivated"
+  },
+  "pJ5/7G": {
+    "string": "Close and hide all hints"
   },
   "pOUOnw": {
     "context": "tab name",
@@ -10218,6 +10235,10 @@
   "xAHOGV": {
     "context": "dialog header",
     "string": "Assign Variant"
+  },
+  "xFSJR1": {
+    "context": "recent changes shortcut",
+    "string": "What's New"
   },
   "xGC2Ge": {
     "context": "grant refund, button",
