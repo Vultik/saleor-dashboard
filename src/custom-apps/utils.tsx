@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client";
 import { WebhookEventTypeAsyncEnum, WebhookFragment } from "@dashboard/graphql";
 
 export function isUnnamed(webhook: WebhookFragment | undefined): boolean {
@@ -22,23 +21,3 @@ export interface IntrospectionNode {
   }> | null;
   description: string;
 }
-
-// cannot be in `queries.ts` as codegen cannot handle `__schema`
-export const IntrospectionQuery = gql`
-  query EventsIntrospection {
-    __schema {
-      types {
-        name
-        interfaces {
-          name
-        }
-        description
-      }
-    }
-  }
-`;
-
-const isEvent = ({ name }: { name: string }) => name === "Event";
-
-export const buildEventsMap = (elements: IntrospectionNode[]) =>
-  elements.filter(({ interfaces }) => (interfaces || []).some(isEvent));
