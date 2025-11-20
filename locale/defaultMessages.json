@@ -994,10 +994,6 @@
   "4LRapg": {
     "string": "Discount removed"
   },
-  "4PlW0w": {
-    "context": "tracking number",
-    "string": "Tracking Number: {trackingNumber}"
-  },
   "4Rj36Y": {
     "string": "Create new Model Type"
   },
@@ -4577,10 +4573,6 @@
     "context": "info text",
     "string": "Set up an end date of preorder. When end date will be reached product will be automatically taken from preorder to standard selling"
   },
-  "RHctec": {
-    "context": "section header",
-    "string": "Unfulfilled order lines"
-  },
   "RK6l3Z": {
     "context": "radio button label",
     "string": "Refund with manual amount"
@@ -6721,10 +6713,6 @@
     "context": "order history message",
     "string": "Transaction cancel requested"
   },
-  "f/R1Ln": {
-    "context": "restocked group",
-    "string": "Restocked from:"
-  },
   "f0hXz4": {
     "context": "dialog header",
     "string": "Search Collection"
@@ -7692,6 +7680,9 @@
     "context": "attribute properties regarding dashboard",
     "string": "Dashboard Properties"
   },
+  "lDdWo9": {
+    "string": "Fulfillment Metadata"
+  },
   "lDdj6f": {
     "context": "page header",
     "string": "Create model"
@@ -7735,10 +7726,6 @@
   },
   "lNZuWl": {
     "string": "All orders"
-  },
-  "lOMgms": {
-    "context": "fulfillment group",
-    "string": "Fulfilled from:"
   },
   "lQRnYK": {
     "context": "selectt all options",
@@ -9320,6 +9307,10 @@
   },
   "vbop3G": {
     "string": "Create new model"
+  },
+  "vcMnX2": {
+    "context": "unfulfilled fulfillment, section header",
+    "string": "Unfulfilled order lines"
   },
   "vcwrgW": {
     "string": "No translatable entities found"
