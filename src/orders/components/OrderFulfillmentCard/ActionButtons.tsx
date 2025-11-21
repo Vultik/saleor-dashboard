@@ -1,18 +1,17 @@
 // @ts-strict-ignore
 import { FulfillmentStatus } from "@dashboard/graphql";
 import useNavigator from "@dashboard/hooks/useNavigator";
+import { DEFAULT_ICON_SIZE } from "@dashboard/icons/utils";
 import { buttonMessages, commonMessages } from "@dashboard/intl";
 import { orderPaymentRefundUrl } from "@dashboard/orders/urls";
-import { CardActions } from "@material-ui/core";
-import { Button, Text } from "@saleor/macaw-ui-next";
+import { Box, Button, Text } from "@saleor/macaw-ui-next";
 import { CheckIcon, TruckIcon } from "lucide-react";
 import { FormattedMessage } from "react-intl";
 
 import { RefundedIcon } from "../../../icons/RefundedIcon";
 import { actionButtonsMessages } from "./messages";
-import useStyles from "./styles";
 
-interface AcionButtonsProps {
+interface ActionButtonsProps {
   orderId: string;
   status: FulfillmentStatus;
   trackingNumber?: string;
@@ -28,7 +27,8 @@ const statusesToShow = [
   FulfillmentStatus.RETURNED,
   FulfillmentStatus.WAITING_FOR_APPROVAL,
 ];
-const ActionButtons = ({
+
+export const ActionButtons = ({
   orderId,
   status,
   trackingNumber,
@@ -37,8 +37,7 @@ const ActionButtons = ({
   hasTransactions,
   onTrackingCodeAdd,
   onApprove,
-}: AcionButtonsProps) => {
-  const classes = useStyles();
+}: ActionButtonsProps) => {
   const navigate = useNavigator();
   const hasTrackingNumber = !!trackingNumber;
 
@@ -54,9 +53,9 @@ const ActionButtons = ({
     const cannotFulfill = !orderIsPaid && !fulfillmentAllowUnpaid;
 
     return (
-      <CardActions className={classes.actions}>
+      <Box>
         <Button variant="primary" onClick={onApprove} disabled={cannotFulfill}>
-          <CheckIcon size={17} />
+          <CheckIcon size={DEFAULT_ICON_SIZE} />
           <FormattedMessage {...buttonMessages.approve} />
         </Button>
         {cannotFulfill && (
@@ -64,36 +63,34 @@ const ActionButtons = ({
             <FormattedMessage {...commonMessages.cannotFullfillUnpaidOrder} />
           </Text>
         )}
-      </CardActions>
+      </Box>
     );
   }
 
   if (status === FulfillmentStatus.RETURNED && !hasTransactions) {
     return (
-      <CardActions>
+      <Box>
         <Button onClick={handleRefundClick} variant="primary">
-          <RefundedIcon size={17} />
+          <RefundedIcon size={DEFAULT_ICON_SIZE} />
           <FormattedMessage {...actionButtonsMessages.refund} />
         </Button>
-      </CardActions>
+      </Box>
     );
   }
 
   return hasTrackingNumber ? (
-    <CardActions className={classes.actions}>
+    <Box>
       <Button data-test-id="edit-tracking-button" variant="primary" onClick={onTrackingCodeAdd}>
-        <TruckIcon size={17} />
+        <TruckIcon size={DEFAULT_ICON_SIZE} />
         <FormattedMessage {...actionButtonsMessages.editTracking} />
       </Button>
-    </CardActions>
+    </Box>
   ) : (
-    <CardActions className={classes.actions}>
+    <Box>
       <Button variant="primary" onClick={onTrackingCodeAdd} data-test-id="add-tracking-button">
-        <TruckIcon size={17} />
+        <TruckIcon size={DEFAULT_ICON_SIZE} />
         <FormattedMessage {...actionButtonsMessages.addTracking} />
       </Button>
-    </CardActions>
+    </Box>
   );
 };
-
-export default ActionButtons;
