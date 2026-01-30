@@ -3010,6 +3010,7 @@ export const ProductVariantFragmentDoc = gql`
     productType {
       id
       name
+      hasVariants
     }
     channelListings {
       id
@@ -3692,9 +3693,16 @@ export const WarehouseDetailsFragmentDoc = gql`
     ...Address
   }
   email
+  metadata {
+    ...MetadataItem
+  }
+  privateMetadata {
+    ...MetadataItem
+  }
 }
     ${WarehouseWithShippingFragmentDoc}
-${AddressFragmentDoc}`;
+${AddressFragmentDoc}
+${MetadataItemFragmentDoc}`;
 export const WebhookDetailsFragmentDoc = gql`
     fragment WebhookDetails on Webhook {
   ...Webhook
@@ -10937,6 +10945,7 @@ export const PageTypeListDocument = gql`
     pageInfo {
       ...PageInfo
     }
+    totalCount
   }
 }
     ${PageTypeFragmentDoc}
@@ -15811,6 +15820,8 @@ export const ProductVariantCreateDataDocument = gql`
     name
     productType {
       id
+      name
+      hasVariants
       selectionVariantAttributes: variantAttributes(
         variantSelection: VARIANT_SELECTION
       ) {
