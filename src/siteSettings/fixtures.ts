@@ -1,4 +1,4 @@
-import { SiteSettingsQuery } from "@dashboard/graphql";
+import { type SiteSettingsQuery } from "@dashboard/graphql";
 
 export const shop: SiteSettingsQuery["shop"] = {
   __typename: "Shop",
@@ -42,4 +42,5 @@ export const shop: SiteSettingsQuery["shop"] = {
   limitQuantityPerCheckout: 50,
   enableAccountConfirmationByEmail: true,
   useLegacyUpdateWebhookEmission: true,
+  preserveAllAddressFields: false,
 };
