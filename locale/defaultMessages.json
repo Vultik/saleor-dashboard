@@ -1472,6 +1472,10 @@
   "6Y1YDn": {
     "string": "Updated extension permissions"
   },
+  "6ZnMfQ": {
+    "context": "card header and checkbox label",
+    "string": "Use legacy shipping zone stock availability"
+  },
   "6ZubLQ": {
     "string": "Manage available refunds reasons"
   },
@@ -9710,6 +9714,10 @@
     "context": "order history message",
     "string": "Invoice was sent to customer by {sentBy}"
   },
+  "qeAmFa": {
+    "context": "section description",
+    "string": "When enabled, stock availability is filtered by shipping zones and the destination address (legacy behavior). When disabled, it is determined only by the direct warehouse-channel link. <a>Learn more</a>."
+  },
   "qf8OtW": {
     "string": "Continue with Saleor Cloud"
   },
@@ -10496,6 +10504,10 @@
   "v3WWK+": {
     "string": "Status is invalid"
   },
+  "v5yLSE": {
+    "context": "section title",
+    "string": "Stock availability"
+  },
   "v8UngX": {
     "string": "Search warehouses..."
   },
@@ -10871,6 +10883,10 @@
   "wmeRVH": {
     "context": "dialog header",
     "string": "Cancel order #{orderNumber}"
+  },
+  "wmybDi": {
+    "context": "intro to webhook list",
+    "string": "When disabled, the following channel-scoped stock webhooks become available:"
   },
   "wn3di2": {
     "string": "This password is too commonly used"
