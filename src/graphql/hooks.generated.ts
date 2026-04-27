@@ -1577,6 +1577,17 @@ export const TaxedMoneyFragmentDoc = gql`
   }
 }
     ${MoneyFragmentDoc}`;
+export const OrderLineDiscountFragmentDoc = gql`
+    fragment OrderLineDiscount on OrderLineDiscount {
+  id
+  type
+  name
+  translatedName
+  valueType
+  value
+  reason
+}
+    `;
 export const OrderLineFragmentDoc = gql`
     fragment OrderLine on OrderLine {
   id
@@ -1613,6 +1624,9 @@ export const OrderLineFragmentDoc = gql`
   totalPrice {
     ...TaxedMoney
   }
+  undiscountedTotalPrice {
+    ...TaxedMoney
+  }
   unitDiscount {
     amount
     currency
@@ -1644,9 +1658,13 @@ export const OrderLineFragmentDoc = gql`
   thumbnail {
     url
   }
+  discounts {
+    ...OrderLineDiscount
+  }
 }
     ${StockFragmentDoc}
-${TaxedMoneyFragmentDoc}`;
+${TaxedMoneyFragmentDoc}
+${OrderLineDiscountFragmentDoc}`;
 export const OrderDiscountFragmentDoc = gql`
     fragment OrderDiscount on OrderDiscount {
   id
@@ -2285,6 +2303,9 @@ export const OrderDetailsFragmentDoc = gql`
     email
   }
   userEmail
+  voucher {
+    id
+  }
   shippingMethods {
     id
     name
@@ -11609,9 +11630,13 @@ export const OrderDiscountAddDocument = gql`
     errors {
       ...OrderError
     }
+    order {
+      ...OrderDetails
+    }
   }
 }
-    ${OrderErrorFragmentDoc}`;
+    ${OrderErrorFragmentDoc}
+${OrderDetailsFragmentDoc}`;
 export type OrderDiscountAddMutationFn = Apollo.MutationFunction<Types.OrderDiscountAddMutation, Types.OrderDiscountAddMutationVariables>;
 
 /**
@@ -11645,9 +11670,13 @@ export const OrderDiscountDeleteDocument = gql`
     errors {
       ...OrderError
     }
+    order {
+      ...OrderDetails
+    }
   }
 }
-    ${OrderErrorFragmentDoc}`;
+    ${OrderErrorFragmentDoc}
+${OrderDetailsFragmentDoc}`;
 export type OrderDiscountDeleteMutationFn = Apollo.MutationFunction<Types.OrderDiscountDeleteMutation, Types.OrderDiscountDeleteMutationVariables>;
 
 /**
@@ -11680,9 +11709,13 @@ export const OrderLineDiscountRemoveDocument = gql`
     errors {
       ...OrderError
     }
+    order {
+      ...OrderDetails
+    }
   }
 }
-    ${OrderErrorFragmentDoc}`;
+    ${OrderErrorFragmentDoc}
+${OrderDetailsFragmentDoc}`;
 export type OrderLineDiscountRemoveMutationFn = Apollo.MutationFunction<Types.OrderLineDiscountRemoveMutation, Types.OrderLineDiscountRemoveMutationVariables>;
 
 /**
@@ -11715,9 +11748,13 @@ export const OrderLineDiscountUpdateDocument = gql`
     errors {
       ...OrderError
     }
+    order {
+      ...OrderDetails
+    }
   }
 }
-    ${OrderErrorFragmentDoc}`;
+    ${OrderErrorFragmentDoc}
+${OrderDetailsFragmentDoc}`;
 export type OrderLineDiscountUpdateMutationFn = Apollo.MutationFunction<Types.OrderLineDiscountUpdateMutation, Types.OrderLineDiscountUpdateMutationVariables>;
 
 /**
@@ -11751,9 +11788,13 @@ export const OrderDiscountUpdateDocument = gql`
     errors {
       ...OrderError
     }
+    order {
+      ...OrderDetails
+    }
   }
 }
-    ${OrderErrorFragmentDoc}`;
+    ${OrderErrorFragmentDoc}
+${OrderDetailsFragmentDoc}`;
 export type OrderDiscountUpdateMutationFn = Apollo.MutationFunction<Types.OrderDiscountUpdateMutation, Types.OrderDiscountUpdateMutationVariables>;
 
 /**
