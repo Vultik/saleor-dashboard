@@ -1,7 +1,7 @@
 import { ClickableChannel } from "@dashboard/components/Channel/Channel";
-import { DateTime } from "@dashboard/components/Date/DateTime";
+import { MerchantDate } from "@dashboard/components/Date/MerchantDate";
 import { Pill } from "@dashboard/components/Pill";
-import { type OrderDetailsFragment } from "@dashboard/graphql";
+import { type OrderDetailsFragment, OrderStatus } from "@dashboard/graphql";
 import { transformOrderStatus } from "@dashboard/misc";
 import { rippleOrderChannelInHeader } from "@dashboard/orders/ripples/orderChannelInHeader";
 import { Ripple } from "@dashboard/ripples/components/Ripple";
@@ -41,6 +41,7 @@ const Title = (props: TitleProps) => {
   }
 
   const { localized, status } = transformOrderStatus(order.status, intl);
+  const dateKind = order.status === OrderStatus.UNCONFIRMED ? "created" : "placed";
 
   return (
     <div className={classes.container}>
@@ -56,10 +57,14 @@ const Title = (props: TitleProps) => {
 
       <Box display="flex" alignItems="center" gap={1.5}>
         {order && order.created ? (
-          <Text size={3} fontWeight="regular" color="default2">
-            <DateTime date={order.created} plain />
-            {order.channel && ","}
-          </Text>
+          <Box display="inline-flex" alignItems="center">
+            <MerchantDate kind={dateKind} date={order.created} />
+            {order.channel && (
+              <Text as="span" size={3} fontWeight="regular" color="default2">
+                ,
+              </Text>
+            )}
+          </Box>
         ) : (
           <Skeleton __width="10em" />
         )}
