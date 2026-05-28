@@ -1480,6 +1480,9 @@
   "6WqHWi": {
     "string": "Applies to"
   },
+  "6Wr3aF": {
+    "string": "View customer profile"
+  },
   "6Y1YDn": {
     "string": "Updated extension permissions"
   },
@@ -1517,6 +1520,10 @@
   "6fAGSm": {
     "context": "Product is not visible via public API",
     "string": "Not visible"
+  },
+  "6fIHWa": {
+    "context": "order header date, less than a minute ago",
+    "string": "Placed just now"
   },
   "6fxdUO": {
     "context": "section header",
@@ -1884,6 +1891,10 @@
     "context": "automatic completion disabled info message",
     "string": "Disabling automatic completion will not stop checkouts that are already scheduled for completion."
   },
+  "8jirr+": {
+    "context": "order header date, same year and older than yesterday",
+    "string": "Created {date} at {time}"
+  },
   "8maISA": {
     "context": "deactivate customer dialog, header",
     "string": "Deactivate customer"
@@ -2181,6 +2192,10 @@
   "AHK0K9": {
     "context": "dialog content",
     "string": "{counter,plural,one{Are you sure you want to unassign this product?} other{Are you sure you want to unassign {displayQuantity} products?}}"
+  },
+  "AJMlmz": {
+    "context": "customer overview stat label: sum of recent orders",
+    "string": "Recent orders total"
   },
   "ALe+of": {
     "string": "You don't have permission to manage webhooks. Contact your administrator for access."
@@ -3238,6 +3253,10 @@
     "context": "shipping section header",
     "string": "Shipping"
   },
+  "G2WJ1J": {
+    "context": "order header date, less than an hour ago",
+    "string": "Placed {minutes, plural, one {# minute} other {# minutes}} ago"
+  },
   "G3ay2p": {
     "context": "section header",
     "string": "Fulfillment settings"
@@ -3287,6 +3306,10 @@
   "GFkb2t": {
     "context": "automatically complete checkouts checkbox label",
     "string": "Automatically complete checkouts when fully paid"
+  },
+  "GGhg9z": {
+    "context": "order header date, earlier today",
+    "string": "Created today at {time}"
   },
   "GIuS7b": {
     "string": "creating custom extensions"
@@ -3519,10 +3542,6 @@
   },
   "HP6m+q": {
     "string": "Attributes and Product Types"
-  },
-  "HPb2tq": {
-    "context": "customer overview, subtitle scoping a money stat when every fetched recent order belongs to this currency",
-    "string": "across last {count, plural, one {# order} other {# orders}} in {currency}"
   },
   "HQR2y0": {
     "context": "attribute value is required",
@@ -4132,6 +4151,10 @@
   },
   "KkufwD": {
     "string": "No voucher codes found"
+  },
+  "Kn37JQ": {
+    "context": "staff list column showing whether staff user has placed orders",
+    "string": "Customer"
   },
   "KpP/aW": {
     "string": "Order was marked as"
@@ -5109,6 +5132,10 @@
   "Pyjarj": {
     "string": "This shipping rate has no postal codes assigned"
   },
+  "PyxGqS": {
+    "context": "customer overview, subtitle on total orders showing the most recent order date",
+    "string": "Last order: {date}"
+  },
   "Q+oKl+": {
     "context": "confirmation dialog description",
     "string": "You are about to create {count} variants. This may take a moment to process. This action cannot be automatically undone."
@@ -5212,6 +5239,10 @@
   },
   "QOm7+P": {
     "string": "Create new order"
+  },
+  "QQdTUC": {
+    "context": "order header date, less than a minute ago",
+    "string": "Created just now"
   },
   "QSTD5z": {
     "context": "dialog title for order line metadata",
@@ -5757,6 +5788,10 @@
   "TWoYMj": {
     "string": "Redirect to the App Page"
   },
+  "TZq1Tm": {
+    "context": "customer overview, subtitle scoping a money stat when every fetched recent order belongs to this currency",
+    "string": "Across last {count, plural, one {# order} other {# orders}} in {currency}"
+  },
   "TZtvTG": {
     "context": "table header required stock label",
     "string": "Required"
@@ -5892,6 +5927,10 @@
   "UKgP89": {
     "context": "note input label",
     "string": "Note"
+  },
+  "ULBvyx": {
+    "context": "order header date, yesterday",
+    "string": "Placed yesterday at {time}"
   },
   "UN+yTt": {
     "string": "Staff Settings"
@@ -6936,6 +6975,10 @@
   "a2o5uc": {
     "context": "custom extension page create, tooltip",
     "string": "Permission cannot be chosen, because you don't have it yourself"
+  },
+  "a4iag6": {
+    "context": "order header date, earlier today",
+    "string": "Placed today at {time}"
   },
   "a55zOn": {
     "context": "section header",
@@ -8707,6 +8750,10 @@
     "context": "tooltip content when product is in preorder",
     "string": "This product is still in preorder. You will be able to fulfill it after it reaches it’s release date"
   },
+  "k8k07f": {
+    "context": "order header date, less than an hour ago",
+    "string": "Created {minutes, plural, one {# minute} other {# minutes}} ago"
+  },
   "kAAlGL": {
     "string": "Rules"
   },
@@ -9539,6 +9586,10 @@
     "context": "header",
     "string": "Translation Page \"{pageName}\" - {languageCode}"
   },
+  "oWIL0E": {
+    "context": "order header date, older than yesterday",
+    "string": "Created {date}"
+  },
   "oX2TAb": {
     "string": "Select gifts"
   },
@@ -9960,6 +10011,10 @@
   "qgQeVW": {
     "string": "Generate Voucher Codes"
   },
+  "qjT9IB": {
+    "context": "savebar label shown on detail pages where the current user lacks permission to edit",
+    "string": "Read-only"
+  },
   "qkRuT0": {
     "context": "attribute type",
     "string": "Product Attribute"
@@ -10045,6 +10100,10 @@
   "rCy3Fe": {
     "context": "invalid date in expirydate field content",
     "string": "Gift Card with past expiration date cannot be created"
+  },
+  "rGj6RR": {
+    "context": "order header date, older than yesterday",
+    "string": "Placed {date}"
   },
   "rH4pi3": {
     "context": "page header",
@@ -10306,10 +10365,6 @@
   "shmSDX": {
     "context": "no products placeholder",
     "string": "No products are available in the channel assigned to this order."
-  },
-  "sigzdd": {
-    "context": "customer overview, subtitle on total orders showing the most recent order date",
-    "string": "last order on {date}"
   },
   "sjRXXz": {
     "string": "Order #{orderId} was placed from draft by {userEmail}"
@@ -10821,6 +10876,10 @@
     "context": "button",
     "string": "Open in GraphiQL"
   },
+  "vFaikw": {
+    "context": "order header date, yesterday",
+    "string": "Created yesterday at {time}"
+  },
   "vG57x5": {
     "context": "card update success alert title",
     "string": "Card balance updated"
@@ -11272,6 +11331,9 @@
     "context": "attribute's label",
     "string": "Default Label"
   },
+  "xRMVTn": {
+    "string": "Read-only — editing requires Manage users"
+  },
   "xRbqcg": {
     "context": "option",
     "string": "Regular product type"
@@ -11345,10 +11407,6 @@
   },
   "xrKHS6": {
     "string": "Success"
-  },
-  "xrUNmL": {
-    "context": "customer overview stat label: sum of recent orders",
-    "string": "Spent in recent orders"
   },
   "xtUXnK": {
     "context": "export all items to csv file",
@@ -11697,6 +11755,10 @@
   "zjkAMs": {
     "context": "header",
     "string": "Translation Sale \"{saleName}\" - {languageCode}"
+  },
+  "zmKgYS": {
+    "context": "order header date, same year and older than yesterday",
+    "string": "Placed {date} at {time}"
   },
   "znbVYT": {
     "context": "product available for purchase date",

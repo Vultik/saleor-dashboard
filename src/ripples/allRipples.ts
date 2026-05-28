@@ -16,6 +16,7 @@ import { rippleProductAvailabilityDiagnostics } from "@dashboard/products/ripple
 import { rippleVariantGenerator } from "@dashboard/products/ripples/variantGenerator";
 import { rippleIntroducedRipples } from "@dashboard/ripples/ripples/introducedRipples";
 import { type Ripple } from "@dashboard/ripples/types";
+import { rippleStaffCustomerProfiles } from "@dashboard/staff/ripples/staffCustomerProfiles";
 import { rippleWarehouseMetadata } from "@dashboard/warehouses/ripples/warehouseMetadata";
 
 export const allRipples: Ripple[] = [
@@ -60,6 +61,9 @@ export const allRipples: Ripple[] = [
   // Customers
   rippleNewCustomersView,
   rippleCustomerOverview,
+
+  // Staff
+  rippleStaffCustomerProfiles,
 
   // Sidebar
   rippleCloudEnvLink,
