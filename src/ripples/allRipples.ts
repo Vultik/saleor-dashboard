@@ -14,6 +14,7 @@ import { rippleOrderLineDiscountDiscoverability } from "@dashboard/orders/ripple
 import { rippleOrderLinePriceBreakdown } from "@dashboard/orders/ripples/orderLinePriceBreakdown";
 import { rippleOrderMetadata } from "@dashboard/orders/ripples/orderMetadata";
 import { rippleProductAvailabilityDiagnostics } from "@dashboard/products/ripples/productAvailabilityDiagnostics";
+import { rippleProductTypeInHeader } from "@dashboard/products/ripples/productTypeInHeader";
 import { rippleVariantGenerator } from "@dashboard/products/ripples/variantGenerator";
 import { rippleIntroducedRipples } from "@dashboard/ripples/ripples/introducedRipples";
 import { type Ripple } from "@dashboard/ripples/types";
@@ -41,6 +42,7 @@ export const allRipples: Ripple[] = [
 
   // Products
   rippleProductAvailabilityDiagnostics,
+  rippleProductTypeInHeader,
   rippleVariantGenerator,
 
   // Attributes
