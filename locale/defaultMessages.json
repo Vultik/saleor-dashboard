@@ -1222,6 +1222,10 @@
     "context": "Refund status success",
     "string": "Success"
   },
+  "5/487e": {
+    "context": "notification after confirming an unconfirmed order",
+    "string": "Order #{orderNumber} confirmed"
+  },
   "5/BH83": {
     "context": "success activate alert message",
     "string": "{count,plural,one{Gift card} other{{count} gift cards}} activated"
