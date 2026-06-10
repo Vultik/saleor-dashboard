@@ -18,10 +18,18 @@ import { useNotifier } from "@dashboard/hooks/useNotifier";
 import { getMutationState } from "@dashboard/misc";
 import getOrderErrorMessage from "@dashboard/utils/errors/order";
 import createDialogActionHandlers from "@dashboard/utils/handlers/dialogActionHandlers";
+import { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import OrderOperations from "../../containers/OrderOperations";
-import { orderListUrl, orderUrl, type OrderUrlDialog, type OrderUrlQueryParams } from "../../urls";
+import { useOrderDetailsUrlCanonicalization } from "../../hooks/useOrderDetailsUrlCanonicalization";
+import {
+  orderDetailsUrl,
+  orderDraftListUrl,
+  orderListUrl,
+  type OrderUrlDialog,
+  type OrderUrlQueryParams,
+} from "../../urls";
 import { handleOrderDetailsSubmit } from "./handleOrderDetailsSubmit";
 import { orderDetailsMessages } from "./messages";
 import { OrderDetailsMessages } from "./OrderDetailsMessages";
@@ -43,15 +51,27 @@ const OrderDetails = ({ id, params }: OrderDetailsProps) => {
   const [updatePrivateMetadata, updatePrivateMetadataOpts] = useUpdatePrivateMetadataMutation({});
   const notify = useNotifier();
   const apolloClient = useApolloClient();
+  const { data, loading } = useOrderDetails(id);
+
+  const order = data?.order;
+  const isOrderUnconfirmed = order?.status === OrderStatus.UNCONFIRMED;
+  const isOrderDraft = order?.status === OrderStatus.DRAFT;
+
+  useOrderDetailsUrlCanonicalization(id, order?.status);
+
+  const buildOrderUrl = useCallback(
+    (urlParams: OrderUrlQueryParams) => orderDetailsUrl(id, urlParams, order?.status),
+    [id, order?.status],
+  );
+
   const [openModal, closeModal] = createDialogActionHandlers<OrderUrlDialog, OrderUrlQueryParams>(
     navigate,
-    params => orderUrl(id, params),
+    buildOrderUrl,
     params,
     ["type"],
   );
-  const handleBack = () => navigate(orderListUrl());
-  const { data, loading } = useOrderDetails(id);
-  const order = data?.order;
+  const handleBack = () =>
+    navigate(order?.status === OrderStatus.DRAFT ? orderDraftListUrl() : orderListUrl());
   const [orderConfirm, orderConfirmOpts] = useOrderConfirmMutation({
     onCompleted: data => {
       const errors = data.orderConfirm?.errors ?? [];
@@ -84,8 +104,6 @@ const OrderDetails = ({ id, params }: OrderDetailsProps) => {
     return <NotFoundPage onBack={handleBack} />;
   }
 
-  const isOrderUnconfirmed = order?.status === OrderStatus.UNCONFIRMED;
-  const isOrderDraft = order?.status === OrderStatus.DRAFT;
   const handleSubmit = async (formData: MetadataIdSchema) =>
     handleOrderDetailsSubmit({
       formData,
@@ -98,7 +116,7 @@ const OrderDetails = ({ id, params }: OrderDetailsProps) => {
     });
 
   return (
-    <OrderDetailsMessages id={id} params={params}>
+    <OrderDetailsMessages id={id} orderStatus={order?.status} params={params}>
       {orderMessages => (
         <OrderOperations
           order={id}
