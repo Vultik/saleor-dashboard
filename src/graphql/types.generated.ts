@@ -11337,7 +11337,7 @@ export type AttributeDetailsFragment = { __typename: 'Attribute', availableInGri
 
 export type AttributeValueListFragment = { __typename: 'AttributeValueCountableConnection', pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null }, edges: Array<{ __typename: 'AttributeValueCountableEdge', cursor: string, node: { __typename: 'AttributeValue', plainText: string | null, richText: string | null, id: string, name: string | null, slug: string | null, reference: string | null, boolean: boolean | null, date: string | null, dateTime: any | null, value: string | null, file: { __typename: 'File', url: string, contentType: string | null } | null } }> };
 
-export type AvailableAttributeFragment = { __typename: 'Attribute', id: string, name: string, slug: string };
+export type AvailableAttributeFragment = { __typename: 'Attribute', id: string, name: string, slug: string, inputType: AttributeInputTypeEnum | null };
 
 export type UserPermissionFragment = { __typename: 'UserPermission', code: PermissionEnum, name: string };
 
@@ -13128,7 +13128,7 @@ export type SearchAvailablePageAttributesQueryVariables = Exact<{
 }>;
 
 
-export type SearchAvailablePageAttributesQuery = { __typename: 'Query', pageType: { __typename: 'PageType', id: string, availableAttributes: { __typename: 'AttributeCountableConnection', edges: Array<{ __typename: 'AttributeCountableEdge', node: { __typename: 'Attribute', id: string, name: string, slug: string } }>, pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null } } | null } | null };
+export type SearchAvailablePageAttributesQuery = { __typename: 'Query', pageType: { __typename: 'PageType', id: string, availableAttributes: { __typename: 'AttributeCountableConnection', edges: Array<{ __typename: 'AttributeCountableEdge', node: { __typename: 'Attribute', id: string, name: string, slug: string, inputType: AttributeInputTypeEnum | null } }>, pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null } } | null } | null };
 
 export type SearchAvailableProductAttributesQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -13138,7 +13138,7 @@ export type SearchAvailableProductAttributesQueryVariables = Exact<{
 }>;
 
 
-export type SearchAvailableProductAttributesQuery = { __typename: 'Query', productType: { __typename: 'ProductType', id: string, availableAttributes: { __typename: 'AttributeCountableConnection', edges: Array<{ __typename: 'AttributeCountableEdge', node: { __typename: 'Attribute', id: string, name: string, slug: string } }>, pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null } } | null } | null };
+export type SearchAvailableProductAttributesQuery = { __typename: 'Query', productType: { __typename: 'ProductType', id: string, availableAttributes: { __typename: 'AttributeCountableConnection', edges: Array<{ __typename: 'AttributeCountableEdge', node: { __typename: 'Attribute', id: string, name: string, slug: string, inputType: AttributeInputTypeEnum | null } }>, pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null } } | null } | null };
 
 export type SearchCategoriesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
