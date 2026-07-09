@@ -1,5 +1,7 @@
+import { rippleAttributeListGroupByType } from "@dashboard/attributes/ripples/attributeListGroupByType";
 import { rippleAttributeValuesSearch } from "@dashboard/attributes/ripples/attributeValuesSearch";
 import { rippleAttributeViewOverhaul } from "@dashboard/attributes/ripples/attributeViewOverhaul";
+import { rippleTypePageCreateAttribute } from "@dashboard/attributes/ripples/typePageCreateAttribute";
 import { checkoutAutocompleteSettings } from "@dashboard/channels/ripples/checkoutAutocompleteSettings";
 import { rippleCloudEnvLink } from "@dashboard/components/Sidebar/ripples/cloudEnvLink";
 import { rippleCustomerOverview } from "@dashboard/customers/ripples/customerOverview";
@@ -61,8 +63,10 @@ export const allRipples: Ripple[] = [
   rippleVariantGenerator,
 
   // Attributes
+  rippleAttributeListGroupByType,
   rippleAttributeValuesSearch,
   rippleAttributeViewOverhaul,
+  rippleTypePageCreateAttribute,
 
   // ...
 
