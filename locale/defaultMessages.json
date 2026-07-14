@@ -9237,6 +9237,10 @@
     "context": "order refund amount",
     "string": "Replaced Products Value"
   },
+  "i8FLQQ": {
+    "context": "load more subcategories in category tree",
+    "string": "Load {count, plural, one {# more subcategory} other {# more subcategories}}"
+  },
   "iAaYh4": {
     "context": "Info box description for unavailable products",
     "string": "Customers can view this product but cannot add it to cart."
@@ -11991,6 +11995,9 @@
   "v/tz3W": {
     "context": "Summary of diagnostic issues found",
     "string": "{errorCount, plural, =0 {} one {# problem} other {# problems}}{hasWarnings, select, true {{hasErrors, select, true {, } other {}}} other {}}{warningCount, plural, =0 {} one {# warning} other {# warnings}} found"
+  },
+  "v0fBOU": {
+    "string": "Collapse all"
   },
   "v17EX7": {
     "context": "built-in attribute list filter preset",
