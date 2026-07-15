@@ -62,10 +62,6 @@
     "context": "Dry run dialog object title",
     "string": "Select object type to perform dry run on provided query"
   },
-  "+RjQjs": {
-    "context": "return button",
-    "string": "Return / Replace order"
-  },
   "+SYLEL": {
     "context": "refunded fulfillment, section header",
     "string": "Refunded"
@@ -113,6 +109,9 @@
   },
   "+bhokL": {
     "string": "Search discounts..."
+  },
+  "+dDyb1": {
+    "string": "Allocated"
   },
   "+djx5u": {
     "string": "You can't give this extension permissions you don't have."
@@ -170,6 +169,10 @@
   "+tIkAe": {
     "context": "status",
     "string": "Status"
+  },
+  "+vyg/Z": {
+    "context": "canceled fulfillment, restock destination warehouse info",
+    "string": "Restocked to {warehouseName}"
   },
   "+vzDH4": {
     "context": "error message used when manifest URL is incorrect (before any further validation)",
@@ -251,6 +254,9 @@
     "context": "header, allocated product quantity",
     "string": "Allocated"
   },
+  "/CaREm": {
+    "string": "Pending approval"
+  },
   "/DCKjx": {
     "context": "exclude postal codes helper",
     "string": "Leave the list empty to apply this rate to all postal codes. Added ranges will be excluded."
@@ -281,10 +287,6 @@
   "/WXs6H": {
     "context": "collection name",
     "string": "Name"
-  },
-  "/Xwjww": {
-    "context": "button",
-    "string": "Fulfill"
   },
   "/dnWE8": {
     "context": "products in collection",
@@ -485,6 +487,9 @@
     "context": "add country dialog header",
     "string": "Choose country you want to add"
   },
+  "0WJNP/": {
+    "string": "Return"
+  },
   "0XHXTZ": {
     "context": "column header",
     "string": "Title"
@@ -527,6 +532,10 @@
   "0g0LHg": {
     "context": "card header and checkbox label",
     "string": "Emit update webhooks for metadata changes"
+  },
+  "0iF2NT": {
+    "context": "physical shipment section header in line expanded panel",
+    "string": "Shipments"
   },
   "0iMYc+": {
     "context": "field is optional",
@@ -874,6 +883,10 @@
   },
   "2atspc": {
     "string": "Drafts"
+  },
+  "2cFaF8": {
+    "context": "fulfill a single order line from row menu",
+    "string": "Fulfill this line"
   },
   "2dgbGR": {
     "string": "Those codes already exist"
@@ -1496,6 +1509,10 @@
   "5oVmhu": {
     "string": "Cancel request sent to payment provider"
   },
+  "5oaFMX": {
+    "context": "granted transaction refund quantity in line matrix",
+    "string": "Transaction refund"
+  },
   "5pHBSU": {
     "context": "switch button",
     "string": "Product type uses Variant Attributes"
@@ -1562,6 +1579,10 @@
   },
   "6D+yYX": {
     "string": "Payment status"
+  },
+  "6DJVl5": {
+    "context": "canceled fulfillment, original source warehouse info",
+    "string": "Shipped from {warehouseName}"
   },
   "6GTAm2": {
     "context": "order history message",
@@ -1857,6 +1878,10 @@
     "context": "no shipping method option",
     "string": "No shipping method"
   },
+  "7az76v": {
+    "context": "tooltip for status column in line matrix",
+    "string": "Click to view shipments and refunds for this line."
+  },
   "7bueG3": {
     "context": "export scope section header for gift cards",
     "string": "Gift cards to include"
@@ -1984,6 +2009,10 @@
   "8JEG80": {
     "context": "warning when authorized is less than total",
     "string": "The remaining authorization doesn't cover the balance. {shortfall} will need a separate payment."
+  },
+  "8K3PGM": {
+    "context": "line rollup status when a transaction refund draft exists",
+    "string": "Refund draft"
   },
   "8Kk3r9": {
     "context": "Status when product availability is scheduled for future date",
@@ -2593,6 +2622,10 @@
   "BJtUQI": {
     "context": "button",
     "string": "Add"
+  },
+  "BL0Yro": {
+    "context": "aria label for timeline vs line matrix switch",
+    "string": "Order items view"
   },
   "BLX9dz": {
     "context": "fulfill order, button",
@@ -3425,6 +3458,10 @@
     "context": "label",
     "string": "Shipping rate name"
   },
+  "FkHonS": {
+    "context": "refund a single order line from row menu",
+    "string": "Refund this line"
+  },
   "FkRNk+": {
     "context": "field placeholder",
     "string": "Description of a shipping zone."
@@ -3615,10 +3652,6 @@
   "GTg7rP": {
     "context": "configuration menu item title",
     "string": "Product attributes"
-  },
-  "GU+ikh": {
-    "context": "dialog description when restock warehouse must be selected",
-    "string": "Canceling a fulfillment will restock products at a selected warehouse."
   },
   "GUeIcq": {
     "context": "edit structure, header",
@@ -3965,6 +3998,9 @@
     "context": "VariantDetailsChannelsAvailabilityCard subtitle. Counts channel listings, not customer-facing availability or stock. Phrasing must not imply purchasability.",
     "string": "Listed in {publishedInChannelsCount} of {availableChannelsCount} channels"
   },
+  "I/7E/4": {
+    "string": "{quantity, plural, one {# unit} other {# units}}"
+  },
   "I/y4IU": {
     "context": "alert message",
     "string": "one of"
@@ -4068,6 +4104,9 @@
   },
   "IOg+Hh": {
     "string": "Refund with manual amount"
+  },
+  "ITSq4J": {
+    "string": "Unit price"
   },
   "ITYiRy": {
     "string": "Go to collections"
@@ -4474,6 +4513,10 @@
   "KYMCYg": {
     "string": "Shipping rate deleted"
   },
+  "KYtsk7": {
+    "context": "transaction refund card label in line expanded panel",
+    "string": "Transaction refund"
+  },
   "KcsJKm": {
     "context": "error with activatation alert message",
     "string": "Error activating gift {count,plural,one{card} other{cards}}"
@@ -4538,6 +4581,10 @@
     "context": "category attribute entity type",
     "string": "Categories"
   },
+  "KzpsXH": {
+    "context": "fallback when transaction refund failure has no provider message",
+    "string": "The payment provider did not complete this refund. Open the refund to review and try again."
+  },
   "L/O4LQ": {
     "context": "order refund amount",
     "string": "Authorized Amount"
@@ -4583,6 +4630,10 @@
   "LApQsw": {
     "context": "create attribute from product type, button",
     "string": "Create attribute"
+  },
+  "LBu3Q2": {
+    "context": "note when granted refund amount includes shipping costs",
+    "string": "(incl. shipping)"
   },
   "LCPfA9": {
     "string": "Open this voucher in GraphiQL"
@@ -4755,6 +4806,10 @@
     "context": "custom app token key",
     "string": "Key"
   },
+  "MB+UTU": {
+    "context": "collapse canceled fulfillments in timeline view",
+    "string": "Hide canceled shipments"
+  },
   "MDLYPO": {
     "context": "fallback widget title when extension label and app name are missing",
     "string": "App"
@@ -4762,6 +4817,10 @@
   "MFC20a": {
     "context": "Number of warehouses configured",
     "string": "{count, plural, one {# warehouse} other {# warehouses}}"
+  },
+  "MFPCsL": {
+    "context": "expand canceled fulfillments in timeline view",
+    "string": "Show {count, plural, one {# canceled shipment} other {# canceled shipments}}"
   },
   "MFUQrr": {
     "context": "Placeholder for date picker",
@@ -5313,6 +5372,9 @@
     "context": "numeric attribute unit",
     "string": "Unit"
   },
+  "OtIOMb": {
+    "string": "Shipped"
+  },
   "OtMtzH": {
     "string": "Product unavailable in collection channels"
   },
@@ -5376,10 +5438,6 @@
   "P9YktI": {
     "context": "save preset, header",
     "string": "Save view preset"
-  },
-  "PAqicb": {
-    "context": "button",
-    "string": "Cancel order"
   },
   "PBd/e+": {
     "context": "dialog header",
@@ -5453,6 +5511,9 @@
     "context": "WarehousesSection select field label",
     "string": "Warehouse"
   },
+  "PWTzkQ": {
+    "string": "Ordered"
+  },
   "PXatmC": {
     "string": "Customer Removed"
   },
@@ -5499,6 +5560,10 @@
     "context": "check to require numeric attribute unit",
     "string": "Select unit"
   },
+  "Piivpc": {
+    "context": "transaction refund column tooltip in line matrix",
+    "string": "Units and amount covered by granted transaction refunds for this line."
+  },
   "PilTI6": {
     "context": "issue gift card button label",
     "string": "Issue"
@@ -5539,6 +5604,10 @@
   "PvrceS": {
     "context": "Refund draft status",
     "string": "Draft"
+  },
+  "Pw0Gd0": {
+    "context": "order history message",
+    "string": "Restocked {quantity, plural, one {# item} other {# items}} to {warehouseName}"
   },
   "PwJvsc": {
     "context": "address search input label in order address edit dialog",
@@ -5633,6 +5702,9 @@
   "QBxN6z": {
     "context": "is filter range or value",
     "string": "between"
+  },
+  "QDxJib": {
+    "string": "Fulfill"
   },
   "QEXGYB": {
     "context": "Reassurance under verification badge when product is purchasable in legacy mode",
@@ -5797,6 +5869,10 @@
   "R8+DNv": {
     "context": "section title",
     "string": "Webhook emission"
+  },
+  "R8R2lk": {
+    "context": "transaction refund section header in line expanded panel",
+    "string": "Transaction refunds"
   },
   "R98JLZ": {
     "context": "OrderCustomer Fulfillment from All Warehouses",
@@ -6073,6 +6149,10 @@
   "SZyphU": {
     "string": "Product type created"
   },
+  "Sbz/xB": {
+    "context": "open fulfillment metadata from line expanded panel",
+    "string": "View fulfillment metadata"
+  },
   "SceSNp": {
     "string": "Remove following permissions:"
   },
@@ -6144,6 +6224,10 @@
   "T6dXGG": {
     "context": "header",
     "string": "Create Variant"
+  },
+  "T7Dju4": {
+    "context": "replaced quantity column in line matrix",
+    "string": "Replaced"
   },
   "T83iU7": {
     "string": "Search categories..."
@@ -6639,6 +6723,9 @@
     "context": "weight units type",
     "string": "Weight"
   },
+  "Vf57Ie": {
+    "string": "Partially fulfilled"
+  },
   "VkYZQ8": {
     "string": "Current Permissions"
   },
@@ -6929,6 +7016,10 @@
     "context": "discount type",
     "string": "Fixed amount"
   },
+  "XExNls": {
+    "context": "callout title for granted refunds not tied to a line",
+    "string": "{count, plural, one {# order-level refund needs attention} other {# order-level refunds need attention}}"
+  },
   "XFErUZ": {
     "context": "Refund pending status",
     "string": "Pending"
@@ -7185,6 +7276,10 @@
   "YJ4fhf": {
     "context": "successfully created gift card alert notification title",
     "string": "Gift card created"
+  },
+  "YJlipb": {
+    "context": "line rollup status when a transaction refund failed",
+    "string": "Refund failed"
   },
   "YL8K/3": {
     "context": "automatic completion delay input label",
@@ -7665,6 +7760,10 @@
   "aasX8r": {
     "context": "label",
     "string": "Link type"
+  },
+  "ab8LMF": {
+    "context": "return a single order line from row menu",
+    "string": "Return this line"
   },
   "abTH5q": {
     "context": "error message",
@@ -8293,6 +8392,10 @@
     "context": "Health check showing variants with stock count",
     "string": "Variants with stock: {count}/{total}"
   },
+  "dLvcnv": {
+    "context": "button to open order-level granted refund editor",
+    "string": "Review refund"
+  },
   "dM86a2": {
     "string": "No categories found"
   },
@@ -8378,6 +8481,10 @@
   },
   "e0lt+l": {
     "string": "See documentation"
+  },
+  "e3NyeN": {
+    "context": "fulfill card title for a single line",
+    "string": "Item ready to ship"
   },
   "e4UtKH": {
     "context": "Transaction event status - failure",
@@ -8613,6 +8720,10 @@
   },
   "fXdkiI": {
     "string": "is"
+  },
+  "fZTOwM": {
+    "context": "quantity refunded via fulfillment records in line matrix",
+    "string": "Fulfillment refund"
   },
   "fbH51z": {
     "context": "Amount error message",
@@ -9118,9 +9229,17 @@
     "context": "Checkbox label for scheduling availability for a future date",
     "string": "Schedule for later"
   },
+  "i4WCUJ": {
+    "context": "inline notice for order-level granted refunds in matrix view",
+    "string": "{amount} is not tied to a specific line{includesShipping, select, true { and includes shipping} other {}}."
+  },
   "i56GGQ": {
     "context": "order refund amount",
     "string": "Replaced Products Value"
+  },
+  "i8FLQQ": {
+    "context": "load more subcategories in category tree",
+    "string": "Load {count, plural, one {# more subcategory} other {# more subcategories}}"
   },
   "iAaYh4": {
     "context": "Info box description for unavailable products",
@@ -9197,9 +9316,16 @@
     "context": "vouchers section name",
     "string": "Vouchers"
   },
+  "iWbl/h": {
+    "string": "Partially returned"
+  },
   "iWmfMe": {
     "context": "button",
     "string": "Create promotion"
+  },
+  "iWtHOU": {
+    "context": "subtitle when fulfill page opened for a single line from matrix",
+    "string": "Opened from the line matrix for {productName}. Adjust quantity or warehouse before submitting."
   },
   "iWyoZn": {
     "context": "dialog content",
@@ -9224,6 +9350,9 @@
   "if9gAZ": {
     "context": "Transaction event status - unknown status, info without event data",
     "string": "Info"
+  },
+  "igoIjo": {
+    "string": "Line matrix"
   },
   "iidznP": {
     "context": "password login mode option description",
@@ -9588,6 +9717,10 @@
     "context": "aria label for rest of the world quick pick help tooltip",
     "string": "About Rest of the World"
   },
+  "kHU+p8": {
+    "context": "collapse canceled shipments in line expanded panel",
+    "string": "Hide canceled shipments"
+  },
   "kIcyUo": {
     "context": "column header",
     "string": "Slug"
@@ -9629,8 +9762,16 @@
     "context": "customer account email-verification row label",
     "string": "Email"
   },
+  "kThWsq": {
+    "context": "fulfillment refund amount in expanded shipment row",
+    "string": "Refunded {amount}"
+  },
   "kTr2o8": {
     "string": "Attribute name"
+  },
+  "kVKMLf": {
+    "context": "notifier after transfer funds mutation succeeds",
+    "string": "Refund request sent to payment provider"
   },
   "kVKTwC": {
     "context": "order expiration card title",
@@ -9766,6 +9907,10 @@
   "l2oVCF": {
     "context": "attributes section name",
     "string": "Attributes"
+  },
+  "l3LUAN": {
+    "context": "inline notice when multiple order-level granted refunds need attention",
+    "string": "They are not tied to specific order lines."
   },
   "l3iOju": {
     "context": "transaction event type, transaction was refunded to client",
@@ -10438,6 +10583,9 @@
   "oQY0a2": {
     "string": "Address line 2"
   },
+  "oUM6fi": {
+    "string": "To fulfill"
+  },
   "oUWADl": {
     "string": "No"
   },
@@ -10447,6 +10595,9 @@
   },
   "oUkVpp": {
     "string": "Open this customer in GraphiQL"
+  },
+  "oUxBlO": {
+    "string": "Line details for {productName}"
   },
   "oWIL0E": {
     "context": "order header date, older than yesterday",
@@ -10646,6 +10797,10 @@
     "context": "order status",
     "string": "Status"
   },
+  "pV9VOI": {
+    "context": "fulfillment refund column tooltip in line matrix",
+    "string": "Units refunded through fulfillment records. Amount is estimated from the line unit price."
+  },
   "pVFoOk": {
     "string": "Are you sure you want to delete {collectionName}?"
   },
@@ -10726,6 +10881,10 @@
   "puikeb": {
     "context": "button",
     "string": "Delete Address"
+  },
+  "pxCn3q": {
+    "context": "button to clear lineId filter on return page",
+    "string": "Show all lines"
   },
   "pyiyxe": {
     "context": "button",
@@ -11049,6 +11208,10 @@
     "context": "invalid date in expirydate field content",
     "string": "Gift Card with past expiration date cannot be created"
   },
+  "rFPJmR": {
+    "context": "inline hint when return page is opened with lineId",
+    "string": "Opened from the line matrix for {productName}. Quantities are prefilled for this line — adjust before submitting."
+  },
   "rGj6RR": {
     "context": "order header date, older than yesterday",
     "string": "Placed {date}"
@@ -11297,6 +11460,10 @@
   },
   "sZ4enl": {
     "string": "Excludes results matching the term"
+  },
+  "sZ8CgC": {
+    "context": "screen reader announcement when matrix line is expanded",
+    "string": "Shipments expanded for {productName}"
   },
   "saKXY3": {
     "context": "product label",
@@ -11625,6 +11792,9 @@
     "context": "factor label for a free-gift order line granted by an ORDER_PROMOTION rule (line.isGift = true on the backend)",
     "string": "Free gift"
   },
+  "u7flSd": {
+    "string": "No shipments or transaction refunds recorded for this line yet."
+  },
   "u9/vj9": {
     "context": "webhook input label",
     "string": "Target URL"
@@ -11665,6 +11835,9 @@
   },
   "uOC/uQ": {
     "string": "Image updated"
+  },
+  "uPg2BK": {
+    "string": "Quantities show fulfillment status per unit. Click a line's status or row to manage shipments."
   },
   "uQNm59": {
     "context": "add header,button",
@@ -11822,6 +11995,9 @@
   "v/tz3W": {
     "context": "Summary of diagnostic issues found",
     "string": "{errorCount, plural, =0 {} one {# problem} other {# problems}}{hasWarnings, select, true {{hasErrors, select, true {, } other {}}} other {}}{warningCount, plural, =0 {} one {# warning} other {# warnings}} found"
+  },
+  "v0fBOU": {
+    "string": "Collapse all"
   },
   "v17EX7": {
     "context": "built-in attribute list filter preset",
@@ -12276,6 +12452,9 @@
     "context": "button",
     "string": "Create Webhook"
   },
+  "wm96Jx": {
+    "string": "Returned"
+  },
   "wmdHhD": {
     "context": "button",
     "string": "Create Warehouse"
@@ -12374,6 +12553,10 @@
   "xEef/i": {
     "string": "Open this model in GraphiQL"
   },
+  "xErmO2": {
+    "context": "open granted refund editor from line expanded panel",
+    "string": "Edit & transfer"
+  },
   "xFSJR1": {
     "context": "recent changes shortcut",
     "string": "What's New"
@@ -12423,6 +12606,10 @@
   "xVn5B0": {
     "context": "added new attribute value",
     "string": "Added new value"
+  },
+  "xWtZEw": {
+    "context": "expand canceled shipments in line expanded panel",
+    "string": "Show {count, plural, one {# canceled shipment} other {# canceled shipments}}"
   },
   "xeMcID": {
     "string": "Warehouse created"
@@ -12495,6 +12682,10 @@
     "context": "custom preset delete, dialog header",
     "string": "Delete preset"
   },
+  "xzgaxr": {
+    "context": "dialog description when restock warehouse must be selected",
+    "string": "Canceling a fulfillment will restock products at the selected warehouse. The warehouse this fulfillment shipped from is pre-selected."
+  },
   "y+718D": {
     "context": "factor label for whole-order voucher propagated to a line",
     "string": "Voucher (order, line share)"
@@ -12526,6 +12717,10 @@
   "y8E0iG": {
     "context": "seo incomplete text",
     "string": "Incomplete"
+  },
+  "y8hdd1": {
+    "context": "cancel fulfillment action in shipment row menu",
+    "string": "Cancel fulfillment"
   },
   "y93ihJ": {
     "context": "dialog title when opening generator with unsaved changes",
@@ -12563,6 +12758,10 @@
   "yJynYK": {
     "context": "discount value",
     "string": "discount"
+  },
+  "yMjwop": {
+    "context": "granted refund amount in line expanded panel",
+    "string": "Refund total {amount}"
   },
   "yOaNWB": {
     "context": "delete shipping method",
@@ -12721,6 +12920,10 @@
   "zIPK5M": {
     "string": "Enable refund reasons in settings"
   },
+  "zIeG3b": {
+    "context": "dialog description when canceling unapproved fulfillment",
+    "string": "This fulfillment has not been approved yet. Canceling removes the pending shipment and does not require restocking inventory."
+  },
   "zJpP1T": {
     "context": "create new structure, header",
     "string": "Add Item"
@@ -12777,6 +12980,9 @@
   },
   "zWgbGg": {
     "string": "Today"
+  },
+  "zWkvNO": {
+    "string": "Timeline"
   },
   "zY1K7Q": {
     "context": "fulfillment status refunded and returned",
