@@ -93,6 +93,10 @@
     "context": "discount type percentage",
     "string": "Percentage"
   },
+  "+ZVimo": {
+    "context": "fallback detail when a price override has no reason recorded",
+    "string": "Custom price set for this line"
+  },
   "+ZwF+1": {
     "context": "Description for live status when product is visible but purchase is scheduled",
     "string": "Visible but not purchasable"
@@ -841,6 +845,10 @@
   "2HfSiT": {
     "context": "pagination",
     "string": "No. of rows"
+  },
+  "2IHDvg": {
+    "context": "badge marking that the base price was set custom (overridden)",
+    "string": "Overridden"
   },
   "2J6EFz": {
     "context": "button",
@@ -4268,6 +4276,10 @@
   },
   "IWP25U": {
     "string": "You cannot issue a granted refund for this order. None of your transactions have authorized or charged amount."
+  },
+  "IX6V42": {
+    "context": "order line price override reason",
+    "string": "Price override reason"
   },
   "IXCA8O": {
     "string": "Permission group updated"
