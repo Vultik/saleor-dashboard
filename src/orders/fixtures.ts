@@ -23,7 +23,6 @@ import {
   PaymentChargeStatusEnum,
   type PaymentGatewayFragment,
   type SearchCustomersQuery,
-  type SearchOrderVariantQuery,
   type SearchWarehousesQuery,
   type ShopOrderSettingsFragment,
   TransactionActionEnum,
@@ -33,6 +32,7 @@ import {
   TransactionKind,
   WeightUnitsEnum,
 } from "@dashboard/graphql";
+import { type OrderSearchProduct } from "@dashboard/searches/mapSearchOrderVariantsForAdd";
 import { staffMember } from "@dashboard/staff/fixtures";
 import { type RelayToFlat } from "@dashboard/types";
 import { warehouseForPickup, warehouseList } from "@dashboard/warehouses/fixtures";
@@ -2841,9 +2841,7 @@ export const shippingMethods = [
   { country: "whole world", id: 1, name: "DHL", price: {} },
   { country: "Afghanistan", id: 2, name: "UPS" },
 ];
-export const orderLineSearch = (
-  placeholderImage: string,
-): RelayToFlat<SearchOrderVariantQuery["search"]> => [
+export const orderLineSearch = (placeholderImage: string): OrderSearchProduct[] => [
   {
     __typename: "Product" as const,
     id: "UHJvZHVjdDo3Mg==",
@@ -2852,6 +2850,9 @@ export const orderLineSearch = (
       __typename: "Image" as const,
       url: placeholderImage,
     },
+    variantsTotalCount: 3,
+    variantsHasNextPage: false,
+    variantsEndCursor: null,
     variants: [
       {
         __typename: "ProductVariant" as const,
@@ -2941,6 +2942,9 @@ export const orderLineSearch = (
       __typename: "Image" as const,
       url: placeholderImage,
     },
+    variantsTotalCount: 3,
+    variantsHasNextPage: false,
+    variantsEndCursor: null,
     variants: [
       {
         __typename: "ProductVariant" as const,
