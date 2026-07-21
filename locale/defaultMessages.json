@@ -704,6 +704,10 @@
     "context": "section header",
     "string": "Recent Orders"
   },
+  "1O/T5n": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted by {adjustedBy}"
+  },
   "1SwKZV": {
     "context": "create attribute and assign to model type button",
     "string": "Create and assign"
@@ -993,6 +997,10 @@
   "2sDBzg": {
     "context": "reference types multiselect label for product entity",
     "string": "Product types"
+  },
+  "2wSYZf": {
+    "context": "gift card assign customer select label",
+    "string": "Customer"
   },
   "2x9ZgK": {
     "context": "card title",
@@ -1718,6 +1726,10 @@
   "6ZubLQ": {
     "string": "Manage available refunds reasons"
   },
+  "6a+Epp": {
+    "context": "gift card history message",
+    "string": "Gift card was assigned to {customer} by {assignedBy}"
+  },
   "6a075o": {
     "context": "activate customer dialog, content",
     "string": "Are you sure you want to activate {email}? They will be able to sign in and place new orders."
@@ -2213,6 +2225,10 @@
     "context": "dialog content",
     "string": "{counter,plural,one{Are you sure you want to publish this model?} other{Are you sure you want to publish {displayQuantity} models?}}"
   },
+  "8zFkHk": {
+    "context": "restrict gift card to customer field subtitle",
+    "string": "Only the selected customer will be able to use this gift card. Leave empty to allow any customer."
+  },
   "8zOO4H": {
     "context": "order return reason card, structured reason required helper text",
     "string": "Return reason is required"
@@ -2542,6 +2558,10 @@
   "AWyKB7": {
     "context": "card header title",
     "string": "Channel list"
+  },
+  "AXEs7u": {
+    "context": "gift card history message",
+    "string": "Gift card was unassigned from {customer}"
   },
   "AY7Tuz": {
     "string": "The same object cannot be in both lists"
@@ -3077,6 +3097,10 @@
     "context": "webhook input label",
     "string": "Webhook Name"
   },
+  "D0hIP2": {
+    "context": "gift card history message fallback when customer email is unavailable",
+    "string": "a customer"
+  },
   "D1rO7x": {
     "context": "tooltip for a clickable voucher name in the line price breakdown that opens the voucher detail page",
     "string": "Open voucher"
@@ -3371,6 +3395,10 @@
   "EbwsDr": {
     "context": "shipping method types help example table result column",
     "string": "Shown"
+  },
+  "EcSHlt": {
+    "context": "assign gift card customer dialog title",
+    "string": "Assign customer"
   },
   "EcglP9": {
     "string": "Key"
@@ -3776,6 +3804,10 @@
   "GNKG74": {
     "context": "webhooks inactive label",
     "string": "Inactive"
+  },
+  "GOKr7S": {
+    "context": "gift card history message",
+    "string": "Gift card was assigned to {customer}"
   },
   "GOdq5V": {
     "string": "Catalog"
@@ -4679,6 +4711,10 @@
     "context": "tooltip, submit form",
     "string": "You have to grant refund first."
   },
+  "KOx6cY": {
+    "context": "unassign gift card from customer button",
+    "string": "Unassign"
+  },
   "KPmk40": {
     "context": "charge status partial",
     "string": "Partial"
@@ -4835,6 +4871,10 @@
   },
   "LCmiky": {
     "string": "Shipping zones deleted"
+  },
+  "LD4Vnf": {
+    "context": "gift card assigned customer label",
+    "string": "Assigned to"
   },
   "LICZeR": {
     "context": "weight",
@@ -5065,6 +5105,10 @@
   "ML+YsS": {
     "context": "button",
     "string": "Create {typeName}"
+  },
+  "MLIPQX": {
+    "context": "change assigned gift card customer button",
+    "string": "Change"
   },
   "MNZY28": {
     "context": "table column header",
@@ -5587,6 +5631,10 @@
   "Orgqv4": {
     "context": "numeric attribute unit",
     "string": "Unit"
+  },
+  "OsHE5l": {
+    "context": "gift card history message",
+    "string": "Gift card balance was reset from {oldBalance} to {newBalance}"
   },
   "OtIOMb": {
     "string": "Shipped"
@@ -6581,6 +6629,10 @@
   "Taa5V7": {
     "context": "dialog subtitle",
     "string": "You can only add products available for the order's channel"
+  },
+  "Tbaoeu": {
+    "context": "column title assigned to customer",
+    "string": "Assigned to"
   },
   "TdTXXf": {
     "string": "Learn more"
@@ -7593,6 +7645,10 @@
     "context": "Cancel in progress transaction amount, data display header",
     "string": "Pending cancel"
   },
+  "YUxIMo": {
+    "context": "assign gift card customer dialog confirm button",
+    "string": "Assign"
+  },
   "YVIajc": {
     "context": "product field",
     "string": "Description"
@@ -7646,6 +7702,10 @@
   "Ykw8k5": {
     "context": "dialog title",
     "string": "Delete collections"
+  },
+  "YlJchr": {
+    "context": "gift card history message",
+    "string": "Gift card balance was reset from {oldBalance} to {newBalance} by {resetBy}"
   },
   "Ynjq+C": {
     "string": "Fully charged"
@@ -7743,6 +7803,10 @@
   "ZCSOaS": {
     "string": "Limit to voucher code use once"
   },
+  "ZD3/vJ": {
+    "context": "gift card customer unassigned success message",
+    "string": "Customer unassigned"
+  },
   "ZDJEat": {
     "context": "button",
     "string": "Load More"
@@ -7812,6 +7876,10 @@
   "ZZb4E+": {
     "context": "automatically complete checkouts checkbox description",
     "string": "When enabled, checkouts detected as fully paid will be completed automatically, without checkoutComplete mutation. {link}"
+  },
+  "Za3SQQ": {
+    "context": "gift card history message",
+    "string": "Gift card was unassigned from {customer} by {unassignedBy}"
   },
   "ZaDvwq": {
     "context": "helper text shown in line discount modal when automatic discount is applied",
@@ -8175,6 +8243,10 @@
     "context": "configuration section label for store identity and accounts",
     "string": "Store"
   },
+  "bBhgtd": {
+    "context": "restrict gift card to customer field label",
+    "string": "Restrict to customer"
+  },
   "bBiDNg": {
     "context": "order history message",
     "string": "Transaction event"
@@ -8523,6 +8595,10 @@
   },
   "cS1wAx": {
     "string": "I know what I'm doing - confirm"
+  },
+  "cSLXjT": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted"
   },
   "cVjewM": {
     "context": "label for radio button",
@@ -9369,6 +9445,10 @@
   "hAoqp6": {
     "string": "Failed to save permissions. Refresh the page and try again."
   },
+  "hAyk99": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted from {oldBalance} to {newBalance} by {adjustedBy}"
+  },
   "hGI8RO": {
     "context": "PageTypeDeleteWarningDialog single consent label",
     "string": "Yes, I want to delete this model type and assigned models"
@@ -10037,6 +10117,10 @@
   "kAPaN6": {
     "context": "empty metadata text",
     "string": "Empty"
+  },
+  "kB9lYq": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted from {oldBalance} to {newBalance}"
   },
   "kBCNfL": {
     "context": "Button to verify product availability via public API",
@@ -12738,6 +12822,10 @@
     "context": "button",
     "string": "Edit Address"
   },
+  "w/fKY5": {
+    "context": "assign gift card to customer button",
+    "string": "Assign customer"
+  },
   "w067gF": {
     "context": "refund section header",
     "string": "Refunds"
@@ -13050,6 +13138,10 @@
     "context": "attribute's label",
     "string": "Default Label"
   },
+  "xPJQvL": {
+    "context": "gift card customer assigned success message",
+    "string": "Customer assigned"
+  },
   "xRMVTn": {
     "string": "Read-only — editing requires Manage users"
   },
@@ -13344,6 +13436,10 @@
   "z0gGP+": {
     "context": "number of attributes",
     "string": "{number} Attributes"
+  },
+  "z12p7o": {
+    "context": "assign gift card customer dialog subtitle",
+    "string": "Only the selected customer will be able to use this gift card."
   },
   "z1y9oL": {
     "context": "file attribute type",

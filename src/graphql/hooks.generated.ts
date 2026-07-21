@@ -1501,6 +1501,10 @@ export const GiftCardEventFragmentDoc = gql`
   orderNumber
   tags
   oldTags
+  assignedTo {
+    oldAssignedToEmail
+    currentAssignedToEmail
+  }
   balance {
     initialBalance {
       ...Money
@@ -1536,6 +1540,10 @@ export const GiftCardDataFragmentDoc = gql`
     id
     name
   }
+  assignedTo {
+    ...UserBase
+  }
+  assignedToEmail
   createdByEmail
   created
   expiryDate
@@ -10918,6 +10926,85 @@ export function useGiftCardAddNoteMutation(baseOptions?: ApolloReactHooks.Mutati
 export type GiftCardAddNoteMutationHookResult = ReturnType<typeof useGiftCardAddNoteMutation>;
 export type GiftCardAddNoteMutationResult = Apollo.MutationResult<Types.GiftCardAddNoteMutation>;
 export type GiftCardAddNoteMutationOptions = Apollo.BaseMutationOptions<Types.GiftCardAddNoteMutation, Types.GiftCardAddNoteMutationVariables>;
+export const GiftCardAssignUserDocument = gql`
+    mutation GiftCardAssignUser($id: ID!, $userId: ID!) {
+  giftCardAssignUser(id: $id, userId: $userId) {
+    errors {
+      ...GiftCardError
+    }
+    giftCard {
+      ...GiftCardData
+    }
+  }
+}
+    ${GiftCardErrorFragmentDoc}
+${GiftCardDataFragmentDoc}`;
+export type GiftCardAssignUserMutationFn = Apollo.MutationFunction<Types.GiftCardAssignUserMutation, Types.GiftCardAssignUserMutationVariables>;
+
+/**
+ * __useGiftCardAssignUserMutation__
+ *
+ * To run a mutation, you first call `useGiftCardAssignUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGiftCardAssignUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [giftCardAssignUserMutation, { data, loading, error }] = useGiftCardAssignUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGiftCardAssignUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Types.GiftCardAssignUserMutation, Types.GiftCardAssignUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<Types.GiftCardAssignUserMutation, Types.GiftCardAssignUserMutationVariables>(GiftCardAssignUserDocument, options);
+      }
+export type GiftCardAssignUserMutationHookResult = ReturnType<typeof useGiftCardAssignUserMutation>;
+export type GiftCardAssignUserMutationResult = Apollo.MutationResult<Types.GiftCardAssignUserMutation>;
+export type GiftCardAssignUserMutationOptions = Apollo.BaseMutationOptions<Types.GiftCardAssignUserMutation, Types.GiftCardAssignUserMutationVariables>;
+export const GiftCardUnassignUserDocument = gql`
+    mutation GiftCardUnassignUser($id: ID!) {
+  giftCardUnassignUser(id: $id) {
+    errors {
+      ...GiftCardError
+    }
+    giftCard {
+      ...GiftCardData
+    }
+  }
+}
+    ${GiftCardErrorFragmentDoc}
+${GiftCardDataFragmentDoc}`;
+export type GiftCardUnassignUserMutationFn = Apollo.MutationFunction<Types.GiftCardUnassignUserMutation, Types.GiftCardUnassignUserMutationVariables>;
+
+/**
+ * __useGiftCardUnassignUserMutation__
+ *
+ * To run a mutation, you first call `useGiftCardUnassignUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGiftCardUnassignUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [giftCardUnassignUserMutation, { data, loading, error }] = useGiftCardUnassignUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGiftCardUnassignUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Types.GiftCardUnassignUserMutation, Types.GiftCardUnassignUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<Types.GiftCardUnassignUserMutation, Types.GiftCardUnassignUserMutationVariables>(GiftCardUnassignUserDocument, options);
+      }
+export type GiftCardUnassignUserMutationHookResult = ReturnType<typeof useGiftCardUnassignUserMutation>;
+export type GiftCardUnassignUserMutationResult = Apollo.MutationResult<Types.GiftCardUnassignUserMutation>;
+export type GiftCardUnassignUserMutationOptions = Apollo.BaseMutationOptions<Types.GiftCardUnassignUserMutation, Types.GiftCardUnassignUserMutationVariables>;
 export const GiftCardBulkActivateDocument = gql`
     mutation GiftCardBulkActivate($ids: [ID!]!) {
   giftCardBulkActivate(ids: $ids) {
@@ -10996,6 +11083,14 @@ export const GiftCardDetailsDocument = gql`
     ...GiftCardData
     events {
       ...GiftCardEvent
+      assignedTo {
+        currentAssignedTo @include(if: $canSeeUser) {
+          id
+        }
+        oldAssignedTo @include(if: $canSeeUser) {
+          id
+        }
+      }
       app @include(if: $canSeeApp) {
         id
         name
@@ -11132,6 +11227,7 @@ export const GiftCardListDocument = gql`
     edges {
       node {
         id
+        assignedToEmail
         last4CodeChars
         isActive
         expiryDate
