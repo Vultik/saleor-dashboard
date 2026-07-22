@@ -281,6 +281,10 @@
     "context": "section header",
     "string": "Media"
   },
+  "/QIOpX": {
+    "context": "error when fetching all variants for duplicate detection fails",
+    "string": "Could not load existing variants. Close the dialog and try again before generating."
+  },
   "/U8FUp": {
     "string": "Couldn't load activities"
   },
@@ -700,6 +704,10 @@
     "context": "section header",
     "string": "Recent Orders"
   },
+  "1O/T5n": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted by {adjustedBy}"
+  },
   "1SwKZV": {
     "context": "create attribute and assign to model type button",
     "string": "Create and assign"
@@ -990,6 +998,10 @@
     "context": "reference types multiselect label for product entity",
     "string": "Product types"
   },
+  "2wSYZf": {
+    "context": "gift card assign customer select label",
+    "string": "Customer"
+  },
   "2x9ZgK": {
     "context": "card title",
     "string": "Refund balance"
@@ -1179,6 +1191,10 @@
   "3ukd9/": {
     "context": "attributes, section header",
     "string": "Attributes"
+  },
+  "3vWwSN": {
+    "context": "notification when the same SKU would be generated twice in one batch",
+    "string": "Your selection would create duplicate SKUs in this batch: {skus}. Adjust the prefix or selected values."
   },
   "3xv4ez": {
     "string": "Go to users/staff members"
@@ -1710,6 +1726,10 @@
   "6ZubLQ": {
     "string": "Manage available refunds reasons"
   },
+  "6a+Epp": {
+    "context": "gift card history message",
+    "string": "Gift card was assigned to {customer} by {assignedBy}"
+  },
   "6a075o": {
     "context": "activate customer dialog, content",
     "string": "Are you sure you want to activate {email}? They will be able to sign in and place new orders."
@@ -2121,6 +2141,10 @@
   "8a7vg2": {
     "string": "Staff member invited"
   },
+  "8cQf6w": {
+    "context": "dialog description when navigating away from dirty variants grid",
+    "string": "Save or discard your unsaved variant changes before continuing. Newly added rows must be saved before you can search or change page."
+  },
   "8cUEPV": {
     "context": "page title",
     "string": "Create New Attribute"
@@ -2200,6 +2224,10 @@
   "8y4+0a": {
     "context": "dialog content",
     "string": "{counter,plural,one{Are you sure you want to publish this model?} other{Are you sure you want to publish {displayQuantity} models?}}"
+  },
+  "8zFkHk": {
+    "context": "restrict gift card to customer field subtitle",
+    "string": "Only the selected customer will be able to use this gift card. Leave empty to allow any customer."
   },
   "8zOO4H": {
     "context": "order return reason card, structured reason required helper text",
@@ -2530,6 +2558,10 @@
   "AWyKB7": {
     "context": "card header title",
     "string": "Channel list"
+  },
+  "AXEs7u": {
+    "context": "gift card history message",
+    "string": "Gift card was unassigned from {customer}"
   },
   "AY7Tuz": {
     "string": "The same object cannot be in both lists"
@@ -3065,6 +3097,10 @@
     "context": "webhook input label",
     "string": "Webhook Name"
   },
+  "D0hIP2": {
+    "context": "gift card history message fallback when customer email is unavailable",
+    "string": "a customer"
+  },
   "D1rO7x": {
     "context": "tooltip for a clickable voucher name in the line price breakdown that opens the voucher detail page",
     "string": "Open voucher"
@@ -3359,6 +3395,10 @@
   "EbwsDr": {
     "context": "shipping method types help example table result column",
     "string": "Shown"
+  },
+  "EcSHlt": {
+    "context": "assign gift card customer dialog title",
+    "string": "Assign customer"
   },
   "EcglP9": {
     "string": "Key"
@@ -3765,6 +3805,10 @@
     "context": "webhooks inactive label",
     "string": "Inactive"
   },
+  "GOKr7S": {
+    "context": "gift card history message",
+    "string": "Gift card was assigned to {customer}"
+  },
   "GOdq5V": {
     "string": "Catalog"
   },
@@ -3988,6 +4032,10 @@
   "HNwxfx": {
     "context": "seo description field hint",
     "string": "Meta description shown in search engine previews"
+  },
+  "HO4jvE": {
+    "context": "bulk delete selected variants, including count for cross-page selection",
+    "string": "Delete ({count})"
   },
   "HQR2y0": {
     "context": "attribute value is required",
@@ -4471,6 +4519,10 @@
     "context": "onboarding step title",
     "string": "Discover extension capabilities"
   },
+  "JUK2So": {
+    "context": "loading state while fetching more sibling variants on scroll",
+    "string": "Loading…"
+  },
   "JUaiTB": {
     "context": "address search input placeholder in order address edit dialog",
     "string": "Search addresses"
@@ -4659,6 +4711,10 @@
     "context": "tooltip, submit form",
     "string": "You have to grant refund first."
   },
+  "KOx6cY": {
+    "context": "unassign gift card from customer button",
+    "string": "Unassign"
+  },
   "KPmk40": {
     "context": "charge status partial",
     "string": "Partial"
@@ -4816,6 +4872,10 @@
   "LCmiky": {
     "string": "Shipping zones deleted"
   },
+  "LD4Vnf": {
+    "context": "gift card assigned customer label",
+    "string": "Assigned to"
+  },
   "LICZeR": {
     "context": "weight",
     "string": "from {value} {unit}"
@@ -4954,10 +5014,6 @@
     "context": "datagrid title label",
     "string": "Select quantities to refund"
   },
-  "LwWT6O": {
-    "context": "dialog description when opening generator with unsaved changes",
-    "string": "You have unsaved changes to variants. Please save your changes before generating new variants."
-  },
   "Lx1ima": {
     "context": "button",
     "string": "Upload image"
@@ -5049,6 +5105,10 @@
   "ML+YsS": {
     "context": "button",
     "string": "Create {typeName}"
+  },
+  "MLIPQX": {
+    "context": "change assigned gift card customer button",
+    "string": "Change"
   },
   "MNZY28": {
     "context": "table column header",
@@ -5571,6 +5631,10 @@
   "Orgqv4": {
     "context": "numeric attribute unit",
     "string": "Unit"
+  },
+  "OsHE5l": {
+    "context": "gift card history message",
+    "string": "Gift card balance was reset from {oldBalance} to {newBalance}"
   },
   "OtIOMb": {
     "string": "Shipped"
@@ -6522,6 +6586,10 @@
     "context": "model type detail page, top-bar metadata button tooltip",
     "string": "Edit model type metadata"
   },
+  "TQph+r": {
+    "context": "progress under load more variants in assign variant dialog",
+    "string": "{loaded} of {total} loaded"
+  },
   "TSJRiZ": {
     "context": "channel status title",
     "string": "Channel Status"
@@ -6561,6 +6629,10 @@
   "Taa5V7": {
     "context": "dialog subtitle",
     "string": "You can only add products available for the order's channel"
+  },
+  "Tbaoeu": {
+    "context": "column title assigned to customer",
+    "string": "Assigned to"
   },
   "TdTXXf": {
     "string": "Learn more"
@@ -6760,6 +6832,10 @@
   "Ui4GxI": {
     "context": "gift card bulk create success dialog export button",
     "string": "Export to email"
+  },
+  "Uj/iBz": {
+    "context": "shown while fetching all variants for duplicate detection",
+    "string": "Loading existing variants…"
   },
   "UjoSZB": {
     "context": "dialog content",
@@ -7033,6 +7109,10 @@
     "context": "staff member full name",
     "string": "Name"
   },
+  "W5DAXI": {
+    "context": "product variants grid search placeholder",
+    "string": "Search variants by name or SKU"
+  },
   "W5hb5H": {
     "context": "warehouse input",
     "string": "Warehouse"
@@ -7070,6 +7150,10 @@
   "WE8IFE": {
     "context": "product name",
     "string": "Product"
+  },
+  "WGHw5Q": {
+    "context": "Hint under the pinned current variant when it is out of the scroll viewport or not loaded yet",
+    "string": "Not visible in the list — scroll or search."
   },
   "WGp+Fw": {
     "context": "order refund amount",
@@ -7515,6 +7599,10 @@
     "context": "product availability date label",
     "string": "Set availability date"
   },
+  "YG29Na": {
+    "context": "variants grid range label with count of unsaved staged deletions",
+    "string": "{range} ({count} pending delete)"
+  },
   "YI6Fhj": {
     "context": "no address is set in draft order",
     "string": "Not set"
@@ -7556,6 +7644,10 @@
   "YUaalK": {
     "context": "Cancel in progress transaction amount, data display header",
     "string": "Pending cancel"
+  },
+  "YUxIMo": {
+    "context": "assign gift card customer dialog confirm button",
+    "string": "Assign"
   },
   "YVIajc": {
     "context": "product field",
@@ -7610,6 +7702,10 @@
   "Ykw8k5": {
     "context": "dialog title",
     "string": "Delete collections"
+  },
+  "YlJchr": {
+    "context": "gift card history message",
+    "string": "Gift card balance was reset from {oldBalance} to {newBalance} by {resetBy}"
   },
   "Ynjq+C": {
     "string": "Fully charged"
@@ -7707,6 +7803,10 @@
   "ZCSOaS": {
     "string": "Limit to voucher code use once"
   },
+  "ZD3/vJ": {
+    "context": "gift card customer unassigned success message",
+    "string": "Customer unassigned"
+  },
   "ZDJEat": {
     "context": "button",
     "string": "Load More"
@@ -7737,6 +7837,10 @@
   "ZJh40A": {
     "context": "bulk translation save success",
     "string": "All translations saved"
+  },
+  "ZJib9I": {
+    "context": "empty state when variants grid search returns no results",
+    "string": "No variants match \"{query}\""
   },
   "ZLcjD2": {
     "string": "Password reset failed"
@@ -7772,6 +7876,10 @@
   "ZZb4E+": {
     "context": "automatically complete checkouts checkbox description",
     "string": "When enabled, checkouts detected as fully paid will be completed automatically, without checkoutComplete mutation. {link}"
+  },
+  "Za3SQQ": {
+    "context": "gift card history message",
+    "string": "Gift card was unassigned from {customer} by {unassignedBy}"
   },
   "ZaDvwq": {
     "context": "helper text shown in line discount modal when automatic discount is applied",
@@ -8135,6 +8243,10 @@
     "context": "configuration section label for store identity and accounts",
     "string": "Store"
   },
+  "bBhgtd": {
+    "context": "restrict gift card to customer field label",
+    "string": "Restrict to customer"
+  },
   "bBiDNg": {
     "context": "order history message",
     "string": "Transaction event"
@@ -8272,6 +8384,10 @@
     "context": "voucher requirement",
     "string": "Minimal order value"
   },
+  "bhcIMr": {
+    "context": "notification title when generated SKUs already exist",
+    "string": "SKU conflict"
+  },
   "biDgQS": {
     "context": "button, opens modal to create transaction in order",
     "string": "Manual transaction"
@@ -8337,6 +8453,10 @@
   },
   "bsP4f3": {
     "string": "No tokens found"
+  },
+  "bsxEP7": {
+    "context": "dialog title when navigating away from dirty variants grid",
+    "string": "Unsaved changes"
   },
   "bu/fC1": {
     "context": "button",
@@ -8475,6 +8595,10 @@
   },
   "cS1wAx": {
     "string": "I know what I'm doing - confirm"
+  },
+  "cSLXjT": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted"
   },
   "cVjewM": {
     "context": "label for radio button",
@@ -8999,6 +9123,10 @@
   "fXdkiI": {
     "string": "is"
   },
+  "fYRCRL": {
+    "context": "button to fetch the next page of variants in assign variant dialog",
+    "string": "Load more variants"
+  },
   "fZTOwM": {
     "context": "quantity refunded via fulfillment records in line matrix",
     "string": "Fulfillment refund"
@@ -9203,6 +9331,10 @@
     "context": "deactivate customer dialog, content",
     "string": "Are you sure you want to deactivate {email}? They will no longer be able to sign in or place new orders."
   },
+  "gf1eAF": {
+    "context": "Explains that only priced variants are listed, while loaded counts every fetched variant page",
+    "string": "Showing {shown} with a price in this channel · {loaded} of {total} loaded"
+  },
   "gfRbEV": {
     "string": "Note updated"
   },
@@ -9313,6 +9445,10 @@
   "hAoqp6": {
     "string": "Failed to save permissions. Refresh the page and try again."
   },
+  "hAyk99": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted from {oldBalance} to {newBalance} by {adjustedBy}"
+  },
   "hGI8RO": {
     "context": "PageTypeDeleteWarningDialog single consent label",
     "string": "Yes, I want to delete this model type and assigned models"
@@ -9399,6 +9535,10 @@
   },
   "hjEkEH": {
     "string": "All webhooks registered by this extension. In case of failed webhook delivery, list of attempts is displayed."
+  },
+  "hjamEg": {
+    "context": "loading state on load more variants button in assign variant dialog",
+    "string": "Loading more"
   },
   "hkENym": {
     "string": "Customer"
@@ -9762,6 +9902,10 @@
   "jGvclB": {
     "string": "Transaction Reference"
   },
+  "jHoIFG": {
+    "context": "how many sibling variants are loaded vs total",
+    "string": "{loaded} of {total}"
+  },
   "jKm3k/": {
     "context": "issue gift card success dialog intro",
     "string": "Copy the code below to share with the customer."
@@ -9973,6 +10117,10 @@
   "kAPaN6": {
     "context": "empty metadata text",
     "string": "Empty"
+  },
+  "kB9lYq": {
+    "context": "gift card history message",
+    "string": "Gift card balance was adjusted from {oldBalance} to {newBalance}"
   },
   "kBCNfL": {
     "context": "Button to verify product availability via public API",
@@ -10286,6 +10434,10 @@
   "lNZuWl": {
     "string": "All orders"
   },
+  "lNfSYi": {
+    "context": "button to fetch the next page of variants for a product in order add-line",
+    "string": "Load more variants"
+  },
   "lQRnYK": {
     "context": "selectt all options",
     "string": "Select All"
@@ -10320,6 +10472,10 @@
   "lXq4EE": {
     "context": "checkbox",
     "string": "Refund shipment: {currency} {amount}"
+  },
+  "lXs9kz": {
+    "context": "Error when Product Doctor variant catalog walk fails",
+    "string": "Could not load all variants for availability checks. Refresh the page to try again."
   },
   "lZC/1a": {
     "string": "greater than {value}"
@@ -11218,6 +11374,10 @@
     "context": "button to clear lineId filter on return page",
     "string": "Show all lines"
   },
+  "pxh49C": {
+    "context": "notification when colliding SKUs are skipped and the rest are generated",
+    "string": "Skipped {count} {count, plural, one {variant} other {variants}} with existing SKUs: {skus}"
+  },
   "pyiyxe": {
     "context": "button",
     "string": "Create model"
@@ -11225,6 +11385,10 @@
   "pzSF+b": {
     "context": "voucher usage limit, header",
     "string": "Usage Limit"
+  },
+  "pznlvs": {
+    "context": "variant sibling navigator search placeholder",
+    "string": "Search variants"
   },
   "q/FMPM": {
     "context": "dialog header",
@@ -12594,6 +12758,10 @@
   "vlVTmY": {
     "string": "Product removed"
   },
+  "vmX9L4": {
+    "context": "loading state label on the load more variants button",
+    "string": "Loading more"
+  },
   "vof5TR": {
     "context": "button",
     "string": "Create category"
@@ -12654,9 +12822,17 @@
     "context": "button",
     "string": "Edit Address"
   },
+  "w/fKY5": {
+    "context": "assign gift card to customer button",
+    "string": "Assign customer"
+  },
   "w067gF": {
     "context": "refund section header",
     "string": "Refunds"
+  },
+  "w0m9Jc": {
+    "context": "savebar hint when variants are marked for deletion but not saved yet",
+    "string": "{count, plural, one {# variant pending delete} other {# variants pending delete}}"
   },
   "w1puHO": {
     "context": "caption",
@@ -12962,6 +13138,10 @@
     "context": "attribute's label",
     "string": "Default Label"
   },
+  "xPJQvL": {
+    "context": "gift card customer assigned success message",
+    "string": "Customer assigned"
+  },
   "xRMVTn": {
     "string": "Read-only — editing requires Manage users"
   },
@@ -13102,10 +13282,6 @@
     "context": "cancel fulfillment action in shipment row menu",
     "string": "Cancel fulfillment"
   },
-  "y93ihJ": {
-    "context": "dialog title when opening generator with unsaved changes",
-    "string": "Unsaved changes"
-  },
   "yAFaVK": {
     "context": "Webhook details synchronous events",
     "string": "Synchronous"
@@ -13130,6 +13306,10 @@
   "yHwvLL": {
     "context": "voucher uses",
     "string": "Uses"
+  },
+  "yIgYca": {
+    "context": "notification when every generated SKU already exists",
+    "string": "All selected variants conflict with existing SKUs ({skus}). Change the SKU prefix or selection and try again."
   },
   "yJqbYv": {
     "context": "Asynchronous events description",
@@ -13256,6 +13436,10 @@
   "z0gGP+": {
     "context": "number of attributes",
     "string": "{number} Attributes"
+  },
+  "z12p7o": {
+    "context": "assign gift card customer dialog subtitle",
+    "string": "Only the selected customer will be able to use this gift card."
   },
   "z1y9oL": {
     "context": "file attribute type",
