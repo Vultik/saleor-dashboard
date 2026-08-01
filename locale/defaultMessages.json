@@ -1214,6 +1214,10 @@
   "3yf2ND": {
     "string": "Operator"
   },
+  "3zQ8xn": {
+    "context": "accessible label for Pulse promo video",
+    "string": "Preview of Saleor Pulse analytics"
+  },
   "3zdm8A": {
     "context": "Dialog title",
     "string": "Transaction {actionType}"
@@ -1870,6 +1874,10 @@
     "context": "link to configure shipping method channel pricing",
     "string": "Set up pricing"
   },
+  "7BQ5zc": {
+    "context": "consequence of blocking storefront traffic",
+    "string": "The setting is cached — a change takes up to 5 minutes to reach every worker."
+  },
   "7CZ8Tp": {
     "context": "Description for no shipping zones info when shop uses direct warehouse-channel stock availability",
     "string": "Customers can browse and add this product to cart, but no shipping methods will be available at checkout. Add at least one shipping zone to this channel to enable shipping."
@@ -1939,6 +1947,10 @@
   "7UG1Lx": {
     "context": "checkbox gift cards label",
     "string": "Automatically fulfill non shippable gift cards"
+  },
+  "7UOtno": {
+    "context": "eyebrow label for Pulse homepage promotion",
+    "string": "Saleor Pulse"
   },
   "7WEeNq": {
     "context": "select label",
@@ -2225,6 +2237,10 @@
     "context": "tooltip content when line's variant has been deleted",
     "string": "This variant no longer exists. You can still fulfill it."
   },
+  "8wYH6R": {
+    "context": "homepage empty state headline promoting Pulse",
+    "string": "See how your store is doing"
+  },
   "8xsKUv": {
     "context": "service accounts section name",
     "string": "Service Accounts"
@@ -2395,6 +2411,10 @@
   },
   "9Z7LQq": {
     "string": "Use email:"
+  },
+  "9ZJLIE": {
+    "context": "intro to list of consequences of blocking storefront traffic",
+    "string": "Turning this off blocks storefronts from reaching the API on their own:"
   },
   "9Zlogd": {
     "context": "staff member status",
@@ -3442,10 +3462,6 @@
     "context": "settings search alias",
     "string": "address validation"
   },
-  "En8pZE": {
-    "context": "intro under store settings page title",
-    "string": "Store identity, company address, and how customers sign in. Advanced options cover legacy API behavior."
-  },
   "EoNN9v": {
     "context": "Label for visible in listings toggle",
     "string": "Show in listings"
@@ -3537,6 +3553,10 @@
     "context": "input placeholder",
     "string": "Optional"
   },
+  "F9116r": {
+    "context": "ripple action to install Saleor Pulse",
+    "string": "Install Pulse"
+  },
   "F9o33g": {
     "context": "shipping method channel coverage summary",
     "string": "Priced for {configured} of {total} channels"
@@ -3602,6 +3622,10 @@
     "context": "error message",
     "string": "Amount should be greater than 0"
   },
+  "FXSauI": {
+    "context": "settings search alias",
+    "string": "storefront traffic"
+  },
   "FXtMVc": {
     "string": "A URL field within the extension's manifest has an invalid format. {docsLink} ({errorCode})"
   },
@@ -3615,6 +3639,10 @@
   "FaL3f6": {
     "context": "Save composition segment for product details/SEO/organization/attributes",
     "string": "details"
+  },
+  "Fbkcn2": {
+    "context": "CTA to install Saleor Pulse from homepage empty state",
+    "string": "Install Pulse"
   },
   "Fbr4Vp": {
     "context": "dialog header",
@@ -3835,6 +3863,10 @@
   "GNKG74": {
     "context": "webhooks inactive label",
     "string": "Inactive"
+  },
+  "GNX9HV": {
+    "context": "section title for GraphQL API access settings",
+    "string": "API access"
   },
   "GOKr7S": {
     "context": "gift card history message",
@@ -4820,6 +4852,10 @@
   "KpP/aW": {
     "string": "Order was marked as"
   },
+  "KqJTVN": {
+    "context": "intro under store settings page title",
+    "string": "Store identity, company address, how customers sign in, and who may call the API. Advanced options cover legacy API behavior."
+  },
   "KqbfFa": {
     "context": "expiry date selection info message",
     "string": "You can set gift cards to expire after a certain time after their purchase. Remember that in some countries, gift cards expiry is prohibited by law."
@@ -5338,6 +5374,10 @@
     "context": "page title",
     "string": "Weight Rate Create"
   },
+  "NDnOZ0": {
+    "context": "section description for API access",
+    "string": "Control which clients are allowed to call the GraphQL API directly."
+  },
   "NEJo1I": {
     "context": "dialog content",
     "string": "Are you sure you want to delete {voucherCode}?"
@@ -5579,6 +5619,10 @@
   "OKGd/k": {
     "context": "order history message",
     "string": "Order was created from draft"
+  },
+  "ONl3Bh": {
+    "context": "consequence of blocking storefront traffic",
+    "string": "Anonymous browsing and guest checkout are no longer possible."
   },
   "OP3Fgn": {
     "context": "section description for advanced store settings",
@@ -6590,6 +6634,10 @@
   "TKmub+": {
     "string": "This field is required"
   },
+  "TL6F/t": {
+    "context": "consequence of blocking storefront traffic",
+    "string": "Schema introspection requires app or staff credentials."
+  },
   "TLDkvR": {
     "context": "transaction event type, transaction was cancelled / voided",
     "string": "Cancel"
@@ -7099,6 +7147,10 @@
     "context": "command menu shortcut",
     "string": "Command menu"
   },
+  "VvqEe2": {
+    "context": "consequence of blocking storefront traffic",
+    "string": "Customer login, password reset and account confirmation stop working — the check runs before the operation is read, so authentication mutations are rejected too."
+  },
   "Vwqh4L": {
     "context": "dialog subtitle explaining what user should do",
     "string": "Select attribute values to create all possible variant combinations"
@@ -7166,6 +7218,10 @@
   "W8i2Ez": {
     "context": "product field",
     "string": "Name"
+  },
+  "WAcPLa": {
+    "context": "settings search alias",
+    "string": "block anonymous and customer API access"
   },
   "WCaf5C": {
     "string": "Approve"
@@ -7504,6 +7560,10 @@
   "XbX2Ta": {
     "context": "Checkbox label for scheduling publication for a future date",
     "string": "Schedule for later"
+  },
+  "XcwOQt": {
+    "context": "ripple video announcement CTA to install Saleor Pulse",
+    "string": "Install Pulse"
   },
   "XgsXQv": {
     "context": "order transaction refund summary label",
@@ -7884,6 +7944,10 @@
   "ZJib9I": {
     "context": "empty state when variants grid search returns no results",
     "string": "No variants match \"{query}\""
+  },
+  "ZKBRtP": {
+    "context": "secondary docs link below Pulse homepage empty state",
+    "string": "Create your own app homepage?"
   },
   "ZLcjD2": {
     "string": "Password reset failed"
@@ -8488,6 +8552,10 @@
     "context": "success notification when product media is uploaded",
     "string": "Image added"
   },
+  "bqsyq+": {
+    "context": "ripple type badge for a newly available app",
+    "string": "New App"
+  },
   "br+OIS": {
     "string": "Open this model type in GraphiQL"
   },
@@ -8537,6 +8605,10 @@
   },
   "c5pMZ8": {
     "string": "API error"
+  },
+  "c5sFXi": {
+    "context": "ripple action to explore Saleor Pulse on the App Store (non-cloud)",
+    "string": "Explore Pulse"
   },
   "c5tWY8": {
     "context": "dialog title",
@@ -8614,6 +8686,10 @@
   "cN8pa0": {
     "context": "radio button label",
     "string": "Refund with line items"
+  },
+  "cNCKU1": {
+    "context": "ripple video announcement CTA to explore Saleor Pulse",
+    "string": "Explore Pulse"
   },
   "cNSLLO": {
     "context": "button",
@@ -8749,10 +8825,6 @@
   "cwjmte": {
     "context": "fulfillment status refunded",
     "string": "Refunded"
-  },
-  "cxUBO1": {
-    "context": "empty home page description",
-    "string": "Install an app that registers a HOMEPAGE_WIDGETS extension to see it here."
   },
   "cy8sV7": {
     "context": "volume units types",
@@ -9160,13 +9232,13 @@
     "context": "tooltip for taxes amount",
     "string": "Tax amount"
   },
-  "fTLvHX": {
-    "context": "empty home page title",
-    "string": "Welcome"
-  },
   "fU+a9k": {
     "context": "date attribute type",
     "string": "Date"
+  },
+  "fUE1ip": {
+    "context": "homepage empty state supporting copy for Pulse",
+    "string": "Install Pulse to unlock real-time analytics on this page."
   },
   "fV6yX5": {
     "context": "table head",
@@ -9957,6 +10029,10 @@
   "jDovoJ": {
     "context": "gift card history message",
     "string": "Gift card was issued"
+  },
+  "jE6w+u": {
+    "context": "ripple action linking to documentation",
+    "string": "See docs"
   },
   "jGGnSZ": {
     "context": "page header",
@@ -11307,6 +11383,10 @@
   "pFVX6g": {
     "string": "Variant with these attributes already exists"
   },
+  "pGCyyB": {
+    "context": "settings search alias",
+    "string": "api access"
+  },
   "pGDYG5": {
     "context": "search label",
     "string": "Search Countries"
@@ -11325,6 +11405,10 @@
   "pMAlSC": {
     "context": "Shown when a value cannot be determined due to permissions",
     "string": "Unknown"
+  },
+  "pML8C9": {
+    "context": "aria label for dismissing Pulse video announcement",
+    "string": "Dismiss Pulse announcement"
   },
   "pMXWrd": {
     "context": "Label for available for purchase toggle",
@@ -12182,6 +12266,10 @@
     "context": "single translation save success",
     "string": "Translation saved"
   },
+  "t0awJM": {
+    "context": "link to Saleor Pulse documentation from video announcement",
+    "string": "See docs"
+  },
   "t1Bd7E": {
     "string": "Payment captured"
   },
@@ -12644,6 +12732,10 @@
   "v20Mra": {
     "string": "Menus deleted"
   },
+  "v286+q": {
+    "context": "card header and checkbox label",
+    "string": "Allow storefront traffic"
+  },
   "v3WWK+": {
     "string": "Status is invalid"
   },
@@ -12867,6 +12959,10 @@
   },
   "vprU7C": {
     "string": "Select visible order channels"
+  },
+  "vqSGtP": {
+    "context": "section description",
+    "string": "When enabled, anonymous clients and signed-in customers can call the GraphQL API directly. When disabled, only apps and staff users can — every other request is rejected with HTTP 401. <a>Learn more</a>."
   },
   "vqu+23": {
     "context": "success notifier message",
@@ -13389,6 +13485,10 @@
     "context": "cancel fulfillment action in shipment row menu",
     "string": "Cancel fulfillment"
   },
+  "y9464e": {
+    "context": "CTA to learn about Saleor Pulse for open-source users",
+    "string": "Explore Pulse"
+  },
   "yAFaVK": {
     "context": "Webhook details synchronous events",
     "string": "Synchronous"
@@ -13433,6 +13533,10 @@
   "yOaNWB": {
     "context": "delete shipping method",
     "string": "Are you sure you want to delete {name}?"
+  },
+  "yOcWZe": {
+    "context": "command palette section grouping app-provided actions",
+    "string": "App actions"
   },
   "yPMIz3": {
     "context": "Label for enabled auto-confirm row in tooltip",
