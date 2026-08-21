@@ -5798,6 +5798,64 @@ export function useBulkPublishProductsDataLazyQuery(baseOptions?: ApolloReactHoo
 export type BulkPublishProductsDataQueryHookResult = ReturnType<typeof useBulkPublishProductsDataQuery>;
 export type BulkPublishProductsDataLazyQueryHookResult = ReturnType<typeof useBulkPublishProductsDataLazyQuery>;
 export type BulkPublishProductsDataQueryResult = Apollo.QueryResult<Types.BulkPublishProductsDataQuery, Types.BulkPublishProductsDataQueryVariables>;
+export const BulkPublishProductPricesDocument = gql`
+    query BulkPublishProductPrices($ids: [ID!]!, $first: Int!, $variantsFirst: Int!) {
+  products(first: $first, where: {ids: $ids}) {
+    edges {
+      node {
+        id
+        productVariants(first: $variantsFirst) {
+          totalCount
+          edges {
+            node {
+              id
+              channelListings {
+                id
+                channel {
+                  id
+                }
+                price {
+                  amount
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useBulkPublishProductPricesQuery__
+ *
+ * To run a query within a React component, call `useBulkPublishProductPricesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBulkPublishProductPricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBulkPublishProductPricesQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *      first: // value for 'first'
+ *      variantsFirst: // value for 'variantsFirst'
+ *   },
+ * });
+ */
+export function useBulkPublishProductPricesQuery(baseOptions: ApolloReactHooks.QueryHookOptions<Types.BulkPublishProductPricesQuery, Types.BulkPublishProductPricesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<Types.BulkPublishProductPricesQuery, Types.BulkPublishProductPricesQueryVariables>(BulkPublishProductPricesDocument, options);
+      }
+export function useBulkPublishProductPricesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<Types.BulkPublishProductPricesQuery, Types.BulkPublishProductPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<Types.BulkPublishProductPricesQuery, Types.BulkPublishProductPricesQueryVariables>(BulkPublishProductPricesDocument, options);
+        }
+export type BulkPublishProductPricesQueryHookResult = ReturnType<typeof useBulkPublishProductPricesQuery>;
+export type BulkPublishProductPricesLazyQueryHookResult = ReturnType<typeof useBulkPublishProductPricesLazyQuery>;
+export type BulkPublishProductPricesQueryResult = Apollo.QueryResult<Types.BulkPublishProductPricesQuery, Types.BulkPublishProductPricesQueryVariables>;
 export const BulkPublishProductVariantsDocument = gql`
     query BulkPublishProductVariants($id: ID!, $first: Int!, $after: String) {
   product(id: $id) {
@@ -10349,6 +10407,48 @@ export function useAppUpdatePermissionsMutation(baseOptions?: ApolloReactHooks.M
 export type AppUpdatePermissionsMutationHookResult = ReturnType<typeof useAppUpdatePermissionsMutation>;
 export type AppUpdatePermissionsMutationResult = Apollo.MutationResult<Types.AppUpdatePermissionsMutation>;
 export type AppUpdatePermissionsMutationOptions = Apollo.BaseMutationOptions<Types.AppUpdatePermissionsMutation, Types.AppUpdatePermissionsMutationVariables>;
+export const InstalledAppsSnapshotDocument = gql`
+    query InstalledAppsSnapshot {
+  apps(first: 100) {
+    edges {
+      node {
+        id
+        identifier
+        isActive
+        type
+        appUrl
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useInstalledAppsSnapshotQuery__
+ *
+ * To run a query within a React component, call `useInstalledAppsSnapshotQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInstalledAppsSnapshotQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInstalledAppsSnapshotQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInstalledAppsSnapshotQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<Types.InstalledAppsSnapshotQuery, Types.InstalledAppsSnapshotQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<Types.InstalledAppsSnapshotQuery, Types.InstalledAppsSnapshotQueryVariables>(InstalledAppsSnapshotDocument, options);
+      }
+export function useInstalledAppsSnapshotLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<Types.InstalledAppsSnapshotQuery, Types.InstalledAppsSnapshotQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<Types.InstalledAppsSnapshotQuery, Types.InstalledAppsSnapshotQueryVariables>(InstalledAppsSnapshotDocument, options);
+        }
+export type InstalledAppsSnapshotQueryHookResult = ReturnType<typeof useInstalledAppsSnapshotQuery>;
+export type InstalledAppsSnapshotLazyQueryHookResult = ReturnType<typeof useInstalledAppsSnapshotLazyQuery>;
+export type InstalledAppsSnapshotQueryResult = Apollo.QueryResult<Types.InstalledAppsSnapshotQuery, Types.InstalledAppsSnapshotQueryVariables>;
 export const InstalledAppsDocument = gql`
     query InstalledApps($before: String, $after: String, $first: Int, $last: Int, $filter: AppFilterInput) {
   apps(
