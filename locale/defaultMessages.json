@@ -4004,6 +4004,10 @@
   "CrnqOK": {
     "string": "Country tax rates updated"
   },
+  "Cs70jv": {
+    "context": "Heading explaining the deprecated status of an installed extension",
+    "string": "This app is being deprecated"
+  },
   "CsDZaw": {
     "context": "toast description when create is blocked by missing codes",
     "string": "Add at least one code"
@@ -4851,6 +4855,10 @@
   "GAmGog": {
     "context": "value input label",
     "string": "Discount value"
+  },
+  "GBgv1f": {
+    "context": "checkbox required before installing a deprecated app",
+    "string": "I understand this app is deprecated and want to install it anyway."
   },
   "GCPzKf": {
     "context": "ProductTypeDeleteWarningDialog single assigned items button label",
@@ -6643,6 +6651,10 @@
   "MhlYkx": {
     "context": "label for available authorization amount",
     "string": "Available to capture (authorized)"
+  },
+  "MhtjvQ": {
+    "context": "checkbox label",
+    "string": "Enable checkout stock reservation for authenticated users"
   },
   "MkPAWX": {
     "context": "pill on staff details when viewing your own profile",
@@ -9778,10 +9790,6 @@
   "YEIFiI": {
     "string": "Add new structure item to begin creating structure"
   },
-  "YEv+6G": {
-    "context": "input helper text",
-    "string": "Leaving this setting empty will mean that stock won’t be reserved"
-  },
   "YFQBs1": {
     "context": "product availability date label",
     "string": "Set availability date"
@@ -10712,6 +10720,10 @@
   "beOQ/V": {
     "context": "inline error when a required SMTP field is empty",
     "string": "Required"
+  },
+  "bepijT": {
+    "context": "label before the app's deprecation reason in a compact notice",
+    "string": "Deprecated:"
   },
   "bfj3NC": {
     "context": "Button with Manage app label",
@@ -13593,6 +13605,10 @@
     "context": "PDP schematic when the type has options turned off",
     "string": "No pickers — sold as a single variant"
   },
+  "lybc+B": {
+    "context": "checkbox label",
+    "string": "Enable checkout stock reservation for anonymous users"
+  },
   "lz7o8y": {
     "context": "tooltip when generate button is disabled because over variant limit",
     "string": "Cannot create more than {limit} variants at once"
@@ -13806,6 +13822,10 @@
     "context": "model type detail cogs menu, opens the delete-confirmation dialog",
     "string": "Delete model type"
   },
+  "mnm882": {
+    "context": "collapse the app's deprecation reason",
+    "string": "Show less"
+  },
   "mqwLmD": {
     "string": "Menu updated"
   },
@@ -13857,6 +13877,10 @@
   "n0w2ZT": {
     "context": "label for currently selected warehouse",
     "string": "currently selected"
+  },
+  "n1ja6a": {
+    "context": "deprecation notice subtitle explaining the app keeps working",
+    "string": "It still works, but the developer recommends migrating."
   },
   "n4wLTL": {
     "context": "create attribute dialog step two intro for product types",
@@ -15564,6 +15588,10 @@
   "sozQ3N": {
     "context": "TopNav destination link tooltip to staff list",
     "string": "All staff members"
+  },
+  "spOqAF": {
+    "context": "deprecation notice title",
+    "string": "This app is deprecated"
   },
   "spjKeI": {
     "string": "Fulfillment approved"
